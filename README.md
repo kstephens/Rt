@@ -1,6 +1,6 @@
 
-Gonna Raytrace Like It's 1991!
-==============================
+Tonight We're Gonna Raytrace Like It's 1991!
+============================================
 
 Found this code I wrote back in 1991 on a 3.5" floppy -- A raytracer using the RenderMan shader model.
 
