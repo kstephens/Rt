@@ -1,0 +1,24 @@
+ 	This is a pixel graphics class library called Raster.  It is designed
+for device and host independence. 
+
+The classes in this library are:
+
+RasterColor		A color (device-independent).
+RasterValue		An integral value of a pixel (32-bit min.)
+RasterLUT		A table of color values
+ RasterLUTCore		A LUT in core memory
+ RasterLUTVGA		A LUT for VGA device
+RasterPosition		An integral x-y coordinate pair
+ RasterSize		""
+
+Raster			The base class for all rasters.
+ RasterDevice
+  RasterDeviceVGA
+   RasterDeviceV7VRAM
+ RasterMemory		An in-core raster
+  RasterMemory8
+  RasterMemory24
+ RasterFile		The base class for rasters stored in a file.
+  RasterFile8
+  RasterFile24
+

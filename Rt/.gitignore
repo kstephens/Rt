@@ -1,0 +1,6 @@
+/t/test-*.ppm
+/t/test-*.png
+*.o
+*.a
+*.dSYM
+/t/*.t
