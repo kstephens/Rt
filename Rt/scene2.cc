@@ -89,10 +89,10 @@ Scene *scene2(Camera *camera)
   }
 
   CheckerBoard *s2 = new CheckerBoard;
-  s2->colors[0][0] = Color(0.2, 0.2, 0.2);
-  s2->colors[0][1] = Color(0.8, 0.3, 0.5);
-  s2->colors[1][0] = Color(0.2, 0.8, 1.3);
-  s2->colors[1][1] = Color(1.0, 1.0, 1.0);
+  s2->colors[0][0] = Color(0.00);
+  s2->colors[0][1] = Color(0.33);
+  s2->colors[1][0] = Color(0.66);
+  s2->colors[1][1] = Color(1.00);
   s2->scale = 10.0;
   s2->Ka = 0.0;
   s2->Kd = 0.4;
