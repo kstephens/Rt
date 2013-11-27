@@ -12,7 +12,7 @@
 
 matrix4_4::matrix4_4( scalar M[][4] )
 {
-  memcpy(m, M, sizeof(scalar)* 4 * 4);
+  memcpy(m, M, sizeof(m));
 }
 
 void
