@@ -32,29 +32,31 @@ Scene *scene2(Camera *camera)
   scene->add(new PointLight(Color(0.2, 0.2, 1.0), Point(-10, 6,  10), 100.0) );
 
   for ( int i = 0; i < 10; ++ i ) {
-    Shader *s;
+    Shader *surface;
 
     switch ( (int) (RiRand() * 2) ) {
     case 0:
       {
-        Whitted *s1 = new Whitted();
-        s1->Cs  = Color(1.0);
-        s1->Os  = Color(1.0);
-        s1->Kd  =   0.1;
-        s1->Ks  =   0.4;
-        s1->Kss =  20.0;
-        s1->Kr  =   0.4;
-        s1->Kt  =   0.0;
-        s1->M   =   0.75;
-        s = s1;
+        Whitted *s = new Whitted();
+        s->Cs  =   1.0;
+        s->Os  =   1.0;
+        s->Ka  =   0.1;
+        s->Kd  =   0.1;
+        s->Ks  =   0.4;
+        s->Kss =  1.0/20.0;
+        s->Kr  =   0.4;
+        s->Kt  =   0.0;
+        s->M   =   0.75;
+        surface = s;
       }
       break;
     case 1:
       {
-        Plastic *s2 = new Plastic();
-        s2->Cs = Color(RiRand(), RiRand(), RiRand());
-        s2->Os = Color(1.0);
-        s = s2;
+        Plastic *s = new Plastic();
+        s->Cs = Color(RiRand(), RiRand(), RiRand());
+        s->Os = 1.0;
+        s->roughness = 1.0/15.0;
+        surface = s;
       }
       break;
     }
@@ -68,7 +70,7 @@ Scene *scene2(Camera *camera)
       p1 = new Cylinder(1.0, -1.0, 1.0, 360.0);
       break;
     }
-    p1->surface = s;
+    p1->surface = surface;
     p1->xform = new Translate(8.0 * RiRand() - 4.0, 4.0 * RiRand(), 8.0 * RiRand() - 4.0);
     scene->add(p1);
   }
