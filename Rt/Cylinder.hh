@@ -35,12 +35,8 @@ public:
   Point	Ng(RPI* p);
 
   Point	dPdup(const Param& p);
-  
   Point	dPdvp(const Param& p);
 
-  RPIList intersect( const Ray& r );
-  int  intersects( const Ray& r );
-  
   Point	randomIn();
   Point	randomOn();
   

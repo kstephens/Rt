@@ -86,26 +86,6 @@ Cylinder::quadradic(const Ray &r, double *t)
                        t);
 }
 
-RPIList
-Cylinder::intersect( const Ray& r )
-{
-  RPIList list;
-  double t[2];
-  switch ( quadradic(r, t) ) {
-  case 2:
-    list.append( check( new RPI(r, this, t[0])));
-    list.append( check( new RPI(r, this, t[1])));
-    break;
-  }
-  return list;
-}
-
-int
-Cylinder::intersects ( const Ray& r )
-{
-  return ! intersect(r).isEmpty();
-}
-
 Point
 Cylinder::random() const
 {

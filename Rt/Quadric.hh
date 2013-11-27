@@ -38,7 +38,7 @@ protected:
     else
       return angle(y, x) + degrees(180.0);
   }
-  RPI *check(RPI *rpi) const {
+  virtual RPI *check(RPI *rpi) const {
     if ( ! isOn( rpi->P() ) ) {
       delete rpi; rpi = RPINULL;
     }
@@ -53,6 +53,7 @@ protected:
     }
   }
 
+  // a t^2 + b t + c == 0
   int quadradic(double a, double b, double c, double *t) {
     double r = b * b - 4 * a * c;
     if ( r < 0 ) {
@@ -69,6 +70,26 @@ protected:
       }
       return 2;
     }
+  }
+
+  virtual int quadradic(const Ray &r, double *t) { return 0; }
+
+  virtual RPIList intersect(const Ray& r)
+  {
+    RPIList list;
+    double t[2];
+    switch ( quadradic(r, t) ) {
+    case 2:
+      list.append( check( new RPI(r, this, t[0])));
+      list.append( check( new RPI(r, this, t[1])));
+      break;
+    }
+    return list;
+  }
+
+  virtual int intersects(const Ray& r)
+  {
+    return ! intersect(r).isEmpty();
   }
 
 public:
