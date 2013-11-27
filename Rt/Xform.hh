@@ -13,7 +13,7 @@
 class Xform {
 protected:
   matrix4_4	mat, invmat;
-  unsigned	know_invmat : 1;
+  unsigned	know_invmat;
 public:
   const matrix4_4& m() const { return mat; }
   matrix4_4& m1() {
