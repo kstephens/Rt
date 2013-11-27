@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 {
   Camera *camera = new Camera();
   camera->trace_depth = 4;
+  camera->samples_per_pixel = 6;
   Scene *scene = camera->scene = scene2(camera);
   int nframes = 128;
 
