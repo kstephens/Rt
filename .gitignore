@@ -1,6 +1,7 @@
 *.o
 *.a
 *.d
+*.de
 *.t
 *.dSYM
 .DS_Store
