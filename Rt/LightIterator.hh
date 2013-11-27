@@ -1,5 +1,5 @@
 #ifndef	__LightIterator_hh
-#define	__LIghtIterator_hh
+#define	__LightIterator_hh
 
 #include "Point.hh"
 #include "angle.hh"
