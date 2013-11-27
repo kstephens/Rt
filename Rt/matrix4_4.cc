@@ -39,16 +39,18 @@ matrix4_4::operator * ( scalar s ) const {
 }
 
 matrix4_4
-matrix4_4::operator * ( const matrix4_4& M ) const {
-	matrix4_4	n;
-	for ( int i = 0; i < 4; i ++ )
-		for ( int j = 0; j < 4; j ++ ) {
-			scalar	sum = 0.0;
-			for ( int k = 0; k < 4; k ++ )
-				sum += m[i][j] * M.m[i][j];
-			n.m[i][j] = sum;
-		}
-	return n;
+matrix4_4::operator * (const matrix4_4 &M) const
+{
+  matrix4_4 n;
+  for ( int i = 0; i < 4; i ++ ) {
+    for ( int j = 0; j < 4; j ++ ) {
+      scalar sum = 0.0;
+      for ( int k = 0; k < 4; k ++ )
+        sum += m[i][k] * M.m[k][j];
+      n.m[i][j] = sum;
+    }
+  }
+  return n;
 }
 
 
