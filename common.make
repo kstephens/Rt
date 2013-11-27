@@ -21,6 +21,12 @@ T_FILES = \
 	$(T_CC_FILES:.cc=) \
 	$(T_C_FILES:.c=)
 
+TOOL_CC_FILES := $(shell ls tool/*.cc 2>/dev/null)
+TOOL_C_FILES  := $(shell ls tool/*.c  2>/dev/null)
+TOOL_FILES = \
+	$(TOOL_CC_FILES:.cc=) \
+	$(TOOL_C_FILES:.c=)
+
 D_FILES = \
   $(O_FILES:=.d) \
   $(T_FILES:=.d)
@@ -35,14 +41,17 @@ D_FILES = \
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
 	sed -ie 's@:@::@g' $@.d
 
-all : $(LIB_A) $(T_FILES)
+all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
+
+$(TOOL_FILES) :: LDLIBS=
 
 $(LIB_A) : $(O_FILES)
 	ar -rs $@ $(O_FILES)
 	rm -f $(T_FILES)
 
+GARBAGE=
 clean:
-	rm -f *.o *.a $(T_FILES) $(D_FILES)
+	rm -f *.o *.a $(T_FILES) $(D_FILES) $(TOOL_FILES) $(GARBAGE)
 
 clean-tests:
 	rm -f $(T_FILES)
