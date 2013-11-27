@@ -8,6 +8,7 @@
 #include "AreaLight.hh"
 #include "Scene.hh"
 #include "debug.hh"
+#include <stdlib.h> // abort()
 
 //#include "LightIterator.hh"
 
