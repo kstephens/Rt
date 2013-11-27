@@ -1,5 +1,5 @@
 
-#include "RasterColor.hh"
+#include "Raster/RasterColor.hh"
 #include <iostream>
 
 int main(int argc, char** argv ) {

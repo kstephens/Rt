@@ -1,5 +1,5 @@
-#include "Xforms.hh"
-#include "debug.hh"
+#include "Rt/Xforms.hh"
+#include "Rt/debug.hh"
 
 int main(int argc, char **argv)
 {

@@ -1,5 +1,5 @@
-#include "Scene.hh"
-#include "Camera.hh"
+#include "Rt/Scene.hh"
+#include "Rt/Camera.hh"
 
 #include "Raster/RasterMemory24.hh"
 #include "Raster/RasterPNM.hh"
