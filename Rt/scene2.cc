@@ -88,6 +88,7 @@ Scene *scene2(Camera *camera)
 
   Prim *p2 = new Plane(Point(-8.5, -4.0, -8.5), Point(8.5, -4.0, 8.5), 1); 
   p2->surface = s2;
+  p2->xform = new Xform();
   scene->add(p2);
 
   return scene;

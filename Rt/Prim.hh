@@ -23,7 +23,7 @@ public:
   Shader *surface;// the surface shader
   Prim   *shadow;	// the prim that create shadows
 
-  Prim() : xform(current_xform), surface(0) {
+  Prim() : xform(0), surface(0) {
     shadow = this;
   }
 virtual	~Prim() {}

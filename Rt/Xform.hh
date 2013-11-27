@@ -10,9 +10,6 @@
 #include "point_def.hh"
 #include "matrix4_4.hh"
 
-class Xform;
-extern	Xform*	current_xform;
-
 class Xform {
 protected:
 	matrix4_4	mat;
@@ -24,7 +21,6 @@ public:
   {
     mat.identity();
     invmat.identity();
-    current_xform = this;
   }
 	Xform ( const matrix4_4& m ) : mat(m), know_invmat(0) {}
 	Xform&	operator = ( const matrix4_4& m ) {
@@ -68,5 +64,4 @@ inline std::ostream& operator << (std::ostream &os, const Xform &x)
 }
 
 #endif
-
 
