@@ -6,12 +6,14 @@
 #define	__RiRand_h
 
 #include "ri/ri.h"
+#include <stdlib.h>
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-#define	RANDTABLELEN	512
+extern RtFloat RiRand_randtable[];
+extern size_t RiRand_randtable_len;
 
 extern	RtFloat	Rifloat_random();
 extern	void	Ricolor_random(RtColor* color);

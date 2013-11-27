@@ -6,10 +6,11 @@
 #include "ri/RiRand.h"
 
 static	int	*P;
-extern	RtFloat	randtable[];	/* in rand.c */
+#define randtable RiRand_randtable
+#define RANDTABLELEN RiRand_randtable_len
 
 #define	ABS(x)	((x) < 0 ? -(x) : (x))
-#define	phi(i)	P[ABS((i)) % RANDTABLELEN]
+#define	phi(i)	P[ABS((i)) % RiRand_randtable_len]
 
 /* static */
 RtFloat	W(RtFloat t) {

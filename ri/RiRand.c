@@ -5,7 +5,9 @@
 
 #include "ri/RiRand.h"
 
-RtFloat randtable[RANDTABLELEN] = {
+#define randtable RiRand_randtable
+
+RtFloat randtable[] = {
 0.1590059,
 0.9238118, 0.8362412, 0.866096, 0.4536317, 0.4560935, 0.5978427, 0.9127444, 0.7175714,
 0.353403, 0.02855934, 0.3392345, 0.6058867, 0.06018421, 0.05117837, 0.3240786, 0.8109084,
@@ -72,19 +74,25 @@ RtFloat randtable[RANDTABLELEN] = {
 0.6511051, 0.1375833, 0.3995633, 0.1889946, 0.679407, 0.1915002, 0.1245553, 0.7168197,
 0.6288121, 0.3622388, 0.4696192, 0.4783404, 0.6696784, 0.7231074, 0.9272503 };
 
+#define RANDTABLELEN (sizeof(randtable) / sizeof(randtable[0]))
+size_t RiRand_randtable_len = RANDTABLELEN;
+
 static RtFloat* curr = randtable;
 #define	RANDTABEND	(randtable + RANDTABLELEN)
 #define	RAND()	(*((++ curr == RANDTABEND) ? curr = randtable : curr))
 
-RtFloat	Rifloat_random() {
-	return RAND();
+RtFloat	Rifloat_random()
+{
+  return RAND();
 }
 
-void	Ricolor_random(RtColor* c) {
-	(*c)[0] = RAND(); (*c)[1] = RAND(); (*c)[2] = RAND();
+void Ricolor_random(RtColor* c)
+{
+  (*c)[0] = RAND(); (*c)[1] = RAND(); (*c)[2] = RAND();
 }
 
-void	Ripoint_random(RtPoint* p) {
-	(*p)[0] = RAND(); (*p)[1] = RAND(); (*p)[2] = RAND();
+void Ripoint_random(RtPoint* p)
+{
+  (*p)[0] = RAND(); (*p)[1] = RAND(); (*p)[2] = RAND();
 }
 
