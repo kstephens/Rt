@@ -43,7 +43,7 @@ D_FILES = \
 
 all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
 
-$(TOOL_FILES) :: LDLIBS=
+$(TOOL_FILES) : LDLIBS =
 
 $(LIB_A) : $(O_FILES)
 	ar -rs $@ $(O_FILES)
