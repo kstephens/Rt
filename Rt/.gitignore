@@ -1,5 +1,4 @@
-/t/test-*.ppm
-/t/test-*.png
+/t/test-*.*
 *.o
 *.a
 *.dSYM
