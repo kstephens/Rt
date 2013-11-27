@@ -2,6 +2,7 @@
 #define __Raster_RasterPNM_hh
 
 #include "Raster/Raster.hh"
+#include <stdio.h>
 #include <string>
 
 class RasterPNM : public Raster {

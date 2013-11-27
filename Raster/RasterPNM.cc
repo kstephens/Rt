@@ -1,6 +1,7 @@
 #include "RasterPNM.hh"
 #include "RGB.hh"
 #include <iostream>
+#include <stdlib.h> // abort()
 
 static void init()
 {
