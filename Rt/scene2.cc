@@ -15,7 +15,6 @@
 #include "Camera.hh"
 #include "ri/rirand.h"
 
-
 Scene *scene2(Camera *camera)
 {
   Scene *scene = new Scene();
