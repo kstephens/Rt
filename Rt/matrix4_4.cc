@@ -186,7 +186,7 @@ std::istream&	operator >> ( std::istream& is, matrix4_4& M ) {
 
 matrix4_4&
 matrix4_4::diagonal( scalar s ) {
-  memset(m, sizeof(m), 0);
+  memset(m, 0, sizeof(m));
   m[0][0] = m[1][1] = m[2][2] = m[3][3] = s;
   return *this;
 }
