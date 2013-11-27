@@ -16,13 +16,18 @@ extern	unsigned	_stklen = 64000U;
 
 int main(int argc, char** argv)
 {
+  int nframes = 128;
+  int n_processes = 8; // 8 cores.
+
   Camera *camera = new Camera();
   camera->trace_depth = 4;
   camera->samples_per_pixel = 6;
   Scene *scene = camera->scene = scene2(camera);
-  int nframes = 128;
 
-  ProcessManager pm(8); // 8 cores.
+  if ( argc > 1 )
+    n_processes = atoi(argv[1]);
+
+  ProcessManager pm(n_processes);
 
   for ( int frame = 0; frame < nframes; frame ++ ) {
     angle a = degrees((scalar) frame / nframes * 360.0 + 8.0);
