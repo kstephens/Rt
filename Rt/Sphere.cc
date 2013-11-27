@@ -4,7 +4,7 @@
 //
 #include "Sphere.hh"
 #include "angle.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Sphere::Sphere ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX ) :
   radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX), Quadric(THETAMAX)

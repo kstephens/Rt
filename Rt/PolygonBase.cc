@@ -3,7 +3,7 @@
 // KAS 91/06/29
 //
 #include "PolygonBase.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 PolygonBase::PolygonBase ( RtInt NVERTS, Point* POINTS ) : nverts(NVERTS) {
 	point = new Point[nverts];

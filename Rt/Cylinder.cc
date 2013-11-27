@@ -3,7 +3,7 @@
 // KAS 91/06/25
 //
 #include "Cylinder.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Cylinder::Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX) :
   radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX), Quadric(THETAMAX)

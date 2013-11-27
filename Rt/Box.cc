@@ -4,7 +4,7 @@
 //
 #include "Box.hh"
 #include "EPSINF.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 inline
 Point2	Box::select ( float u ) {

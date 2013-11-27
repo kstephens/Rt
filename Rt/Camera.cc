@@ -3,7 +3,7 @@
 // KAS 91/06/29
 //
 #include "Camera.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Camera::Camera()
 {

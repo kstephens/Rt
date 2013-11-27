@@ -4,7 +4,7 @@
 //
 #include "Plane.hh"
 #include "EPSINF.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Point
 Plane::P( const Param& p ) {

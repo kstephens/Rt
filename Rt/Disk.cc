@@ -3,7 +3,7 @@
 // KAS 91/06/25
 //
 #include "Disk.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Disk::Disk ( RtFloat RADIUS, RtFloat H, RtFloat THETAMAX ) :
   radius(RADIUS), radius2(RADIUS * RADIUS), height(H), Quadric(THETAMAX) {

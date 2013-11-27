@@ -4,7 +4,7 @@
 //
 #include "Cone.hh"
 #include "EPSINF.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX ) :
 	height(HEIGHT), radius(RADIUS), radius2(RADIUS * RADIUS), Quadric(THETAMAX) {

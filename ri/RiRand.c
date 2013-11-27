@@ -3,7 +3,7 @@
 ** KAS 91/06/29
 */
 
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 RtFloat randtable[RANDTABLELEN] = {
 0.1590059,
