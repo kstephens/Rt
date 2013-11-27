@@ -14,9 +14,10 @@ class ProcessManager
 
 public:
   pid_t child_pid;
+  int verbose;
 
   ProcessManager(int _n_pids)
-  : n_pids(_n_pids), n_live(0)
+  : n_pids(_n_pids), n_live(0), verbose(0)
   {
     pids = new pid_t[n_pids];
     child_pid = 0;
@@ -38,6 +39,7 @@ public:
 
     if ( n_pids <= 1 ) {
       // run fork() inline and disable exit().
+      if ( verbose ) { std::cerr << "0"; std::cerr.flush(); }
       child_pid = 0;
       return 1;
     }
@@ -46,7 +48,7 @@ public:
       if ( busy() ) wait();
       pid = ::fork();
       if ( pid < 0 ) {
-        std::cerr << "E"; std::cerr.flush();
+        if ( verbose ) { std::cerr << "E"; std::cerr.flush(); }
         sleep(1);
       }
     } while ( pid < 0 );
@@ -55,7 +57,8 @@ public:
       n_live ++;
       for ( int i = 0; i < n_pids; ++ i ) {
         if ( ! pids[i] ) {
-          std::cerr << "  pid forked " << pid << "\n";
+          // std::cerr << "  pid forked " << pid << "\n";
+          if ( verbose ) { std::cerr << "+"; std::cerr.flush(); }
           pids[i] = pid;
           break;
         }
@@ -83,7 +86,8 @@ public:
         // std::cerr << "  checking pid " << pid << "\n";
         int status = 0;
         if ( waitpid(pid, &status, WNOHANG) > 0 ) { 
-          std::cerr << "  pid stopped " << pid << " status " << status << "\n";
+          // std::cerr << "  pid stopped " << pid << " status " << status << "\n";
+          if ( verbose ) { std::cerr << "-"; std::cerr.flush(); }
           pids[i] = 0;
           n_live --;
           break;
@@ -97,13 +101,9 @@ public:
   {
     do {
       check();
-      if ( busy() ) {
-        std::cerr << "."; std::cerr.flush();
-        sleep(1);
-        continue;
-      } else {
-        break;
-      }
+      if ( ! busy() ) break;
+      if ( verbose ) { std::cerr << "."; std::cerr.flush(); }
+      sleep(1);
     } while ( 1 );
     return busy();
   }
@@ -114,7 +114,8 @@ public:
 
     for ( int i = 0; i < n_pids; ++ i ) {
       if ( (pid = pids[i]) ) {
-        std::cerr << "  pid wait " << pid << "\n";
+        // std::cerr << "  pid wait " << pid << "\n";
+        if ( verbose ) { std::cerr << "w"; std::cerr.flush(); }
         waitpid(pid, 0, 0);
         pids[i] = 0;
         -- n_live;
