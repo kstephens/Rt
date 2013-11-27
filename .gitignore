@@ -1,4 +1,6 @@
 *.o
 *.a
-t/*.t
+*.d
+*.t
 *.dSYM
+.DS_Store
