@@ -38,7 +38,7 @@ D_FILES = \
 all : $(LIB_A) $(T_FILES)
 
 $(LIB_A) : $(O_FILES)
-	ar -r $@ $(O_FILES)
+	ar -rs $@ $(O_FILES)
 	rm -f $(T_FILES)
 
 clean:
