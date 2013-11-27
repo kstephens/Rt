@@ -22,5 +22,11 @@ int main(int argc, char **argv)
   x = new Scale(0.5, 2, 2.5);
   X_DEBUG();
 
+  x = new Rotate(degrees(0), 1, 0, 0);
+  X_DEBUG();
+
+  x = new Rotate(degrees(90), 0, 0, 1);
+  X_DEBUG();
+
   return 0;
 }
