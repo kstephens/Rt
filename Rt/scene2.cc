@@ -27,9 +27,9 @@ Scene *scene2(Camera *camera)
 
   scene->add(new AmbientLight(Color(1.0, 1.0, 1.0), 0.1) );
   scene->add(new DistantLight(Color(1.0, 1.0, 1.0), Point(4, 2, 0), Point(0), 0.7) );
-  scene->add(new PointLight(Color(1.0, 0.2, 0.2), Point(-10, 6, -10), 100.0) );
-  scene->add(new PointLight(Color(0.2, 1.0, 0.2), Point(-10, 6,   0), 100.0) );
-  scene->add(new PointLight(Color(0.2, 0.2, 1.0), Point(-10, 6,  10), 100.0) );
+  scene->add(new PointLight(Color(1.0, 0.2, 0.2), Point(-10, 8, -10), 100.0) );
+  scene->add(new PointLight(Color(0.2, 1.0, 0.2), Point(-10, 8,   0), 100.0) );
+  scene->add(new PointLight(Color(0.2, 0.2, 1.0), Point(-10, 8,  10), 100.0) );
 
   int n_prims = 5;
   for ( int i = 0; i < n_prims * n_prims; ++ i ) {
