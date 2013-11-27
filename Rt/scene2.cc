@@ -25,7 +25,7 @@ Scene *scene2(Camera *camera)
   camera->VUP = Point( 0.0, 1.0, 0.0 );	// camera up vector
 
   scene->add(new AmbientLight(Color(1.0, 1.0, 1.0), 0.1) );
-  scene->add(new DistantLight(Color(1.0, 1.0, 1.0), Point(4, 2, 0), Point(0), 0.5) );
+  scene->add(new DistantLight(Color(1.0, 1.0, 1.0), Point(4, 2, 0), Point(0), 0.7) );
   scene->add(new PointLight(Color(1.0, 0.2, 0.2), Point(-10, 6, -10), 100.0) );
   scene->add(new PointLight(Color(0.2, 1.0, 0.2), Point(-10, 6,   0), 100.0) );
   scene->add(new PointLight(Color(0.2, 0.2, 1.0), Point(-10, 6,  10), 100.0) );
@@ -48,7 +48,7 @@ Scene *scene2(Camera *camera)
         s->Ka  =   0.1;
         s->Kd  =   0.1;
         s->Ks  =   0.4;
-        s->Kss =  1.0/20.0;
+        s->Kss =  1.0/50.0;
         s->Kr  =   0.4;
         s->Kt  =   0.0;
         s->M   =   0.75;
@@ -58,9 +58,9 @@ Scene *scene2(Camera *camera)
     case 1:
       {
         Plastic *s = new Plastic();
-        s->Cs = Color(RiRand(), RiRand(), RiRand());
+        s->Cs = Color(RiRand(), RiRand(), RiRand()).unit();
         s->Os = 1.0;
-        s->roughness = 1.0/15.0;
+        s->roughness = 1.0/30.0;
         surface = s;
       }
       break;
