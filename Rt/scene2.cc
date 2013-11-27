@@ -13,7 +13,7 @@
 #include "Scene.hh"
 #include "Xforms.hh"
 #include "Camera.hh"
-#include "ri/rirand.h"
+#include "ri/RiRand.h"
 
 Scene *scene2(Camera *camera)
 {

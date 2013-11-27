@@ -3,9 +3,10 @@
 
 #include <ostream>
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include <stdlib.h> // exit()
+#include <unistd.h> // fork()
+#include <sys/types.h> // pid_t
+#include <sys/wait.h> // wait*()
 
 class ProcessManager 
 {
