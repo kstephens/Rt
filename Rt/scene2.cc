@@ -19,7 +19,7 @@ Scene *scene2(Camera *camera)
 {
   Scene *scene = new Scene();
 
-  camera->VL = Point( 0.0, 0.0, 0.0 );	// the look-at point
+  camera->VL = Point( 0.0, 1.5, 0.0 );	// the look-at point
   camera->VE = Point( 1.0, 5.0, -5.0 );	// the eye point
   camera->Vpd = 5.0;		// distance of camera plane from eye
   camera->VUP = Point( 0.0, 1.0, 0.0 );	// camera up vector
@@ -30,8 +30,14 @@ Scene *scene2(Camera *camera)
   scene->add(new PointLight(Color(0.2, 1.0, 0.2), Point(-10, 6,   0), 100.0) );
   scene->add(new PointLight(Color(0.2, 0.2, 1.0), Point(-10, 6,  10), 100.0) );
 
-  for ( int i = 0; i < 10; ++ i ) {
+  int n_prims = 5;
+  for ( int i = 0; i < n_prims * n_prims; ++ i ) {
     Shader *surface;
+    double ix = i % n_prims; double iy = i / n_prims;
+    ix -= n_prims / 2;
+    iy -= n_prims / 2;
+    ix *= 3;
+    iy *= 3;
 
     switch ( (int) (RiRand() * 2) ) {
     case 0:
@@ -70,7 +76,11 @@ Scene *scene2(Camera *camera)
       break;
     }
     p1->surface = surface;
-    p1->xform = new Translate(8.0 * RiRand() - 4.0, 4.0 * RiRand(), 8.0 * RiRand() - 4.0);
+
+    Xform *x = new Translate(ix, 1 + RiRand() * 2, iy);
+    x->concat(Rotate(degrees(360 * RiRand()), RiRand(), RiRand(), RiRand()));
+    p1->xform = x;
+
     scene->add(p1);
   }
 
@@ -86,7 +96,7 @@ Scene *scene2(Camera *camera)
   s2->Kss = 10;
   s2->Os = Color(1);
 
-  Prim *p2 = new Plane(Point(-8.5, -4.0, -8.5), Point(8.5, -4.0, 8.5), 1); 
+  Prim *p2 = new Plane(Point(-8.5, -1.0, -8.5), Point(8.5, -1.0, 8.5), 1);
   p2->surface = s2;
   p2->xform = new Xform();
   scene->add(p2);
