@@ -8,9 +8,8 @@
 #include "Quadric.hh"
 
 class Cone : public Quadric {
-	RtFloat	height;
-	RtFloat	radius;
-	RtFloat	radius2;	// radius * radius
+  RtFloat	height, height2; // height * height
+  RtFloat	radius, radius2;	// radius * radius
 
 	int	isOn(const Point& p) const;
 
@@ -29,8 +28,7 @@ public:
 
 	Point	dPdvp(const Param& p);
 
-	RPIList	intersect( const Ray& r );
-	int 	intersects( const Ray& r );
+  int quadradic(const Ray &r, double *t);
 
 	Point	randomIn();
 	Point	randomOn();

@@ -6,12 +6,16 @@
 #include "EPSINF.hh"
 #include "ri/RiRand.h"
 
-Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX ) :
-	height(HEIGHT), radius(RADIUS), radius2(RADIUS * RADIUS), Quadric(THETAMAX) {
+Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX )
+: height(HEIGHT), height2(HEIGHT * HEIGHT),
+  radius(RADIUS), radius2(RADIUS * RADIUS),
+  Quadric(THETAMAX)
+{
 }
 
-int	Cone::isOn(const Point&P) const {
-	return P.z >= 0.0 && P.z <= height && Quadric::isOn(P);
+int	Cone::isOn(const Point&P) const
+{
+  return P.z >= 0.0 && P.z <= height && Quadric::isOn(P);
 }
 
 Point	Cone::P(const Param& p) {
@@ -38,11 +42,12 @@ Point	Cone::Ngp(const Param& p) {
 }
 
 
-Point	Cone::NgP(const Point& p) {
-	Point P = p;
-	((Point2&) P).normalize() * radius;
-	P.z = height;
-	return	P;
+Point	Cone::NgP(const Point& p)
+{
+  Point P = p;
+  ((Point2&) P).normalize() * radius;
+  P.z = radius / height;
+  return P;
 }
 
 Point	Cone::Ng(RPI* p) {
@@ -68,30 +73,6 @@ Point	Cone::dPdvp(const Param& p) {
 		rxy * thetay(theta),
 		height );
 }
-
-RPIList
-Cone::intersect( const Ray& r ) {
-	Point	d = r.origin; d.negate();
-	scalar	d2 = d % d;
-	scalar	rdnorm = ~ r.direction;
-	//
-	// assure that r.direction is unit
-	// (it may not be when I implement object transformations)
-	//
-	scalar	h = (r.direction / rdnorm) % d;
-	scalar	i2 = d2 - h * h;
-
-	if ( i2 < radius2 ) {
-		scalar j = sqrt(radius2 - i2);
-		RPIList	list;
-		list.append( check( new RPI(r, this, (h - j) * rdnorm)));
-		list.append( check( new RPI(r, this, (h + j) * rdnorm)));
-		return list;
-	} else {
-		return RPIList();
-	}
-}
-
 
 inline
 Point
@@ -127,5 +108,44 @@ Cone::randomOn() {
 	return P;
 }
 
+
+/*
+
+x = ox + t dx;
+y = oy + t dy;
+z = oz + t dz;
+
+f = x^2 + y^2 - (r/h (h - z))^2
+
+(ox + dx t)^2 + (oy + dy t)^2 - (r^2 (h - oz - dz t)^2)/h^2
+
+Collect[Expand[f], t, Collect[#, r] &]
+=> 
+    ox^2 + oy^2 + (-1 + (2 oz)/h - oz^2/h^2) r^2 +
+    (2 dx ox + 2 dy oy + ((2 dz)/h - (2 dz oz)/h^2) r^2) t +
+    (dx^2 + dy^2 - (dz^2 r^2)/h^2) t^2
+*/
+
+#define ox r.origin.x
+#define oy r.origin.y
+#define oz r.origin.z
+#define dx r.direction.x
+#define dy r.direction.y
+#define dz r.direction.z
+#define h height
+#define r2 radius2
+#define h2 height2
+#define P2(x) ((x) * (x))
+int
+Cone::quadradic(const Ray &r, double *t)
+{
+  return
+  Quadric::quadradic(P2(dx) + P2(dy) - (P2(dz) * r2) / h2, // t^2
+                     2 * dx * ox +
+                     2 * dy * oy +
+                     (2 * dz / h - (2 * dz * oz) / h2) * r2, // t
+                     P2(ox) + P2(oy) + (-1 + (2 * oz / h) - P2(oz) / h2) * r2,
+                     t);
+}
 
 

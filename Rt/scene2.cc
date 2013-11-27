@@ -3,6 +3,7 @@
 //
 #include "Sphere.hh"
 #include "Cylinder.hh"
+#include "Cone.hh"
 #include "Box.hh"
 #include "Plane.hh"
 #include "Lights.hh"
@@ -67,12 +68,15 @@ Scene *scene2(Camera *camera)
     }
     
     Prim *p1;
-    switch ( (int) (RiRand() * 2) ) {
+    switch ( i % 3 ) {
     case 0:
       p1 = new Sphere(1.0, -1.0, 1.0, 360.0);
       break;
     case 1:
       p1 = new Cylinder(1.0, -1.0, 1.0, 360.0);
+      break;
+    case 2:
+      p1 = new Cone(2.0, 1.0, 360.0);
       break;
     }
     p1->surface = surface;
