@@ -7,6 +7,9 @@ all clean clean-tests :
 	  $(MAKE) -C $$d $@ ;\
 	done
 
+$(SUBDIRS:%=%-all) :
+	$(MAKE) -C $(@:%-all=%) all
+
 test: test-anim
 
 test-anim: Rt/t/test-anim.gif
