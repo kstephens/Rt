@@ -1,26 +1,23 @@
-//
-// Whitted.hh - class Whitted
-//
-//
-#ifndef	__Whitted_hh
-#define	__Whitted_hh
+#ifndef	__Rt_Whitted_hh
+#define	__Rt_Whitted_hh
 
 #include "Shader.hh"
 #include "Scene.hh"
 
 class Whitted : public Shader {
 public:
-	Whitted () : Shader() {}
-	Shader*	copy() const { return new Whitted(*this); }
+  Whitted () : Shader() {}
+  Shader* copy() const { return new Whitted(*this); }
 
-	scalar	Kd;	// diffuse coefficent
-	scalar	Ks;	// specular coefficent
-	scalar	Kss;	// specular exponent
-	scalar	Kr;	// reflective coefficent
-	scalar	Kt;	// transmissive coefficent
-	scalar	M;	// index of refraction
+  scalar Ka; // ambient coefficent
+  scalar Kd; // diffuse coefficent
+  scalar Ks; // specular coefficent
+  scalar Kss; // specular exponent
+  scalar Kr; // reflective coefficent
+  scalar Kt; // transmissive coefficent
+  scalar M; // index of refraction
 
-	void	shader();
+  void shader();
 };
 
 #endif

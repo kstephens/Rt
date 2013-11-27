@@ -10,24 +10,29 @@ void
 Whitted::shader()
 {
   N = faceforward(normalize(N), I);
+  Oi = Os;
   Ci = Color(0);
-  if ( Kd != 0 ) {
-    Ci += Cs * (Kd * ambient() + Kd * diffuse(N));
+  Color OsCs = Os * Cs;
+  // Ambient term.
+  if ( Ka ) {
+    Ci += OsCs * (Ka * ambient());
   }
-  if ( Ks != 0 ) {
-    // specular
+  // Diffuse term.
+  if ( Kd ) {
+    Ci += OsCs * (Kd * diffuse(N));
+  }
+  // Specular term.
+  if ( Ks ) {
     Point V = - normalize(I);
     Ci += Ks * specular(N, V, Kss);
   }
-
-  // Reflective term
-  if ( Kr > 0.0 ) {
+  // Reflective term.
+  if ( Kr ) {
     Point rIN = reflect(I, N);
     Ci += Kr * trace(rIN);
   }
-
   // Transmissive term.
-  if ( Kt > 0.0 ) {
+  if ( Kt ) {
     scalar eta;
     if ( I % Ng > 0 )
       eta = 1 / M;
@@ -38,5 +43,4 @@ Whitted::shader()
     if ( T != 0 )
       Ci += Kt * trace(T);
   }
-  Oi = Os;
 }
