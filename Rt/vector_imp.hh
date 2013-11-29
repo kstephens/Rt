@@ -43,7 +43,12 @@ public:
 	vector2 ( scalar X, scalar Y ) :
 		x(X), y(Y) {}
 
-	int		tuples() const { return 2; }
+  int tuples() const { return 2; }
+  scalar *begin() { return &x; }
+  const scalar *begin() const { return &x; }
+  scalar *end() { return &x + tuples(); }
+  const scalar *end() const { return &x + tuples(); }
+
 	scalar&		operator[](int i) { return (&x)[i]; }
 	scalar		operator[](int i) const { return (&x)[i]; }
 
@@ -127,6 +132,8 @@ public:
 	vector2 v2() const { return vector2 ( x / z, y / z); }
 
 	int		tuples() const { return 3; }
+  scalar *end() { return &x + tuples(); }
+  const scalar *end() const { return &x + tuples(); }
 
 	vector3&	negate() { x = - x; y = - y; z = - z; return *this; }
 
@@ -216,6 +223,8 @@ public:
 	vector3 v3() const { return vector3 ( x / w, y / w, z / w); }
 
 	int		tuples() const { return 4; }
+  scalar *end() { return &x + tuples(); }
+  const scalar *end() const { return &x + tuples(); }
 
 	vector4&	negate() { x = - x; y = - y; z = - z; w = - w; return *this; }
 
