@@ -5,15 +5,15 @@
 #ifndef __CSG_hh
 #define	__CSG_hh
 
-#include "Prim.hh"
+#include "Geometry.hh"
 #include "RPI.hh"
 
-class CSG : public Prim {
+class CSG : public Geometry {
 protected:
-	Prim*	l;
-	Prim*	r;
+	Geometry*	l;
+	Geometry*	r;
 public:
-	CSG( Prim* L, Prim* R ) : l(L), r(R) {}
+	CSG( Geometry* L, Geometry* R ) : l(L), r(R) {}
 	~CSG() { delete l; delete r; }
 
 	RPIList	intersect( const Ray& R );
@@ -31,7 +31,7 @@ virtual	void	invertNg ( RPI* rpi, CSGR L, CSGR R ) {}
 
 class CSGU : public CSG {
 public:
-	CSGU ( Prim* r, Prim* l) : CSG(r,l) {}
+	CSGU ( Geometry* r, Geometry* l) : CSG(r,l) {}
 	CSGR	relation ( CSGR r1, CSGR r2 ) {
 		if ( (r1 == OUT && (r2 == ON))
 		|| (r1 == ON && (r2 & (OUT|ON))) )
@@ -42,7 +42,7 @@ public:
 
 class CSGI : public CSG {
 public:
-	CSGI ( Prim* r, Prim* l) : CSG(r,l) {}
+	CSGI ( Geometry* r, Geometry* l) : CSG(r,l) {}
 	CSGR	relation ( CSGR r1, CSGR r2 ) {
 		if ( (r1 == IN && (r2 == ON))
 		|| (r1 == ON && (r2 & (IN|ON))) )
@@ -53,7 +53,7 @@ public:
 
 class CSGS : public CSG {
 public:
-	CSGS ( Prim* r, Prim* l) : CSG(r,l) {}
+	CSGS ( Geometry* r, Geometry* l) : CSG(r,l) {}
 
 	CSGR	relation ( CSGR r1, CSGR r2 ) {
 		if ( (r1 == IN && r2 == ON)
@@ -73,12 +73,12 @@ public:
 //
 
 inline
-Prim&	operator | ( Prim& l, Prim& r ) {
+Geometry&	operator | ( Geometry& l, Geometry& r ) {
 	return *(new CSGU(&l,&r)); }
 inline
-Prim&	operator * ( Prim& l, Prim& r ) {
+Geometry&	operator * ( Geometry& l, Geometry& r ) {
 	return *(new CSGI(&l,&r)); }
 inline
-Prim&	operator - ( Prim& l, Prim& r ) {
+Geometry&	operator - ( Geometry& l, Geometry& r ) {
 	return *(new CSGS(&l,&r)); }
 #endif

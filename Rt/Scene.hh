@@ -5,12 +5,12 @@
 #ifndef	__Scene_hh
 #define __Scene_hh
 
-#include "Prim.hh"
+#include "Geometry.hh"
 #include "Light.hh"
 #include "AreaLight.hh"
 
 class Scene {
-  Prim *prims;
+  Geometry *geos;
   Light *_lights;
   Color	ambientlight;
 
@@ -20,14 +20,14 @@ public:
   Shader *background_shader;
 
   Scene()
-    : prims(0), _lights(0), ambientlight(0), background_shader(0)
+    : geos(0), _lights(0), ambientlight(0), background_shader(0)
   {
   }
 
-	Prim*	add ( Prim* p) {
-		p->next = prims;
-		prims = p;
-                return p;
+	Geometry *add(Geometry *g) {
+          g->next = geos;
+          geos = g;
+          return g;
 	}
 
 	Light*	add ( Light* l ) {
@@ -38,7 +38,7 @@ public:
                 return l;
 	}
 	void	add ( AreaLight* l ) {
-		add( (Prim*) l );
+		add( (Geometry*) l );
 		add( (Light*) l );
 	}
 	Light*	lights() const {
@@ -48,8 +48,8 @@ public:
 	//	
 	// all Ray's are in World coordinates
 	//
-	int	isShadowed(const Ray& ray, scalar dist, Prim* ignore ) const;
-	RPIList	intersect(const Ray& ray) const;
+	int	isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const;
+	RPIList	intersect(const Ray &ray) const;
 	Color	trace(const Ray& ray, int depth = 4) const;
 	Color	ambient() { return ambientlight; }
 };

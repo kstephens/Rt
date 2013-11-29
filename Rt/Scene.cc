@@ -11,7 +11,7 @@ Scene::intersect(const Ray &r) const
 {
   RPIList L;
 
-  for ( Prim *p = prims; p; p = p->next ) {
+  for ( Geometry *p = geos; p; p = p->next ) {
     RPIList l = p->wintersect(r);
     L.append(l);
   }
@@ -25,9 +25,9 @@ Scene::intersect(const Ray &r) const
 //	passed by the objects intersected.  Too lazy, ya know!
 //
 int
-Scene::isShadowed(const Ray &ray, scalar dist, Prim *ignore) const
+Scene::isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const
 {
-  for ( Prim *p = prims; p; p = p->next ) {
+  for ( Geometry *p = geos; p; p = p->next ) {
     // If the shadow ray hits an object that
     // creates shadows, and it's not the area light
     // source object that we want to ignore,

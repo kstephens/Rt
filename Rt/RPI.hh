@@ -1,5 +1,5 @@
 //
-// RPI.hh - class RPI (Ray-Primative Intersection)
+// RPI.hh - class RPI (Ray-Primitive Intersection)
 // KAS 91/03/10
 //
 #ifndef	__RPI_hh
@@ -18,9 +18,9 @@ public:
 	RPI*	next(RPI* n ) { return (RPI*) _RPI::next((RPI*) n); }
 
 	Ray	r;	// the intersecting ray in primative coord sys
-	Prim*	prim;	// the intersected primative
+	Prim*	prim;	// the intersected primitive
 
-	float	t;	// position of intersection
+	scalar	t;	// position of intersection
 private:
 	//
 	// transform a vector (bound to P) to world coordinates

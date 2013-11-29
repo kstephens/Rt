@@ -1,13 +1,44 @@
-#ifndef __Rt_GEOMETRY_HH
-#define __Rt_GEOMETRY_HH
+#ifndef	__Geometry_hh
+#define	__Geometry_hh
 
-#include "Rt/Sphere.hh"
-#include "Rt/Cylinder.hh"
-#include "Rt/Cone.hh"
-#include "Rt/Disk.hh"
+#include "Point.hh"
+#include "Param.hh"
+#include "Ray.hh"
+#include "RPIList.hh"
+#include "Xform.hh"
+#include "ri/RiRand.h"
 
-// Extensions
-#include "Rt/Box.hh"
-#include "Rt/Plane.hh"
+class Shader;
+
+class Geometry {
+  Geometry *next;
+friend class Scene;
+public:
+  Xform *xform;     // the object -> world transform
+  Shader *surface;  // the surface shader
+  Geometry *shadow; // the object that create shadows on behalf of this object.
+
+  Geometry()
+  : xform(0), surface(0)
+  {
+    shadow = this;
+  }
+  virtual ~Geometry() {}
+
+  virtual RPIList intersect(const Ray &r) = 0;
+  virtual int intersects(const Ray &r);
+
+  scalar rnd() { return RiRand(); }
+
+  virtual Point randomOn();
+  virtual Point randomIn();
+
+// R is in world coord sys.
+  RPIList wintersect(const Ray &r) { return intersect(xform->inverse_transform(r)); }
+  int wintersects(const Ray& r) { return intersects(xform->inverse_transform(r)); }
+  Point wrandomOn() { return xform->transform(randomOn()); }
+  Point wrandomIn() { return xform->transform(randomIn()); }
+};
 
 #endif
+

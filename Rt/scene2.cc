@@ -1,7 +1,7 @@
 //
 // scene2.cc
 //
-#include "Geometry.hh"
+#include "Geometries.hh"
 #include "Lights.hh"
 #include "Shaders.hh"
 #include "Sky.hh"
@@ -81,7 +81,7 @@ Scene *scene2(Camera *camera)
       break;
     }
     
-    Prim *p1;
+    Geometry *p1;
     switch ( i % 5 ) {
     case 0:
       p1 = new Sphere(1.0, -1.0, 1.0, 360.0);
@@ -120,7 +120,7 @@ Scene *scene2(Camera *camera)
   s2->Kss = 1.0/20;
   s2->Os = Color(1);
 
-  Prim *p2 = new Plane(Point(-8.5, -1.0, -8.5), Point(8.5, -1.0, 8.5), 1);
+  Geometry *p2 = new Plane(Point(-8.5, -1.0, -8.5), Point(8.5, -1.0, 8.5), 1);
   p2->surface = s2;
   p2->xform = new Xform();
   scene->add(p2);
