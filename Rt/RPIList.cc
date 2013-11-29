@@ -22,13 +22,15 @@ RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... ) {
 
 
 void
-RPIList::delete_all() { // delete p-all();
-	RPI*	e = begin();
-	while ( e != RPINULL ) {
-		RPI*	t = e->next();
-		delete e;
-		e = t;
-	}
+RPIList::delete_all()
+{
+  RPI*	e = begin();
+  first = last = RPINULL;
+  while ( e != RPINULL ) {
+    RPI*	t = e->next();
+    delete e;
+    e = t;
+  }
 }
 
 //
