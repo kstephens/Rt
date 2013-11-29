@@ -4,7 +4,6 @@
 //
 #include "Sphere.hh"
 #include "angle.hh"
-#include "ri/RiRand.h"
 
 Sphere::Sphere ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX )
   : Quadric(THETAMAX),
@@ -130,9 +129,9 @@ Sphere::random() const
 
   do {
     P = Point(
-              (RiRand() - 0.5) * sr,
-              (RiRand() - 0.5) * sr,
-              (RiRand() - 0.5) * sr );
+              (rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr );
   } while ( P % P > radius2 );
 
   return P;

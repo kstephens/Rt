@@ -4,7 +4,6 @@
 //
 #include "Cone.hh"
 #include "EPSINF.hh"
-#include "ri/RiRand.h"
 
 Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX )
   : Quadric(THETAMAX),
@@ -79,9 +78,9 @@ Cone::random() const
   scalar sr = 2.0 * radius;
   Point P;
   do {
-    P = Point((RiRand() - 0.5) * sr,
-              (RiRand() - 0.5) * sr,
-              RiRand());
+    P = Point((rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
+              rnd());
   } while ( ((Point2&)P) % ((Point2&) P) > radius2 * P.z ); // ???
   P.z = (1.0 - P.z) * height;
   return P;
@@ -100,8 +99,8 @@ Cone::randomOn()
   Point P;
   // Find point in disk of base.
   do {
-    P.x = (RiRand() - 0.5) * sr;
-    P.y = (RiRand() - 0.5) * sr;
+    P.x = (rnd() - 0.5) * sr;
+    P.y = (rnd() - 0.5) * sr;
   } while ( (r2 = ((Point2&) P) % ((Point2&) P)) > radius2 );
   // Project up from base to height.
   scalar v = 1.0 - (r2 / radius2);

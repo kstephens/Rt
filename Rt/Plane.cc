@@ -4,7 +4,6 @@
 //
 #include "Plane.hh"
 #include "EPSINF.hh"
-#include "ri/RiRand.h"
 
 Point
 Plane::P( const Param& p ) {
@@ -91,8 +90,8 @@ Plane::randomIn() {
 	Point	p;
 
 	p[axis] = 0.0;
-	p[u] = lo()[u] + size[u] * RiRand();
-	p[v] = lo()[v] + size[v] * RiRand();
+	p[u] = lo()[u] + size[u] * rnd();
+	p[v] = lo()[v] + size[v] * rnd();
 
 	return p;
 }
@@ -103,7 +102,7 @@ Plane::randomOn() {
 // IMPLEMENT !!!
 //
 /*
-	scalar	r = RiRand();
+	scalar	r = rnd();
 	if ( r < 0.25 ) {
 		return (lo()
 	} else if ( r < 0.5 ) {

@@ -28,7 +28,7 @@ public:
   virtual RPIList intersect(const Ray &r) = 0;
   virtual int intersects(const Ray &r);
 
-  scalar rnd() { return RiRand(); }
+  scalar rnd() const { return RiRand(); }
 
   virtual Point randomOn();
   virtual Point randomIn();

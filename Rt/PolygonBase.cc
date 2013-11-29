@@ -3,7 +3,6 @@
 // KAS 91/06/29
 //
 #include "PolygonBase.hh"
-#include "ri/RiRand.h"
 
 PolygonBase::PolygonBase ( RtInt NVERTS, Point* POINTS ) : nverts(NVERTS) {
 	point = new Point[nverts];
@@ -138,8 +137,8 @@ Point	PolygonBase::pointOn() {
 	Point	pnt;
 	do {
 		Param	p;
-		p.u = bound.lo().x + (bound.hi().x - bound.lo().x) * RiRand();
-		p.v = bound.hi().y + (bound.hi().y - bound.lo().y) * RiRand();
+		p.u = bound.lo().x + (bound.hi().x - bound.lo().x) * rnd();
+		p.v = bound.hi().y + (bound.hi().y - bound.lo().y) * rnd();
 		pnt = P(p);
 	} while ( ! isIn(pnt) );
 	return pnt;

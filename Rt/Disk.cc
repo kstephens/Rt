@@ -3,7 +3,6 @@
 // KAS 91/06/25
 //
 #include "Disk.hh"
-#include "ri/RiRand.h"
 
 Disk::Disk ( RtFloat RADIUS, RtFloat H, RtFloat THETAMAX )
   : Quadric(THETAMAX),
@@ -85,8 +84,8 @@ Disk::random() const
 
   do {
     P = Point(
-              (RiRand() - 0.5) * sr,
-              (RiRand() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
               height);
   } while ( ((Point2&) P) % ((Point2&) P) > radius2 );
   

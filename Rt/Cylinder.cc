@@ -3,7 +3,6 @@
 // KAS 91/06/25
 //
 #include "Cylinder.hh"
-#include "ri/RiRand.h"
 
 Cylinder::Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX)
   : Quadric(THETAMAX),
@@ -89,9 +88,9 @@ Cylinder::random() const
   Point	P;
 
   do {
-    P = Point((RiRand() - 0.5) * sr,
-              (RiRand() - 0.5) * sr,
-              RiRand());
+    P = Point((rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
+              rnd());
   } while ( ((Point2&) P) % ((Point2&) P) > radius2 );
   P.z = zmin + P.z * zmax_minus_zmin;
 

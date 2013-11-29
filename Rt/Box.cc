@@ -4,7 +4,7 @@
 //
 #include "Box.hh"
 #include "EPSINF.hh"
-#include "ri/RiRand.h"
+
 /*
 
     u=0.75    u=0.50
@@ -255,9 +255,9 @@ Box::intersects ( const Ray& r )
 Point
 Box::randomIn()
 {
-  return Point(lo().x + size.x * RiRand(),
-               lo().y + size.y * RiRand(),
-               lo().z + size.z * RiRand() );
+  return Point(lo().x + size.x * rnd(),
+               lo().y + size.y * rnd(),
+               lo().z + size.z * rnd() );
 }
 
 Point
