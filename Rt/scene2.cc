@@ -1,13 +1,8 @@
 //
 // scene2.cc
 //
-#include "Sphere.hh"
-#include "Cylinder.hh"
-#include "Cone.hh"
-#include "Box.hh"
-#include "Plane.hh"
+#include "Geometry.hh"
 #include "Lights.hh"
-#include "Shader.hh"
 #include "Shaders.hh"
 #include "Sky.hh"
 #include "Whitted.hh"
@@ -43,7 +38,7 @@ Scene *scene2(Camera *camera)
     ix *= 3;
     iy *= 3;
 
-    switch ( (int) (RiRand() * 2) ) {
+    switch ( i % 3 ) {
     case 0:
       {
         Whitted *s = new Whitted();
@@ -68,10 +63,26 @@ Scene *scene2(Camera *camera)
         surface = s;
       }
       break;
+    case 2:
+      {
+        CheckerBoard *s = new CheckerBoard;
+        s->colors[0][0] = Color(0.2);
+        s->colors[0][1] = Color(RiRand(), RiRand(), RiRand()).unit();
+        s->colors[1][0] = s->colors[0][1];
+        s->colors[1][1] = s->colors[0][0];
+        s->scale = 10.0;
+        s->Ka = 0.0;
+        s->Kd = 0.8;
+        s->Ks = 0.4;
+        s->Kss = 1.0/20;
+        s->Os = Color(1);
+        surface = s;
+      }
+      break;
     }
     
     Prim *p1;
-    switch ( i % 3 ) {
+    switch ( i % 5 ) {
     case 0:
       p1 = new Sphere(1.0, -1.0, 1.0, 360.0);
       break;
@@ -80,6 +91,12 @@ Scene *scene2(Camera *camera)
       break;
     case 2:
       p1 = new Cone(2.0, 1.0, 360.0);
+      break;
+    case 3:
+      p1 = new Disk(0.0, 1.0, 360.0);
+      break;
+    case 4:
+      p1 = new Box(Point(-1.0, -1.0, -1.0), Point(1.0, 1.0, 1.0));
       break;
     }
     p1->surface = surface;
@@ -100,7 +117,7 @@ Scene *scene2(Camera *camera)
   s2->Ka = 0.0;
   s2->Kd = 0.4;
   s2->Ks = 0.4;
-  s2->Kss = 10;
+  s2->Kss = 1.0/20;
   s2->Os = Color(1);
 
   Prim *p2 = new Plane(Point(-8.5, -1.0, -8.5), Point(8.5, -1.0, 8.5), 1);
