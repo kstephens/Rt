@@ -10,6 +10,9 @@ all clean clean-tests :
 $(SUBDIRS:%=%-all) :
 	$(MAKE) -C $(@:%-all=%) all
 
+$(SUBDIRS:%=%-clean) :
+	$(MAKE) -C $(@:%-clean=%) clean
+
 test: test-anim
 
 test-anim: Rt/t/test-anim.gif
