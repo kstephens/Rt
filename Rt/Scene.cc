@@ -6,8 +6,8 @@
 
 Scene *Scene::current;
 
-RPIList
-Scene::intersect(const Ray &r) const
+// Collect all primitive intersections along ray.
+RPIList Scene::intersect(const Ray &r) const
 {
   RPIList L;
 
@@ -100,36 +100,36 @@ Color
 Scene::trace(const Ray& r, int depth) const
 {
   // std::cerr << " ray = " << r << ", depth = " << depth << "\n";
-  if ( depth <= 0 ) {
+  if ( depth <= 0 )
     return 0;
+
+  RPIList _rpi = intersect(r);
+
+  if ( ! _rpi.isEmpty() ) {
+    // Sort the ray-primitive list,
+    //  and find the first positive
+    //  so we can handle transparent surfaces.
+    _rpi.sort();
+    RPI *rpi = _rpi.begin()->findSmallestPositive();
+
+    if ( rpi != RPINULL ) {
+      Color Cr = dolist(rpi, depth);
+      _rpi.delete_all();
+      return Cr;
+    }
+  }
+  _rpi.delete_all();
+
+  // Nothing was hit, try background?
+  if ( background_shader ) {
+    Shader *S = background_shader;
+    // I is directed toward P from E.
+    S->I = r.direction;
+    S->shader();
+    return S->Ci;
   } else {
-    RPIList _rpi = intersect(r);
-
-    if ( ! _rpi.isEmpty() ) {
-      // Sort the ray-primitive list,
-      //  and find the first positive
-      //  so we can handle transparent surfaces.
-      _rpi.sort();
-      RPI *rpi = _rpi.begin()->findSmallestPositive();
-
-      if ( rpi != RPINULL ) {
-        Color Cr = dolist(rpi, depth);
-        _rpi.delete_all();
-        return Cr;
-      }
-    }
-    _rpi.delete_all();
-
-    if ( background_shader ) {
-      Shader *S = background_shader;
-      // I is directed toward P from E.
-      S->I = r.direction;
-      S->shader();
-      return S->Ci;
-    } else {
-      // some funky grey background
-      return Color(0.25, 0.25, 0.25);
-    }
+    // some funky grey background
+    return Color(0.25, 0.25, 0.25);
   }
 }
 

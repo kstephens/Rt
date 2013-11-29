@@ -17,9 +17,6 @@ CheckerBoard::shader()
   Cs = colors[cy][cx];
 
   Oi = Os;
-  Ci = Ka * ambient();
-  Ci += Kd * diffuse(N);
-  Ci += Ks * specular(N, V, Kss);
-  if ( 0 && Ci != 0 ) E_DEBUG(Ci);
-  Ci *= Cs;
+  Ci = Os * Cs * (Ka * ambient() + Kd * diffuse(N))
+    + Ks * specular(N, V, Kss);
 }

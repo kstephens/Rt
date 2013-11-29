@@ -17,15 +17,15 @@ public:
 	RPI*	next() const { return (RPI*) _RPI::next(); }
 	RPI*	next(RPI* n ) { return (RPI*) _RPI::next((RPI*) n); }
 
-	Ray	r;	// the intersecting ray in primative coord sys
+	Ray	r;	// the intersecting ray in primitive coord sys
 	Prim*	prim;	// the intersected primitive
 
-	scalar	t;	// position of intersection
+	scalar	t;	// distance of intersection along r.
 private:
 	//
 	// transform a vector (bound to P) to world coordinates
 	//
-	Point	wxform ( const Point& v ) {
+	Point	wv ( const Point& v ) {
 		return prim->xform->transform(P() + v) - wP();
 	}
 		
@@ -41,7 +41,7 @@ private:
 	Point	_dPdw;	// partial deriv. of P with respect to w
 	Point	_wdPdw;	// " in world coordinates
 	union	{
-		unsigned short 	flags;
+		unsigned flags;
 		struct {
 			unsigned
 				know_P : 1,
@@ -81,9 +81,7 @@ public:
 	RPI*	findBiggest();
 	RPI*	findPositive();
 
-	//
-	// intersection parameters
-	//
+	// Parameters at intersections.
 	const Point&	P() {
 		if ( ! f.know_P ) {
 			_P = r[t];
@@ -122,21 +120,20 @@ public:
 	void	Ng(const Point& p) {
 		f.know_Ng = 1; f.invert_Ng = 0; _Ng = p; }
 
-	const Point&	wNg() {
-		if ( ! f.know_wNg ) {
-			_wNg = wxform(Ng());
-			f.know_wNg = 1;
-			if ( f.invert_Ng )
-				_wNg.negate();
-		}
-		return _wNg;
-	}
+  const Point &wNg() {
+    if ( ! f.know_wNg ) {
+      _wNg = wv(Ng());
+      f.know_wNg = 1;
+    }
+    return _wNg;
+  }
+
 	void	invertNg() {
 		f.invert_Ng = ~ f.invert_Ng;
 		if ( f.know_Ng )
-			_Ng = - _Ng;
+                  _Ng.negate();
 		if ( f.know_wNg )
-			_wNg = - _wNg;
+                  _wNg.negate();
 	}
 	int	Nginverted() { return f.invert_Ng; }
 
@@ -145,7 +142,7 @@ public:
 		if ( ! f.know_##X ) { _##X = prim->X(this); f.know_##X = 1; } \
 		return _##X; } \
 	const Point&	w##X () { \
-		if ( ! f.know_w##X ) { _w##X = wxform(X()); f.know_w##X = 1; } \
+		if ( ! f.know_w##X ) { _w##X = wv(X()); f.know_w##X = 1; } \
 		return _w##X; } \
 	void	X ( const Point& x ) { _##X = x; f.know_##X = 1; }
 
