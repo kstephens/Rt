@@ -51,12 +51,12 @@ Scene::isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const
 
 
 // This is it!  The ray tracing routine!
-Color
+color
 Scene::dolist(RPI *rpi, int depth) const
 {
   // The ray color and opacity.
-  Color	Cr = 0.0;
-  Color Or = 1.0;
+  color	Cr = 0.0;
+  color Or = 1.0;
 
   // From front to back...
   while ( rpi != RPINULL ) {
@@ -82,7 +82,7 @@ Scene::dolist(RPI *rpi, int depth) const
     // Use the factored opacity value.
     // Ray opacity diminishes by the opacity of the incidence.
     Cr += S->Ci * S->Oi * Or;
-    Or *= (Color(1.0) - S->Oi);
+    Or *= (1.0 - S->Oi);
     // std::cerr << "    depth=" << depth << " rpi=" << *rpi << " Ci=" << S->Ci << " Oi=" << S->Oi << " Cr=" << Cr << " Or=" << Or << "\n";
 
     // If this surface is fully opaque,
@@ -96,7 +96,7 @@ Scene::dolist(RPI *rpi, int depth) const
   return Cr;
 }
 
-Color
+color
 Scene::trace(const Ray& r, int depth) const
 {
   // std::cerr << " ray = " << r << ", depth = " << depth << "\n";
@@ -113,7 +113,7 @@ Scene::trace(const Ray& r, int depth) const
     RPI *rpi = _rpi.begin()->findSmallestPositive();
 
     if ( rpi != RPINULL ) {
-      Color Cr = dolist(rpi, depth);
+      color Cr = dolist(rpi, depth);
       _rpi.delete_all();
       return Cr;
     }
@@ -129,7 +129,7 @@ Scene::trace(const Ray& r, int depth) const
     return S->Ci;
   } else {
     // some funky grey background
-    return Color(0.25, 0.25, 0.25);
+    return color(0.25, 0.25, 0.25);
   }
 }
 

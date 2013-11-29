@@ -8,11 +8,11 @@
 
 class AmbientLight : public Light {
 public:
-  Color	lightcolor;
+  color	lightcolor;
   scalar intensity;
 
   AmbientLight() : Light() { _type = AMBIENT; }
-  AmbientLight(const Color& c, scalar i = 1.0) :
+  AmbientLight(const color& c, scalar i = 1.0) :
     Light(), lightcolor(c), intensity(i) { _type = AMBIENT; }
 
   void light();
@@ -20,14 +20,14 @@ public:
 
 class DistantLight : public Light {
 public:
-  Color	lightcolor;
+  color	lightcolor;
   Point	from;
   Point	to;
   scalar intensity;
   Point	tf; // to - from
 
   DistantLight() : Light() { }
-  DistantLight(const Color& c, const Point& f, const Point& t, scalar i = 1.0 ) :
+  DistantLight(const color& c, const Point& f, const Point& t, scalar i = 1.0 ) :
     Light(), lightcolor(c), from(f), to(t), intensity(i), tf(t - f) { }
   
   void light();
@@ -36,11 +36,11 @@ public:
 class PointLight: public Light {
 public:
   scalar intensity;
-  Color	lightcolor;
+  color	lightcolor;
   Point	P;
 
   PointLight() : Light() { }
-  PointLight( const Color& c, const Point& p, scalar i = 1.0 ) :
+  PointLight(const color& c, const Point& p, scalar i = 1.0 ) :
     Light(), intensity(i), lightcolor(c), P(p) {  }
 
   void light();
@@ -57,7 +57,7 @@ class SpotLight : public Light {
 	scalar	coneexponent;
 
 	SpotLight () : Light() {}
-	SpotLight ( const Color& c, const Point& f, const Point& t,
+	SpotLight ( const color& c, const Point& f, const Point& t,
 		scalar ca, scalar cda, scalar ce ) :
 		Light(), ...
 

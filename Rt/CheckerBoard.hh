@@ -14,7 +14,7 @@ public:
   Shader *copy() const { return new CheckerBoard(*this); }
 
   Point	scale;
-  Color	colors[2][2];
+  color	colors[2][2];
   scalar Ka, Kd, Ks, Kss;
   void	shader();
 };

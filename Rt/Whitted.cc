@@ -11,8 +11,8 @@ Whitted::shader()
 {
   N = faceforward(normalize(N), I);
   Oi = Os;
-  Ci = Color(0);
-  Color OsCs = Os * Cs;
+  Ci = 0;
+  color OsCs = Os * Cs;
   // Ambient term.
   if ( Ka ) {
     Ci += OsCs * (Ka * ambient());

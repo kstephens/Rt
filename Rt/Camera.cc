@@ -57,7 +57,7 @@ void Camera::render(Raster *image)
         { ux[s.x] + vy[s.y]    , ux[s.x + 1] + vy[s.y] },
         { ux[s.x] + vy[s.y + 1], ux[s.x + 1] + vy[s.y + 1] },
       };
-      Color C(0);
+      color C(0);
       for ( int sample = 0; sample < samples_per_pixel; ++ sample ) {
         scalar su = RiRand(), sv = RiRand();
         Point P = lerp(sv, 

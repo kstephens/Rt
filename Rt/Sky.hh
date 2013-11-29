@@ -10,17 +10,17 @@
 
 class Sky : public Light {
 public:
-  Color Cground, Csky;
+  color Cground, Csky;
   Vector sun, azthmuth;
 
   Sky(const Point &S = Point(0, 1, 0), const Point &A = Point(0, 1, 0))
     : Light(), sun(normalize(S)), azthmuth(normalize(A))
   {
-    Cground = Color(0.25, 0.125, 0.0); // brown
-    Csky = Color(0.125, 0.33, 0.9); // sky blue
+    Cground = color(0.25, 0.125, 0.0); // brown
+    Csky = color(0.125, 0.33, 0.9); // sky blue
   }
 
-  Color sky(const Vector &v) {
+  color sky(const Vector &v) {
     Vector vn = normalize(v);
     scalar d = azthmuth % vn;
     if ( d <= 0.0 ) {

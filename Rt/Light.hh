@@ -12,7 +12,7 @@ class Light : public Shader {
   Light *next;
 friend	class Scene;
 friend	class LightIterator;
-  Color	getambient() const;
+  color	getambient() const;
 
 public:
   enum {
@@ -35,7 +35,7 @@ public:
   Light () : Shader(), next(0), _type(UNDEFINED), _isanarealight(0), _nsamples(1), _probe(0) {}
 virtual ~Light() {}
 
-  Color	ambient(Shader *S);	// get the global ambient value
+  color	ambient(Shader *S);	// get the global ambient value
 
   void _set_probe(int p) {
     _probe = p;

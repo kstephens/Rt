@@ -23,11 +23,11 @@ Scene *scene2(Camera *camera)
 
   Point distant_light_axis = Point( 10, 8,   0);
   scene->background_shader = new Sky(distant_light_axis);
-  scene->add(new AmbientLight(Color(1.0, 1.0, 1.0), 0.1) );
-  scene->add(new DistantLight(Color(1.0, 1.0, 1.0), distant_light_axis, Point(0), 1.0) );
-  scene->add(new PointLight(Color(1.0, 0.2, 0.2),   Point(  0, 8,  10), 100.0) );
-  scene->add(new PointLight(Color(0.2, 1.0, 0.2),   Point(-10, 8,   0), 100.0) );
-  scene->add(new PointLight(Color(0.2, 0.2, 1.0),   Point(  0, 8, -10), 100.0) );
+  scene->add(new AmbientLight(color(1.0, 1.0, 1.0), 0.1) );
+  scene->add(new DistantLight(color(1.0, 1.0, 1.0), distant_light_axis, Point(0), 1.0) );
+  scene->add(new PointLight(color(1.0, 0.2, 0.2),   Point(  0, 8,  10), 100.0) );
+  scene->add(new PointLight(color(0.2, 1.0, 0.2),   Point(-10, 8,   0), 100.0) );
+  scene->add(new PointLight(color(0.2, 0.2, 1.0),   Point(  0, 8, -10), 100.0) );
 
   int n_prims = 5;
   for ( int i = 0; i < n_prims * n_prims; ++ i ) {
@@ -57,7 +57,7 @@ Scene *scene2(Camera *camera)
     case 1:
       {
         Plastic *s = new Plastic();
-        s->Cs = Color(RiRand(), RiRand(), RiRand()).unit();
+        s->Cs = color(RiRand(), RiRand(), RiRand()).unit();
         s->Os = 1.0;
         s->roughness = 1.0/30.0;
         surface = s;
@@ -66,8 +66,8 @@ Scene *scene2(Camera *camera)
     case 2:
       {
         CheckerBoard *s = new CheckerBoard;
-        s->colors[0][0] = Color(0.2);
-        s->colors[0][1] = Color(RiRand(), RiRand(), RiRand()).unit();
+        s->colors[0][0] = color(0.2);
+        s->colors[0][1] = color(RiRand(), RiRand(), RiRand()).unit();
         s->colors[1][0] = s->colors[0][1];
         s->colors[1][1] = s->colors[0][0];
         s->scale = 10.0;
@@ -75,7 +75,7 @@ Scene *scene2(Camera *camera)
         s->Kd = 0.8;
         s->Ks = 0.4;
         s->Kss = 1.0/20;
-        s->Os = Color(1);
+        s->Os = 1;
         surface = s;
       }
       break;
@@ -109,16 +109,16 @@ Scene *scene2(Camera *camera)
   }
 
   CheckerBoard *s2 = new CheckerBoard;
-  s2->colors[0][0] = Color(0.00);
-  s2->colors[0][1] = Color(0.33);
-  s2->colors[1][0] = Color(0.66);
-  s2->colors[1][1] = Color(1.00);
+  s2->colors[0][0] = 0.00;
+  s2->colors[0][1] = 0.33;
+  s2->colors[1][0] = 0.66;
+  s2->colors[1][1] = 1.00;
   s2->scale = 10.0;
   s2->Ka = 0.0;
   s2->Kd = 0.4;
   s2->Ks = 0.4;
   s2->Kss = 1.0/20;
-  s2->Os = Color(1);
+  s2->Os = 1.0;
 
   Geometry *p2 = new Plane(Point(-8.5, -1.0, -8.5), Point(8.5, -1.0, 8.5), 1);
   p2->surface = s2;

@@ -46,7 +46,7 @@ class Plastic : public Shader {
 public:
   scalar Ka, Kd, Ks;
   scalar roughness;
-  Color	specularcolor;
+  color	specularcolor;
 
   Plastic() : Ka(1.0), Kd(0.5), Ks(0.5), roughness(0.1), specularcolor(1.0) {}
   Shader *copy() const { return new Plastic(*this); }

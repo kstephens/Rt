@@ -12,9 +12,9 @@
 class Scene {
   Geometry *geos;
   Light *_lights;
-  Color	ambientlight;
+  color	ambientlight;
 
-  Color dolist(RPI* rpi, int depth) const;
+  color dolist(RPI* rpi, int depth) const;
 public:
   static Scene *current;
   Shader *background_shader;
@@ -50,8 +50,8 @@ public:
 	//
 	int	isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const;
 	RPIList	intersect(const Ray &ray) const;
-	Color	trace(const Ray& ray, int depth = 4) const;
-	Color	ambient() { return ambientlight; }
+	color	trace(const Ray& ray, int depth = 4) const;
+	color	ambient() { return ambientlight; }
 };
 
 #endif

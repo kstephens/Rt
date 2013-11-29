@@ -11,17 +11,16 @@ Point Shader::E;
 void
 Shader::init()
 {
-  Cs = Color(1.0);
-  Os = Color(1.0);
+  Cs = Os = 1.0;
 }
 
-Color
+color
 Shader::trace(Point& R)
 {
   // Save the shader's state for recursion.
   Shader* temp = copy();
   
-  Color	Ct = Scene::current->trace(Ray(P,R).fix(Ng), trace_depth);
+  color	Ct = Scene::current->trace(Ray(P,R).fix(Ng), trace_depth);
 
   // Restore shader state.
   *this = *temp;
@@ -30,14 +29,14 @@ Shader::trace(Point& R)
   return Ct;
 }
 
-Color Shader::ambient()
+color Shader::ambient()
 {
   return Scene::current->ambient();
 }
 
-Color Shader::diffuse(Point &N)
+color Shader::diffuse(Point &N)
 {
-  Color C = 0;
+  color C = 0;
   illuminance(P, N, degrees(90)) {
     L = normalize(L);
     C += Cl * (L % N);
@@ -51,9 +50,9 @@ Color Shader::diffuse(Point &N)
   return C;	
 }
 
-Color Shader::specular(Point &N, Point &V, scalar roughness)
+color Shader::specular(Point &N, Point &V, scalar roughness)
 {
-  Color C = 0;
+  color C = 0;
   scalar one_over_roughness = 1.0 / roughness;
   illuminance(P, N, degrees(90)) {
     Point H = normalize(normalize(L) + V);
@@ -62,9 +61,9 @@ Color Shader::specular(Point &N, Point &V, scalar roughness)
   return C;
 }
 
-Color Shader::phong(Point &N, Point &V, scalar size)
+color Shader::phong(Point &N, Point &V, scalar size)
 {
-  Color C = 0;
+  color C = 0;
   Point	R = normalize(reflect(-V, N));
   illuminance(P, N, degrees(90)) {
     L = normalize(L);
