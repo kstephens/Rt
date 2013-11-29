@@ -120,8 +120,16 @@ Scene::trace(const Ray& r, int depth) const
     }
     _rpi.delete_all();
 
-// some funky grey background
-    return Color(0.25, 0.25, 0.25);
+    if ( background_shader ) {
+      Shader *S = background_shader;
+      // I is directed toward P from E.
+      S->I = r.direction;
+      S->shader();
+      return S->Ci;
+    } else {
+      // some funky grey background
+      return Color(0.25, 0.25, 0.25);
+    }
   }
 }
 

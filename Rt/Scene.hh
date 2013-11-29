@@ -17,10 +17,12 @@ class Scene {
   Color dolist(RPI* rpi, int depth) const;
 public:
   static Scene *current;
+  Shader *background_shader;
 
-	Scene() : ambientlight(0) {
-		prims = NULL;
-		_lights = NULL; }
+  Scene()
+    : prims(0), _lights(0), ambientlight(0), background_shader(0)
+  {
+  }
 
 	Prim*	add ( Prim* p) {
 		p->next = prims;
