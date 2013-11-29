@@ -3,6 +3,7 @@ CC=clang
 CXX=clang++
 OPT_FLAGS += -g
 OPT_FLAGS += -O3
+OPT_FLAGS += -Wall
 CFLAGS += $(OPT_FLAGS)
 CXXFLAGS += $(OPT_FLAGS)
 CPP_DEP_FLAGS += -MM -MF $@.d

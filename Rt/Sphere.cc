@@ -6,8 +6,9 @@
 #include "angle.hh"
 #include "ri/RiRand.h"
 
-Sphere::Sphere ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX ) :
-  radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX), Quadric(THETAMAX)
+Sphere::Sphere ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX )
+  : Quadric(THETAMAX),
+    radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX)
 {
   if ( zmin <= -radius )
     phimin.asin(zmin / radius);

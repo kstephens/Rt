@@ -36,7 +36,7 @@ public:
   int _nsamples;	// for solar or area lights
   int _probe;
 
-  Light () : next(0), _type(UNDEFINED), _nsamples(1), _isanarealight(0), _probe(0) {}
+  Light () : next(0), _type(UNDEFINED), _isanarealight(0), _nsamples(1), _probe(0) {}
 virtual ~Light() {}
 
   Color	ambient(Shader *S);	// get the global ambient value

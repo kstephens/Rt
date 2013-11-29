@@ -104,7 +104,7 @@ matrix4_4::gaussj () {
 		ipiv[4];
 
 	int	i, icol, irow, j, k, l, ll;
-	scalar	big, dum, pivinv, temp;
+	scalar	big, dum, pivinv; // , temp;
 
 	for ( j = 0; j < 4; j ++ )
 		ipiv[j] = 0;

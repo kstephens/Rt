@@ -7,9 +7,9 @@
 #include "ri/RiRand.h"
 
 Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX )
-: height(HEIGHT), height2(HEIGHT * HEIGHT),
-  radius(RADIUS), radius2(RADIUS * RADIUS),
-  Quadric(THETAMAX)
+  : Quadric(THETAMAX),
+    height(HEIGHT), height2(HEIGHT * HEIGHT),
+    radius(RADIUS), radius2(RADIUS * RADIUS)
 {
 }
 

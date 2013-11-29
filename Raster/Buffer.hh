@@ -9,8 +9,8 @@
 
 class Buffer {
 protected:
-  unsigned char *_buffer;
   size_t _size;
+  unsigned char *_buffer;
   void	copy( const Buffer& B ) {
     _size = B._size;
     _buffer = new unsigned char[_size];

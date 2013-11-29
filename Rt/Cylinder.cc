@@ -5,8 +5,9 @@
 #include "Cylinder.hh"
 #include "ri/RiRand.h"
 
-Cylinder::Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX) :
-  radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX), Quadric(THETAMAX)
+Cylinder::Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX)
+  : Quadric(THETAMAX),
+    radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX)
 {
   zmax_minus_zmin = zmax - zmin;
 }

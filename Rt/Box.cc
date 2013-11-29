@@ -85,7 +85,9 @@ Param	Box::p(const Point& p) {
 			u = (hi().x - x) / size.x * 0.25 + 0.5;
 		} else if ( x == lo().x) {
 			u = (hi().y - y) / size.y * 0.25 + 0.75;
-		}
+		} else {
+                  u = 0; // WTF
+                }
 	}
 
 	return Param(u, v);

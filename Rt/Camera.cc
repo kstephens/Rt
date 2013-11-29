@@ -19,9 +19,6 @@ Point lerp(scalar u, const Point &p0, const Point &p1)
 
 void Camera::render(Raster *image)
 {
-  int	sx;
-  int	sy;
-
   RasterPosition	size = image->size();
 
   scalar pixelAspect = image->pixelAspectRatioXY();

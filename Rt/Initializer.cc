@@ -7,7 +7,8 @@ namespace rt {
     {
       RiInitNoise();
     }
+    static Initializer i;
   };
 
-  static Initializer i();
+  Initializer Initializer::i;
 }

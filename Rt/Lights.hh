@@ -20,10 +20,10 @@ public:
 
 class DistantLight : public Light {
 public:
-  scalar intensity;
   Color	lightcolor;
   Point	from;
   Point	to;
+  scalar intensity;
   Point	tf; // to - from
 
   DistantLight() : Light() { }
@@ -41,7 +41,7 @@ public:
 
   PointLight() : Light() { }
   PointLight( const Color& c, const Point& p, scalar i = 1.0 ) :
-    Light(), lightcolor(c), P(p), intensity(i) {  }
+    Light(), intensity(i), lightcolor(c), P(p) {  }
 
   void light();
 };

@@ -16,11 +16,14 @@ class Box : public Prim, public Bound {
 	float	inverse_select( const Point2& p );
 
 public:
-	Box ( const Point& p1, const Point& p2 ) : Bound(p1, p2) {
-		center = (p1 + p2) * 0.5;
-		size = hi() - lo(); }
-	Point	P(const Param& p);
-	Param	p(const Point& p);
+  Box(const Point& p1, const Point& p2)
+  : Prim(), Bound(p1, p2)
+  {
+    center = (p1 + p2) * 0.5;
+    size = hi() - lo();
+  }
+	Point	P(const Param &p);
+	Param	p(const Point &P);
 
 	Point	Ngp(const Param& p);
 	Point	NgP(const Point& p);
