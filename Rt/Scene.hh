@@ -10,11 +10,11 @@
 #include "AreaLight.hh"
 
 class Scene {
-  Prim*	prims;
-  Light*	_lights;
+  Prim *prims;
+  Light *_lights;
   Color	ambientlight;
 
-  Color dolist( RPI* rpi, int depth ) const;
+  Color dolist(RPI* rpi, int depth) const;
 public:
   static Scene *current;
 

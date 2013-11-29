@@ -95,16 +95,12 @@ Sphere::intersect( const Ray& r )
   Point	d = r.origin; d.negate();
   scalar d2 = d % d;
   scalar rdnorm = ~ r.direction;
-  //
-  // assure that r.direction is unit
-  // (it may not be when I implement object transformations)
-  //
   scalar h = (r.direction / rdnorm) % d;
   scalar i2 = d2 - h * h;
 
   if ( i2 < radius2 ) {
     scalar j = sqrt(radius2 - i2);
-    RPIList	list;
+    RPIList list;
     list.append( check( new RPI(r, this, (h - j) * rdnorm)));
     list.append( check( new RPI(r, this, (h + j) * rdnorm)));
     return list;
@@ -118,14 +114,10 @@ int
 Sphere::intersects ( const Ray& r )
 {
   Point	d = r.origin; d.negate();
-  scalar	d2 = d % d;
-  scalar	rdnorm = ~ r.direction;
-  //
-  // assure that r.direction is unit
-  // (it may not be when I implement object transformations)
-  //
-  scalar	h = (r.direction / rdnorm) % d;
-  scalar	i2 = d2 - h * h;
+  scalar d2 = d % d;
+  scalar rdnorm = ~ r.direction;
+  scalar h = (r.direction / rdnorm) % d;
+  scalar i2 = d2 - h * h;
 
   return i2 < radius2;
 }

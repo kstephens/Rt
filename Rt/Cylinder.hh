@@ -13,20 +13,20 @@ class Cylinder : public Quadric {
   RtFloat zmin, zmax;
   RtFloat zmax_minus_zmin;	// zmax - zmin
 
-  scalar vz(scalar v) const { // Return z(v).
+  scalar zv(scalar v) const { // Return z(v).
     return zmin + v * zmax_minus_zmin;
   }
-  scalar zv(scalar z) const { // Return v(z).
+  scalar vz(scalar z) const { // Return v(z).
     return (z - zmin) / zmax_minus_zmin;
   }
 
-  int	isOn(const Point& p) const;
+  int isOn(const Point &p) const;
   Point	random() const;
 
   int quadradic(const Ray &r, double *t2);
 
 public:
-  Cylinder ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX ) ;
+  Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX);
   Point	P(const Param& p);
   Param	p(const Point& p);
   
@@ -39,7 +39,6 @@ public:
 
   Point	randomIn();
   Point	randomOn();
-  
 };
 
 #endif

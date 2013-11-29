@@ -7,7 +7,8 @@
 #include "EPSINF.hh"
 #include "RPI.hh"
 
-RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... ) {
+RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... )
+{
 	va_list	arglist;
 
 	first = last = (_RPI*) new RPI(R,P,t);

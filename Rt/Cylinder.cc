@@ -20,8 +20,7 @@ int Cylinder::isOn(const Point &P) const
 Point Cylinder::P(const Param &p)
 {
   angle	a = theta(p.u);
-  return Point(
-               radius * x(a),
+  return Point(radius * x(a),
                radius * y(a),
                zv(p.v));
 }
@@ -36,8 +35,7 @@ Point Cylinder::Ngp(const Param &p)
 {
   angle	a = theta(p.u);
   scalar rxy = radius * 2.0;
-  return Point(
-               rxy * x(a),
+  return Point(rxy * x(a),
                rxy * y(a),
                0.0);
 }
@@ -61,7 +59,6 @@ Point Cylinder::dPdup(const Param &p)
 {
   angle	a = theta(p.u);
   scalar rxy = radius * to_radians(thetamax);
-
   return Point(
                rxy * dx(a),
                rxy * dy(a),
@@ -70,10 +67,9 @@ Point Cylinder::dPdup(const Param &p)
 
 Point Cylinder::dPdvp(const Param &p)
 {
-  return Point (
-                0.0,
-		0.0,
-		zmax_minus_zmin);
+  return Point(0.0,
+               0.0,
+               zmax_minus_zmin);
 }
 
 int
@@ -93,12 +89,10 @@ Cylinder::random() const
   Point	P;
 
   do {
-    P = Point(
-              (RiRand() - 0.5) * sr,
+    P = Point((RiRand() - 0.5) * sr,
               (RiRand() - 0.5) * sr,
               RiRand());
   } while ( ((Point2&) P) % ((Point2&) P) > radius2 );
-
   P.z = zmin + P.z * zmax_minus_zmin;
 
   return P;
@@ -117,9 +111,8 @@ Cylinder::randomOn()
 
   do {
     P = random();
-    ((Point2&) P).normalize() *= radius;
-  } while ( ! isOn(P) );
-  
+  } while ( P.x == 0 && P.y == 0 );
+  ((Point2&) P).normalize() *= radius;
   return P;
 }
 

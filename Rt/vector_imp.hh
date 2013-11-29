@@ -47,7 +47,7 @@ public:
 	scalar&		operator[](int i) { return (&x)[i]; }
 	scalar		operator[](int i) const { return (&x)[i]; }
 
-	vector2& 	negate() { x = -x; y = -y; return *this; }
+	vector2& 	negate() { x = - x; y = - y; return *this; }
 
 	UOP(-)
 	BOP(+)
@@ -122,13 +122,13 @@ public:
 
 	vector3 () : vector2() {}
 	vector3 ( scalar s ) : vector2(s), z(s) {}
-	vector3 ( scalar X, scalar Y, scalar Z ) : vector2(X,Y), z(Z) {}
-	vector3 ( const vector2& p, scalar Z = 1.0 ) : vector2(p), z(Z) {}
+	vector3 ( scalar X, scalar Y, scalar Z = 0.0) : vector2(X,Y), z(Z) {}
+	vector3 ( const vector2& p, scalar Z = 0.0 ) : vector2(p), z(Z) {}
 	vector2 v2() const { return vector2 ( x / z, y / z); }
 
 	int		tuples() const { return 3; }
 
-	vector3&	negate() { x = -x; y = -y; z = -z; return *this; }
+	vector3&	negate() { x = - x; y = - y; z = - z; return *this; }
 
 	UOP(-)
 	BOP(+)
@@ -217,7 +217,7 @@ public:
 
 	int		tuples() const { return 4; }
 
-	vector4&	negate() { x = -x; y = -y; z = -z; w = -w; return *this; }
+	vector4&	negate() { x = - x; y = - y; z = - z; w = - w; return *this; }
 
 	UOP(-)
 	BOP(+)

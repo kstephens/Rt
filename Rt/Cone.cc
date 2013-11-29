@@ -22,8 +22,7 @@ Point Cone::P(const Param& p)
 {
   angle a = theta(p.u);
   scalar rxy = radius * (1.0 - p.v);
-  return Point(
-               rxy * x(a),
+  return Point(rxy * x(a),
                rxy * y(a),
                height * p.v);
 }
@@ -34,20 +33,18 @@ Param Cone::p(const Point& p)
 }
 
 
-Point Cone::Ngp(const Param& p)
+Point Cone::Ngp(const Param &p)
 {
   angle a = theta(p.u);
-  return Point(
-               radius * x(a),
+  return Point(radius * x(a),
                radius * y(a),
                height);
 }
 
-
 Point Cone::NgP(const Point& p)
 {
   Point P = p;
-  ((Point2&) P).normalize() * radius;
+  ((Point2&) P).normalize() * radius; // ???
   P.z = radius / height;
   return P;
 }
@@ -57,26 +54,22 @@ Point Cone::Ng(RPI* p)
   return NgP(p->P());
 }
 
-
 Point Cone::dPdup(const Param& p)
 {
   angle a = theta(p.u);
   scalar rxy = radius * to_radians(thetamax);
-  
-  return Point(
-               rxy * dx(a),
+  return Point(rxy * dx(a),
                rxy * dy(a),
-               0.0 );
+               0.0);
 }
 
 Point Cone::dPdvp(const Param& p)
 {
   angle a = theta(p.u);
   scalar rxy = - radius;
-  return Point (
-                rxy * x(a),
-                rxy * y(a),
-                height );
+  return Point(rxy * x(a),
+               rxy * y(a),
+               height);
 }
 
 inline
@@ -85,14 +78,11 @@ Cone::random() const
 {
   scalar sr = 2.0 * radius;
   Point P;
-  
   do {
-    P = Point (
-               (RiRand() - 0.5) * sr,
-               (RiRand() - 0.5) * sr,
-               RiRand());
-  } while ( ((Point2&)P) % ((Point2&) P) > radius2 * P.z);
-  
+    P = Point((RiRand() - 0.5) * sr,
+              (RiRand() - 0.5) * sr,
+              RiRand());
+  } while ( ((Point2&)P) % ((Point2&) P) > radius2 * P.z ); // ???
   P.z = (1.0 - P.z) * height;
   return P;
 }
@@ -106,16 +96,18 @@ Cone::randomIn()
 Point
 Cone::randomOn()
 {
+  scalar sr = 2.0 * radius, r2;
   Point P;
-
+  // Find point in disk of base.
   do {
-    P = random();
-    ((Point2&) P).normalize() * radius * (1.0 - (P.z / height));
-  } while ( ! isOn(P) );
-  
+    P.x = (RiRand() - 0.5) * sr;
+    P.y = (RiRand() - 0.5) * sr;
+  } while ( (r2 = ((Point2&) P) % ((Point2&) P)) > radius2 );
+  // Project up from base to height.
+  scalar v = 1.0 - (r2 / radius2);
+  P.z = height * v;
   return P;
 }
-
 
 /*
 

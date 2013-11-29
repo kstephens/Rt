@@ -34,8 +34,8 @@ Scene::isShadowed(const Ray &ray, scalar dist, Prim *ignore) const
     // and there is an intersection between
     // 0 and the distance to the light point.
     if ( p->shadow != NULL && p->shadow != ignore ) {
-      RPIList	i = p->shadow->wintersect(ray);
-      RPI*	f = i.begin()->findSmallestPositive();
+      RPIList i = p->shadow->wintersect(ray);
+      RPI* f = i.begin()->findSmallestPositive();
       
       if ( f != RPINULL && f->t < dist ) {
         i.delete_all();
@@ -61,7 +61,7 @@ Scene::dolist(RPI *rpi, int depth) const
   // From front to back...
   while ( rpi != RPINULL ) {
     // std::cerr << "  rpi = " << *rpi << "\n";
-    // Initialize the shader varables.
+    // Initialize the surface shader varables.
     Shader *S = rpi->prim->surface;
 
     S->P = rpi->wP();
@@ -71,8 +71,7 @@ Scene::dolist(RPI *rpi, int depth) const
     
     S->uvw = rpi->p();
 
-    // I is directed toward P
-    // from E.
+    // I is directed toward P from E.
     S->I = rpi->r.direction;
 
     S->trace_depth = depth - 1;
