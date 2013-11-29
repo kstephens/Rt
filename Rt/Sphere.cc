@@ -30,38 +30,35 @@ int Sphere::isOn(const Point &P) const
 
 Point	Sphere::P(const Param &p)
 {
-  angle	theta = utheta(p[0]);
-  angle	phi = vphi(p[1]);
-  float	rxy = radius * cos(phi);
-
+  angle	a = theta(p.u);
+  angle	b = phi(p.v);
+  scalar rxy = radius * cos(b);
   return Point(
-          rxy * thetax(theta),
-          rxy * thetay(theta),
-          radius * sin(phi) );
+          rxy * x(a),
+          rxy * y(a),
+          radius * sin(b));
 }
 
-Param Sphere::p(const Point& p)
+Param Sphere::p(const Point &P)
 {
-  return Param(thetau(xytheta(p.x, p.y)), phiv(zphi(p.z)));
+  return Param(u(theta(P.x, P.y)), v(phiz(P.z)));
 }
-
 
 Point Sphere::Ngp(const Param& p)
 {
-  angle	theta = utheta(p.u);
-  angle	phi = vphi(p.v);
-  float	cos_phi = cos(phi);
-
+  angle	a = theta(p.u);
+  angle	b = phi(p.v);
+  scalar cos_phi = cos(b);
   return Point(
-          thetax(theta) * cos_phi,
-          thetay(theta) * cos_phi,
-          sin(phi) );
+          x(a) * cos_phi,
+          y(a) * cos_phi,
+          sin(b) );
 }
 
 
-Point	Sphere::NgP(const Point& p)
+Point	Sphere::NgP(const Point& P)
 {
-  return p * 2.0;
+  return P * 2.0;
 }
 
 Point	Sphere::Ng(RPI* p)
@@ -72,26 +69,24 @@ Point	Sphere::Ng(RPI* p)
 
 Point	Sphere::dPdup(const Param& p)
 {
-  angle	theta = utheta(p[0]);
-  angle	phi = vphi(p[1]);
-  float rxy = radius * cos(phi) * to_number(thetamax);
-
+  angle	a = theta(p.u);
+  angle	b = phi(p.v);
+  scalar rxy = radius * cos(b) * to_radians(thetamax);
   return Point(
-          rxy * dxdtheta(theta),
-          rxy * dydtheta(theta),
-          0.0 );
+               rxy * dx(a),
+               rxy * dy(a),
+               0.0);
 }
 
 Point	Sphere::dPdvp(const Param& p)
 {
-  angle	theta = utheta(p.u);
-  angle	phi = vphi(p.v);
-  scalar	rxy = radius * - sin(phi) * to_number(phimax_minus_phimin);
-
-  return	Point (
-          rxy * thetax(theta),
-          rxy * thetay(theta),
-          radius * cos(phi) );
+  angle	a = theta(p.u);
+  angle	b = phi(p.v);
+  scalar rxy = radius * - sin(b) * to_radians(phimax_minus_phimin);
+  return Point(
+               rxy * x(a),
+               rxy * y(a),
+               radius * cos(b));
 }
 
 RPIList

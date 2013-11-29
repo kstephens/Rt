@@ -14,18 +14,18 @@ class Sphere : public Quadric {
   angle	phimin, phimax;	// zmin, zmax
   angle phimax_minus_phimin;	// phimax - phimin
 
-  angle vphi(RtFloat v) const {
+  angle phi(scalar v) const {
     return phimin + phimax_minus_phimin * v;
   }
-  RtFloat phiv(angle phi) const {
+  scalar v(angle phi) const {
     return to_number((phi - phimin) / phimax_minus_phimin);
   }
-  angle	zphi(RtFloat z ) const {
+  angle	phiz(scalar z) const {
     angle phi;
     phi.asin(z / radius);
     return phi;
   }
-  RtFloat phiz(angle phi) const {
+  scalar z(angle phi) const {
     return radius * sin(phi);
   }
 

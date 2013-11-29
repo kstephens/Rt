@@ -11,15 +11,16 @@ class Disk : public Quadric {
 	RtFloat radius;
 	RtFloat	radius2; // radius * radius
 	RtFloat	height;
+  Point _Ng;
 
 	Point	random() const;
 public:
   Disk ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX );
 	Point	P(const Param& p);
-	Param	p(const Point& p);
+	Param	p(const Point& P);
 
 	Point	Ngp(const Param& p);
-	Point	NgP(const Point& p);
+	Point	NgP(const Point& P);
 	Point	Ng(RPI* p);
 
 	Point	dPdup(const Param& p);

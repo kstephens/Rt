@@ -20,27 +20,26 @@ int Cone::isOn(const Point&P) const
 
 Point Cone::P(const Param& p)
 {
-  angle theta = utheta(p[0]);
-  scalar rxy = radius * (1.0 - p[1]);
-
+  angle a = theta(p.u);
+  scalar rxy = radius * (1.0 - p.v);
   return Point(
-               rxy * thetax(theta),
-               rxy * thetay(theta),
-               p[1] * height);
+               rxy * x(a),
+               rxy * y(a),
+               height * p.v);
 }
 
 Param Cone::p(const Point& p)
 {
-  return Param(thetau(xytheta(p.x, p.y)), p.z / height);
+  return Param(u(theta(p.x, p.y)), p.z / height);
 }
 
 
 Point Cone::Ngp(const Param& p)
 {
-  angle theta = utheta(p[0]);
+  angle a = theta(p.u);
   return Point(
-               radius * thetax(theta),
-               radius * thetay(theta),
+               radius * x(a),
+               radius * y(a),
                height);
 }
 
@@ -61,22 +60,22 @@ Point Cone::Ng(RPI* p)
 
 Point Cone::dPdup(const Param& p)
 {
-  angle theta = utheta(p.u);
-  RtFloat rxy = radius * thetamax.radians();
+  angle a = theta(p.u);
+  scalar rxy = radius * to_radians(thetamax);
   
   return Point(
-               rxy * dxdtheta(theta),
-               rxy * dydtheta(theta),
+               rxy * dx(a),
+               rxy * dy(a),
                0.0 );
 }
 
 Point Cone::dPdvp(const Param& p)
 {
-  angle theta = utheta(p.u);
+  angle a = theta(p.u);
   scalar rxy = - radius;
   return Point (
-                rxy * thetax(theta),
-                rxy * thetay(theta),
+                rxy * x(a),
+                rxy * y(a),
                 height );
 }
 

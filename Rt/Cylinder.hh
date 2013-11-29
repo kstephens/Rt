@@ -13,10 +13,10 @@ class Cylinder : public Quadric {
   RtFloat zmin, zmax;
   RtFloat zmax_minus_zmin;	// zmax - zmin
 
-  RtFloat zv(RtFloat v) const {
+  scalar vz(scalar v) const { // Return z(v).
     return zmin + v * zmax_minus_zmin;
   }
-  RtFloat vz(RtFloat z) const {
+  scalar zv(scalar z) const { // Return v(z).
     return (z - zmin) / zmax_minus_zmin;
   }
 

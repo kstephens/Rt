@@ -19,28 +19,27 @@ int Cylinder::isOn(const Point &P) const
 
 Point Cylinder::P(const Param &p)
 {
-  angle	theta = utheta(p[0]);
-
+  angle	a = theta(p.u);
   return Point(
-               radius * thetax(theta),
-               radius * thetay(theta),
-               vz(p.v));
+               radius * x(a),
+               radius * y(a),
+               zv(p.v));
 }
 
-Param Cylinder::p(const Point &p)
+Param Cylinder::p(const Point &P)
 {
-  return Param(thetau(xytheta(p.x, p.y)), zv(p.z));
+  return Param(u(theta(P.x, P.y)), vz(P.z));
 }
 
 
-Point Cylinder::Ngp(const Param& p)
+Point Cylinder::Ngp(const Param &p)
 {
-  angle	theta = utheta(p[0]);
+  angle	a = theta(p.u);
   scalar rxy = radius * 2.0;
   return Point(
-               rxy * thetax(theta),
-               rxy * thetay(theta),
-               0.0 );
+               rxy * x(a),
+               rxy * y(a),
+               0.0);
 }
 
 
@@ -60,12 +59,12 @@ Point Cylinder::Ng(RPI* p)
 
 Point Cylinder::dPdup(const Param &p)
 {
-  angle	theta = utheta(p[0]);
-  scalar rxy = radius * thetamax.radians();
+  angle	a = theta(p.u);
+  scalar rxy = radius * to_radians(thetamax);
 
   return Point(
-               rxy * dxdtheta(theta),
-               rxy * dydtheta(theta),
+               rxy * dx(a),
+               rxy * dy(a),
                0.0 );
 }
 
