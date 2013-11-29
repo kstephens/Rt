@@ -16,13 +16,11 @@ public:
 	CSG( Geometry* L, Geometry* R ) : l(L), r(R) {}
 	~CSG() { delete l; delete r; }
 
-	RPIList	intersect( const Ray& R );
+	RPIList	intersect(const Ray &R);
+	RPIList	wintersect(const Ray &R);
 
-	//
-	// IMPLEMENT!!!
-	//
-virtual	Point   randomOn() { return l->randomOn(); }
-virtual	Point	randomIn() { return l->randomIn(); }
+  virtual	Point   randomOn();
+  virtual	Point	randomIn();
 
 	enum CSGR { OUT = 1, IN = 2, ON = 4 };
 virtual	CSGR	relation ( CSGR L, CSGR R ) = 0;
