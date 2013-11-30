@@ -24,9 +24,8 @@ public:
 	Point	NgP(const Point& p);
 	Point	Ng(RPI* p);
 
-	Point	dPdup(const Param& p);
-
-	Point	dPdvp(const Param& p);
+	vector	dPdup(const Param& p);
+	vector	dPdvp(const Param& p);
 
   int quadradic(const Ray &r, double *t);
 

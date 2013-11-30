@@ -36,24 +36,22 @@ Point Disk::Ngp(const Param& p) { return _Ng; }
 Point Disk::NgP(const Point& P) { return _Ng; }
 Point Disk::Ng(RPI* p)          { return _Ng; }
 
-Point Disk::dPdup(const Param& p)
+vector Disk::dPdup(const Param& p)
 {
   angle	a = theta(p.u);
-  RtFloat rxy = radius * to_radians(thetamax);
-  return Point(
-               rxy * dx(a),
-               rxy * dy(a),
-               0.0);
+  scalar rxy = radius * to_radians(thetamax);
+  return vector(rxy * dx(a),
+                rxy * dy(a),
+                0.0);
 }
 
-Point Disk::dPdvp(const Param& p)
+vector Disk::dPdvp(const Param& p)
 {
   angle a = theta(p.u);
   scalar rxy = - radius;
-  return Point(
-               rxy * x(a),
-               rxy * y(a),
-               0.0);
+  return vector(rxy * x(a),
+                rxy * y(a),
+                0.0);
 }
 
 RPIList

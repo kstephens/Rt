@@ -23,9 +23,8 @@ public:
 	Point	NgP(const Point& P);
 	Point	Ng(RPI* p);
 
-	Point	dPdup(const Param& p);
-
-	Point	dPdvp(const Param& p);
+	vector dPdup(const Param& p);
+	vector dPdvp(const Param& p);
 
 	RPIList	intersect( const Ray& r );
 

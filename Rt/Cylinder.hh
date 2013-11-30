@@ -26,7 +26,7 @@ class Cylinder : public Quadric {
   int quadradic(const Ray &r, double *t2);
 
 public:
-  Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX);
+  Cylinder(scalar RADIUS, scalar ZMIN, scalar ZMAX, scalar THETAMAX);
   Point	P(const Param& p);
   Param	p(const Point& p);
   
@@ -34,8 +34,8 @@ public:
   Point	NgP(const Point& p);
   Point	Ng(RPI* p);
 
-  Point	dPdup(const Param& p);
-  Point	dPdvp(const Param& p);
+  vector dPdup(const Param& p);
+  vector dPdvp(const Param& p);
 
   Point	randomIn();
   Point	randomOn();

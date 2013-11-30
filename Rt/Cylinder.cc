@@ -39,7 +39,6 @@ Point Cylinder::Ngp(const Param &p)
                0.0);
 }
 
-
 Point Cylinder::NgP(const Point &p)
 {
   Point	P = p;
@@ -52,9 +51,9 @@ Point Cylinder::Ng(RPI* p)
 {
   return NgP(p->P());
 }
+#endif
 
-
-Point Cylinder::dPdup(const Param &p)
+vector Cylinder::dPdup(const Param &p)
 {
   angle	a = theta(p.u);
   scalar rxy = radius * to_radians(thetamax);
@@ -64,7 +63,7 @@ Point Cylinder::dPdup(const Param &p)
                0.0 );
 }
 
-Point Cylinder::dPdvp(const Param &p)
+vector Cylinder::dPdvp(const Param &p)
 {
   return Point(0.0,
                0.0,

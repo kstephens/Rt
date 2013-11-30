@@ -53,27 +53,25 @@ Point Cone::Ng(RPI* p)
   return NgP(p->P());
 }
 
-Point Cone::dPdup(const Param& p)
+vector Cone::dPdup(const Param& p)
 {
   angle a = theta(p.u);
   scalar rxy = radius * to_radians(thetamax);
-  return Point(rxy * dx(a),
-               rxy * dy(a),
-               0.0);
+  return vector(rxy * dx(a),
+                rxy * dy(a),
+                0.0);
 }
 
-Point Cone::dPdvp(const Param& p)
+vector Cone::dPdvp(const Param& p)
 {
   angle a = theta(p.u);
   scalar rxy = - radius;
-  return Point(rxy * x(a),
-               rxy * y(a),
-               height);
+  return vector(rxy * x(a),
+                rxy * y(a),
+                height);
 }
 
-inline
-Point
-Cone::random() const
+Point Cone::random() const
 {
   scalar sr = 2.0 * radius;
   Point P;
