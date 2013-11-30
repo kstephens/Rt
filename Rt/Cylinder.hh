@@ -8,10 +8,10 @@
 #include "Quadric.hh"
 
 class Cylinder : public Quadric {
-  RtFloat radius;
-  RtFloat radius2; // radius * radius
-  RtFloat zmin, zmax;
-  RtFloat zmax_minus_zmin;	// zmax - zmin
+  scalar radius;
+  scalar radius2; // radius * radius
+  scalar zmin, zmax;
+  scalar zmax_minus_zmin;	// zmax - zmin
 
   scalar zv(scalar v) const { // Return z(v).
     return zmin + v * zmax_minus_zmin;

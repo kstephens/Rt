@@ -4,7 +4,7 @@
 //
 #include "Cylinder.hh"
 
-Cylinder::Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX)
+Cylinder::Cylinder(scalar RADIUS, scalar ZMIN, scalar ZMAX, scalar THETAMAX)
   : Quadric(THETAMAX),
     radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX)
 {

@@ -8,14 +8,14 @@
 #include "Quadric.hh"
 
 class Cone : public Quadric {
-  RtFloat	height, height2; // height * height
-  RtFloat	radius, radius2;	// radius * radius
+  scalar	height, height2; // height * height
+  scalar	radius, radius2;	// radius * radius
 
 	int	isOn(const Point& p) const;
 
 	Point	random() const;
 public:
-	Cone( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX );
+	Cone( scalar HEIGHT, scalar RADIUS, scalar THETAMAX );
 
 	Point	P(const Param& p);
 	Param	p(const Point& p);

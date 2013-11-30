@@ -32,7 +32,6 @@ inline
 Point	refract ( const Point& I, const Point& N, float eta ) {
 	scalar	IdotN = I % N;
 	scalar	k = 1.0 - eta * eta * (1.0 - IdotN * IdotN);
-
 	return k < 0 ? Point(0) : eta * I + (eta * IdotN - sqrt(k)) * N;
 }
 

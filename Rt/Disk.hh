@@ -8,14 +8,14 @@
 #include "Quadric.hh"
 
 class Disk : public Quadric {
-	RtFloat radius;
-	RtFloat	radius2; // radius * radius
-	RtFloat	height;
+	scalar radius;
+	scalar	radius2; // radius * radius
+	scalar	height;
   Point _Ng;
 
 	Point	random() const;
 public:
-  Disk ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX );
+  Disk ( scalar HEIGHT, scalar RADIUS, scalar THETAMAX );
 	Point	P(const Param& p);
 	Param	p(const Point& P);
 

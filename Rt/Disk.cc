@@ -4,7 +4,7 @@
 //
 #include "Disk.hh"
 
-Disk::Disk ( RtFloat RADIUS, RtFloat H, RtFloat THETAMAX )
+Disk::Disk ( scalar RADIUS, scalar H, scalar THETAMAX )
   : Quadric(THETAMAX),
     radius(RADIUS), radius2(RADIUS * RADIUS), height(H)
 {

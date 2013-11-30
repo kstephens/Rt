@@ -5,7 +5,7 @@
 #include "Cone.hh"
 #include "EPSINF.hh"
 
-Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX )
+Cone::Cone ( scalar HEIGHT, scalar RADIUS, scalar THETAMAX )
   : Quadric(THETAMAX),
     height(HEIGHT), height2(HEIGHT * HEIGHT),
     radius(RADIUS), radius2(RADIUS * RADIUS)
