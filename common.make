@@ -40,7 +40,7 @@ D_FILES = \
 .cc.o:
 	$(COMPILE.cc) $(OUTPUT_OPTION) $<
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
-	sed -ie 's@:@::@g' $@.d
+	sed -i -e 's@:@::@g' $@.d
 
 all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
 
