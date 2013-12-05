@@ -32,14 +32,14 @@ D_FILES = \
   $(T_FILES:=.d)
 
 .c.o:
-	$(COMPILE.c) $(OUTPUT_OPTION) $<
 	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
-	sed -ie 's@:@::@g' $@.d
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+	sed -i -e 's@:@::@g' $@.d
 
 .cc.o:
-	$(COMPILE.cc) $(OUTPUT_OPTION) $<
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
-	sed -ie 's@:@::@g' $@.d
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+	sed -i -e 's@:@::@g' $@.d
 
 all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
 
