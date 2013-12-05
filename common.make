@@ -1,6 +1,13 @@
 # *-* makefile *-*
+UNAME:=$(shell uname)#
+
+ifeq "$(UNAME)" "CYGWIN_NT-6.1"
+CC=gcc
+CXX=g++
+else
 CC=clang
 CXX=clang++
+endif
 OPT_FLAGS += -g
 OPT_FLAGS += -O3
 CFLAGS += $(OPT_FLAGS)
