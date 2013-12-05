@@ -7,6 +7,8 @@
 
 #include "Color.hh"
 #include "Point.hh"
+#include "vector.hh"
+#include "normal.hh"
 #include "Param.hh"
 #include "LightIterator.hh"
 

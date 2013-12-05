@@ -14,6 +14,7 @@ public:
 
   // In the primitive's coordinate system:
 virtual	Point	P(const Param& _p) { return Point(0); }
+  virtual Param p(RPI *rpi);
 virtual	Param	p(const Point& _p) { return Param(0); }
 
 virtual	Point	Ngp(const Param& _p) { return dPdup(_p) ^ dPdvp(_p); }

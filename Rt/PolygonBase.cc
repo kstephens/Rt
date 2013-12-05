@@ -137,8 +137,8 @@ Point	PolygonBase::pointOn() {
 	Point	pnt;
 	do {
 		Param	p;
-		p.u = bound.lo().x + (bound.hi().x - bound.lo().x) * rnd();
-		p.v = bound.hi().y + (bound.hi().y - bound.lo().y) * rnd();
+		p.u = bound.l.x + (bound.h.x - bound.l.x) * rnd();
+		p.v = bound.h.y + (bound.h.y - bound.l.y) * rnd();
 		pnt = P(p);
 	} while ( ! isIn(pnt) );
 	return pnt;

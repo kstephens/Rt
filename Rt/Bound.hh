@@ -8,8 +8,8 @@
 //inline void SWAP( float& a, float& b ) { float t = a; a = b; b = t; }
 
 class Bound	{
-	Point	l, h;
 public:
+	Point	l, h;
 	Bound () {
 		l.x = l.y = l.z = INFINITY;
 		h.x = h.y = h.z = - INFINITY;
@@ -38,8 +38,6 @@ public:
 
 		return *this;
 	}
-	const Point&	lo() const { return l; }
-	const Point&	hi() const { return h; }
 	const Point&	operator[](int i) const { return (&l)[i]; }
 
 	int	isIn( const Point& p) const {

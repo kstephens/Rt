@@ -6,12 +6,11 @@
 #define	__Sky_hh
 
 #include "Light.hh"
-#include "Vector.hh"
 
 class Sky : public Light {
 public:
   color Cground, Csky;
-  Vector sun, azthmuth;
+  vector sun, azthmuth;
 
   Sky(const Point &S = Point(0, 1, 0), const Point &A = Point(0, 1, 0))
     : Light(), sun(normalize(S)), azthmuth(normalize(A))
@@ -20,8 +19,8 @@ public:
     Csky = color(0.125, 0.33, 0.9); // sky blue
   }
 
-  color sky(const Vector &v) {
-    Vector vn = normalize(v);
+  color sky(const vector &v) {
+    vector vn = normalize(v);
     scalar d = azthmuth % vn;
     if ( d <= 0.0 ) {
       return Cground;

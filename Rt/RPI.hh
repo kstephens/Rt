@@ -101,7 +101,7 @@ public:
 
 	const Param&	p() {;
 		if ( ! f.know_p ) {
-			_p = prim->p(P());
+			_p = prim->p(this);
 			f.know_p = 1;
 		}
 		return _p; }

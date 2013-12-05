@@ -20,7 +20,7 @@ public:
   : Prim(), Bound(p1, p2)
   {
     center = (p1 + p2) * 0.5;
-    size = hi() - lo();
+    size = h - l;
   }
 	Point	P(const Param &p);
 	Param	p(const Point &P);

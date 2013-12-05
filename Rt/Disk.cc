@@ -32,9 +32,9 @@ Param Disk::p(const Point& P)
 }
 
 // Geometric normal is constant.
-Point Disk::Ngp(const Param& p) { return _Ng; }
-Point Disk::NgP(const Point& P) { return _Ng; }
-Point Disk::Ng(RPI* p)          { return _Ng; }
+normal Disk::Ngp(const Param& p) { return _Ng; }
+normal Disk::NgP(const Point& P) { return _Ng; }
+normal Disk::Ng(RPI* p)          { return _Ng; }
 
 vector Disk::dPdup(const Param& p)
 {

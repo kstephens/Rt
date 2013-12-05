@@ -19,9 +19,9 @@ public:
 	Point	P(const Param& p);
 	Param	p(const Point& P);
 
-	Point	Ngp(const Param& p);
-	Point	NgP(const Point& P);
-	Point	Ng(RPI* p);
+	normal Ngp(const Param& p);
+	normal NgP(const Point& P);
+	normal Ng(RPI* p);
 
 	vector dPdup(const Param& p);
 	vector dPdvp(const Param& p);

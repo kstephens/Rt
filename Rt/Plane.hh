@@ -16,16 +16,16 @@ public:
 	Plane() : Prim(), Bound(), axis(0) {}
 	Plane(const Point& p1, const Point& p2, char a ) :
 		Prim(), Bound(p1,p2), axis(a) {
-			size = hi() - lo();
+			size = h - l;
 			u = (axis + 1) % 3;
 			v = (axis + 2) % 3; }
 
 	Point	P( const Param& p );
 	Param	p( const Point& p );
 
-	Point	NgP( const Point& p );
-	Point	Ngp( const Param& p );
-	Point	Ng(RPI* _p) { return NgP(_p->P()); }
+	normal NgP( const Point& p );
+	normal Ngp( const Param& p );
+	normal Ng(RPI* _p) { return NgP(_p->P()); }
 
 	Point	dPduP( const Point& p );
 	Point	dPdup( const Param& p );

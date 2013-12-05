@@ -8,6 +8,8 @@
 #include "point_def.hh"
 #include "vector_imp.hh"
 #include "point_undef.hh"
+typedef point Point;
+typedef point2 Point2;
 
 inline
 Point	floor ( const Point& p ) {
