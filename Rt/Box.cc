@@ -60,7 +60,7 @@ Param Box::p(const Point &P)
     scalar t;
 
     if ( ay > ax ) {
-      if ( (t = ay * 2.0) == rt_EPSILON ) {
+      if ( (t = ay * 2.0) == 0 ) {
         u = 0.0;
       } else {
         if ( dy < 0.0 )
@@ -69,7 +69,7 @@ Param Box::p(const Point &P)
           u = (- dx / ay + 1.0) * 0.125 + 0.5;
       }
     } else {
-      if ( (t = ax * 2.0) == rt_EPSILON ) {
+      if ( (t = ax * 2.0) == 0 ) {
         u = 0.0;
       } else {
         if ( dx < 0.0 )
@@ -203,7 +203,7 @@ Box::intersect( const Ray& r )
 
   for ( int j = 0; j < 3; j ++ ) {
     scalar d = r.direction[j];
-    if ( d != rt_EPSILON ) {
+    if ( d != 0 ) {
       for ( int i = 0; i < 2; i ++ ) {
         const Point &s = Bound::operator[](i);
         scalar t = (s[j] - r.origin[j]) / d;
@@ -236,7 +236,7 @@ Box::intersects ( const Ray& r )
 {
   for ( int j = 0; j < 3; j ++ ) {
     scalar d = r.direction[j];
-    if ( d != rt_EPSILON ) {
+    if ( d != 0 ) {
       for ( int i = 0; i < 2; i ++ ) {
         const Point &s = Bound::operator[](i);
         scalar t = (s[j] - r.origin[j]) / d;
