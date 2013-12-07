@@ -1,10 +1,16 @@
 # *-* makefile *-*
+UNAME_S:=$(shell uname -s)#
+ifeq "$(UNAME_S)" "CYGWIN_NT"
+CC=gcc
+CXX=g++
+else
 CC=clang
 CXX=clang++
+endif
 OPT_FLAGS += -g
 OPT_FLAGS += -O3
 OPT_FLAGS += -Wall
-CFLAGS += $(OPT_FLAGS)
+CFLAGS += $(OPT_FLAGS)ls -l
 CXXFLAGS += $(OPT_FLAGS)
 CPP_DEP_FLAGS += -MM -MF $@.d
 CPPFLAGS += -I.. -I/opt/local/include
@@ -33,14 +39,12 @@ D_FILES = \
   $(T_FILES:=.d)
 
 .c.o:
+	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -i -e 's@:@::@g' $@.d
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
-	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
-	sed -i -e 's@:@::@g' $@.d
 
 .cc.o:
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -i -e 's@:@::@g' $@.d
 	$(COMPILE.cc) $(OUTPUT_OPTION) $<
-	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
-	sed -i -e 's@:@::@g' $@.d
 
 all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
 
