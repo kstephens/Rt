@@ -20,7 +20,7 @@ void RasterPNM::init()
 
 
 RasterPNM::RasterPNM(const std::string &name, const std::string &mode)
-  : _name(name), _mode(mode)
+  : Raster(), _name(name), _mode(mode)
 {
   ::init();
 }
@@ -28,8 +28,10 @@ RasterPNM::RasterPNM(const std::string &name, const std::string &mode)
 void
 RasterPNM::close()
 {
-  if ( fp )
+  if ( fp ) {
     fclose(fp);
+    fp = 0;
+  }
 }
 
 RasterPNM::~RasterPNM()
