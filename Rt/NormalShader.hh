@@ -9,7 +9,7 @@ public:
   Shader *copy() const { return new NormalShader(*this); }
   void shader()
   {
-    N = faceforward(normalize(N),I);
+    N = normalize(N);
     normal Nc = N * 0.5 + 0.5;
     Oi = Os;
     Ci = Os * color(Nc.x, Nc.y, Nc.z);
