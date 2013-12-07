@@ -20,17 +20,17 @@ inline
 Point2 Box::select(scalar u)
 {
   if ( u < 0.25 )
-    return Point2(lo().x + size.x * u * 4.0,
-                  lo().y);
+    return Point2(l.x + size.x * u * 4.0,
+                  l.y);
   else if ( u < 0.5 )
-    return Point2(hi().x,
-                  lo().y + size.y * (u - 0.25) * 4.0);
+    return Point2(h.x,
+                  l.y + size.y * (u - 0.25) * 4.0);
   else if ( u < 0.75 )
-    return Point2(hi().x - size.x * (u - 0.5) * 4.0,
-                  hi().y);
+    return Point2(h.x - size.x * (u - 0.5) * 4.0,
+                  h.y);
   else /* if ( p.U() < 1.0 ) */
-    return Point2(lo().x,
-                  hi().y - size.y * (u - 0.75) * 4.0 );
+    return Point2(l.x,
+                  h.y - size.y * (u - 0.75) * 4.0 );
 }
 
 Point Box::P(const Param &p)
@@ -38,13 +38,13 @@ Point Box::P(const Param &p)
   if ( p.v < 1.0 / 3.0 ) {
     Point2 p1 = (Point2&) center;
     Point2 p2 = select(p.u);
-    return Point( p1 + (p2 - p1) * p.v * 3.0, lo().z );
+    return Point( p1 + (p2 - p1) * p.v * 3.0, l.z );
   } else if ( p.v < 2.0 / 3.0 ) {
-    return Point( select(p.u), lo().z + size.z * (p.v - 1.0 / 3.0) * 3.0);
+    return Point( select(p.u), l.z + size.z * (p.v - 1.0 / 3.0) * 3.0);
   } else /* if ( v < 1.0 ) */ {
     Point2 p1 = select(p.u);
     Point2 p2 = (Point2&) center;
-    return Point( p1 + (p2 - p1) * (p.v - 2.0 / 3.0) * 3.0, hi().z );
+    return Point( p1 + (p2 - p1) * (p.v - 2.0 / 3.0) * 3.0, h.z );
   }
 }
 
@@ -52,7 +52,7 @@ Param Box::p(const Point &P)
 {
   scalar u, v;
 
-  if ( P.z == lo().z || P.z == hi().z ) {
+  if ( P.z == l.z || P.z == h.z ) {
     scalar dx = center.x - P.x / size.x;
     scalar dy = center.y - P.y / size.y;
     scalar ax = dx < 0.0 ? - dx : dx;
@@ -79,22 +79,22 @@ Param Box::p(const Point &P)
       }
     }
 
-    if ( P.z == lo().z ) {
+    if ( P.z == l.z ) {
       v = t * (1.0 / 3.0);
     } else {
       v = 1.0 - (t * (1.0 / 3.0));
     }
 
   } else {
-    v = (P.z - lo().z) / size.z * (1.0 / 3.0) + (1.0 / 3.0);
-    if ( P.y == lo().y ) {
-      u = (P.x - lo().x ) / size.x * 0.25;
-    } else if ( P.x == hi().x  ) {
-      u = (P.y - lo().y ) / size.y * 0.25 + 0.25;
-    } else if ( P.y == hi().y ) {
-      u = (hi().x - P.x) / size.x * 0.25 + 0.5;
-    } else if ( P.y == lo().y ) {
-      u = (hi().y - P.y) / size.y * 0.25 + 0.75;
+    v = (P.z - l.z) / size.z * (1.0 / 3.0) + (1.0 / 3.0);
+    if ( P.y == l.y ) {
+      u = (P.x - l.x ) / size.x * 0.25;
+    } else if ( P.x == h.x  ) {
+      u = (P.y - l.y ) / size.y * 0.25 + 0.25;
+    } else if ( P.y == h.y ) {
+      u = (h.x - P.x) / size.x * 0.25 + 0.5;
+    } else if ( P.y == l.y ) {
+      u = (h.y - P.y) / size.y * 0.25 + 0.75;
     } else {
       u = 0; // WTF
     }
@@ -185,9 +185,9 @@ Point Box::dPdvp(const Param& p)
 
 Point Box::dPdvP(const Point& P)
 {
-  if ( P.z == lo().z ) {
+  if ( P.z == l.z ) {
     return Point(P.x - center.x, P.y - center.y, 0.0).unit();
-  } else if ( P.z == hi().z )  {
+  } else if ( P.z == h.z )  {
     return Point(center.x - P.x, center.y - P.y, 0.0).unit();
   } else {
     return Point(0.0, 0.0, 1.0);
@@ -255,9 +255,9 @@ Box::intersects ( const Ray& r )
 Point
 Box::randomIn()
 {
-  return Point(lo().x + size.x * rnd(),
-               lo().y + size.y * rnd(),
-               lo().z + size.z * rnd() );
+  return Point(l.x + size.x * rnd(),
+               l.y + size.y * rnd(),
+               l.z + size.z * rnd() );
 }
 
 Point
@@ -280,7 +280,7 @@ Box::randomOn()
   if ( a > A )
     axis = 2;
 
-  p[axis] = d[axis] > 0.0 ? hi()[axis] : lo()[axis];
+  p[axis] = d[axis] > 0.0 ? h[axis] : l[axis];
   return p;
 }
 
