@@ -30,6 +30,7 @@ Param Cylinder::p(const Point &P)
 }
 
 
+#if 0
 Point Cylinder::Ngp(const Param &p)
 {
   angle	a = theta(p.u);

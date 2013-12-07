@@ -20,9 +20,11 @@ public:
 	Point	P(const Param& p);
 	Param	p(const Point& p);
 
+#if 0
 	Point	Ngp(const Param& p);
 	Point	NgP(const Point& p);
 	Point	Ng(RPI* p);
+#endif
 
 	vector	dPdup(const Param& p);
 	vector	dPdvp(const Param& p);

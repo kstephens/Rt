@@ -31,7 +31,7 @@ Param Cone::p(const Point& p)
   return Param(u(theta(p.x, p.y)), p.z / height);
 }
 
-
+#if 0
 Point Cone::Ngp(const Param &p)
 {
   angle a = theta(p.u);
@@ -52,6 +52,7 @@ Point Cone::Ng(RPI* p)
 {
   return NgP(p->P());
 }
+#endif
 
 vector Cone::dPdup(const Param& p)
 {
