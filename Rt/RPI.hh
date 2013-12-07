@@ -21,6 +21,7 @@ public:
 	Prim*	prim;	// the intersected primitive
 
 	scalar	t;	// distance of intersection along r.
+  int data[2]; // additional data.
 private:
 	//
 	// transform a vector (bound to P) to world coordinates
