@@ -12,6 +12,7 @@
 #include "Xform.hh"
 #include "_RPI.hh"
 
+class RPIList;
 class RPI : public _RPI {
 public:
 	RPI*	next() const { return (RPI*) _RPI::next(); }
@@ -21,15 +22,17 @@ public:
 	Prim*	prim;	// the intersected primitive
 
 	scalar	t;	// distance of intersection along r.
+
   int data[2]; // additional data.
 private:
 	//
 	// transform a vector (bound to P) to world coordinates
 	//
-	Point	wv ( const Point& v ) {
-		return prim->xform->transform(P() + v) - wP();
+	vector	wv ( const vector& v ) {
+          return prim->xform->transform(P() + v) - wP();
 	}
 		
+  scalar _wt; // Distance along world ray to point of intersection.
 	Point	_P;	// the point of intersection
 	Point	_wP;	// " in world coordinates
 	Param	_p;	// the parametric of intersection
@@ -45,6 +48,9 @@ private:
 		unsigned flags;
 		struct {
 			unsigned
+                        know_r : 1,
+                        know_t : 1,
+                          know_wt : 1,
 				know_P : 1,
 				know_wP : 1,
 				know_p : 1,
@@ -61,9 +67,9 @@ private:
 	}; // calculated attribute flags
 public:
 	RPI() : flags(0) {}
-	RPI(scalar T) : t(T), flags(0) {}
+  RPI(scalar T) : t(T), flags(0) { f.know_t = 1; }
 	RPI( const Ray& R, Prim* P, scalar T) :
-		r(R), prim(P), t(T), flags(0) {}
+          r(R), prim(P), t(T), flags(0) { f.know_t = f.know_r = 1; }
 
 	//
 	// linked list functions
@@ -81,6 +87,14 @@ public:
 	RPI*	findSmallestPositive();
 	RPI*	findBiggest();
 	RPI*	findPositive();
+
+  const scalar &wt(RPIList *l) {
+    if ( ! f.know_wt ) {
+      _wt = l->wr().distance_to(wP());
+      f.know_wt = 1;
+    }
+    return _wt;
+  }
 
 	// Parameters at intersections.
 	const Point&	P() {

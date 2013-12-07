@@ -34,15 +34,13 @@ Scene::isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const
     // and there is an intersection between
     // 0 and the distance to the light point.
     if ( p->shadow != NULL && p->shadow != ignore ) {
-      RPIList i = p->shadow->wintersect(ray);
-      RPI* f = i.begin()->findSmallestPositive();
-      
-      if ( f != RPINULL && f->t < dist ) {
-        i.delete_all();
+      RPIList l = p->shadow->wintersect(ray);
+      RPI *f = l.begin()->findSmallestPositive();
+      if ( f != l.end() && f->wt(&l) < dist ) {
+        l.delete_all();
         return 1;
       }
-      
-      i.delete_all();
+      l.delete_all();
     }
   }
   

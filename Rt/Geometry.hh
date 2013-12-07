@@ -36,7 +36,7 @@ public:
   virtual Point randomIn();
 
   // R is in world coord sys.
-  RPIList wintersect(const Ray &r) { return intersect(xform->inverse_transform(r)); }
+  RPIList wintersect(const Ray &r);
   int wintersects(const Ray& r) { return intersects(xform->inverse_transform(r)); }
   Point wrandomOn() { return xform->transform(randomOn()); }
   Point wrandomIn() { return xform->transform(randomIn()); }

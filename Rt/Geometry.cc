@@ -1,4 +1,12 @@
 #include "Geometry.hh"
+#include "RPI.hh"
+
+RPIList Geometry::wintersect(const Ray &wr)
+{
+  RPIList l = intersect(xform->inverse_transform(wr));
+  l.wr(wr);
+  return l;
+}
 
 int Geometry::intersects(const Ray &ray)
 {

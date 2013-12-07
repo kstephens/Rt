@@ -3,6 +3,7 @@
 // KAS 91/05/16
 //
 #include "RPIList.hh"
+#include "Ray.hh"
 #include "stdarg.h"
 #include "EPSINF.hh"
 #include "RPI.hh"

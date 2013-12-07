@@ -6,20 +6,24 @@
 #define __RPIList_h
 
 #include "scalar.h"
+#include "Ray.hh"
 #include "_RPI.hh"
 
-class Ray;
 class Prim;
 
 class RPIList {
   _RPI*	first;
   _RPI*	last;
-  
+  Ray _wr;
+
   RPIList(_RPI* f, _RPI* l) : first(f), last(l) {}
 public:
   RPIList() : first((_RPI*) RPINULL), last((_RPI*) RPINULL) {}
   RPIList(int n, const Ray& R, Prim* P, scalar T, ...);
   ~RPIList() { first = last = (_RPI*) RPINULL; }
+
+  const Ray &wr() { return _wr; }
+  void wr(const Ray &x) { _wr = x; }
 
   int isEmpty() const { return first == (_RPI*) RPINULL; }
   
@@ -72,6 +76,7 @@ public:
     }
   }
   RPI *begin() { return (RPI*) first; }
+  RPI *end() { return (RPI*) RPINULL; }
 
   void merge(RPIList &l);
   void sort();
