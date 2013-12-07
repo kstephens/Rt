@@ -4,11 +4,11 @@
 //
 #include "Disk.hh"
 
-Disk::Disk ( scalar RADIUS, scalar H, scalar THETAMAX )
-  : Quadric(THETAMAX),
-    radius(RADIUS), radius2(RADIUS * RADIUS), height(H)
+Disk::Disk ( scalar h, scalar r, scalar t )
+  : Quadric(t),
+    radius(r), radius2(r * r), height(h)
 {
-  if ( THETAMAX >= 0 ) {
+  if ( t >= 0 ) {
     _Ng = Point(0.0, 0.0, 1.0);
   } else {
     _Ng = Point(0.0, 0.0, -1.0);
