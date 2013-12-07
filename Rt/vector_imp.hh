@@ -7,6 +7,24 @@
 #include <math.h>
 #include "scalar.h"
 
+#ifndef vector2_friend
+#define vector2_friend vector2
+#endif
+#ifndef vector3_friend
+#define vector3_friend vector3
+#endif
+#ifndef vector4_friend
+#define vector4_friend vector4
+#endif
+
+#if vector2_friend == vector2
+#define BOP_friend(op,T,TF)
+#else
+#define BOP_friend(op,T,TF)                               \
+friend	T	operator op ( const TF& L, const T& R ) { \
+  return T(L.x op R.x, L.y op R.y); }
+#endif
+
 //
 // Define unary, binary and assignment operator definintion macros
 //
@@ -14,8 +32,9 @@
 vector2	operator op () const { \
 	return vector2 ( op x, op y ); }
 #define	BOP(op) \
-friend	vector2	operator op ( const vector2& L, const vector2& R ) { \
-	return vector2 ( L.x op R.x, L.y op R.y ); } \
+friend	vector2	operator op ( const vector2& L, const vector2_friend& R ) { \
+  return vector2 ( L.x op R.x, L.y op R.y ); }                          \
+ BOP_friend(op,vector2,vector2_friend)                                  \
 friend	vector2	operator op ( scalar L, const vector2& R ) { \
 	return vector2 ( L op R.x, L op R.y ); } \
 friend	vector2	operator op ( const vector2& L, scalar R ) { \
@@ -93,7 +112,15 @@ friend	scalar	operator % ( const vector2& L, const vector2& R ) {
 #undef	UOP
 #undef	BOP
 #undef	AOP
+#undef BOP_friend
 
+#if vector3_friend == vector3
+#define BOP_friend(op,T,TF)
+#else
+#define BOP_friend(op,T,TF) \
+friend	T	operator op ( const TF& L, const T& R ) { \
+  return T(L.x op R.x, L.y op R.y, L.z op R.z ); }
+#endif
 
 //
 // Define unary, binary and assignment operator definintion macros
@@ -102,8 +129,9 @@ friend	scalar	operator % ( const vector2& L, const vector2& R ) {
 vector3	operator op () const { \
 	return vector3 ( op x, op y, op z ); }
 #define	BOP(op) \
-friend	vector3	operator op ( const vector3& L, const vector3& R ) { \
+friend	vector3	operator op ( const vector3& L, const vector3_friend& R ) { \
 	return vector3 ( L.x op R.x, L.y op R.y, L.z op R.z ); } \
+ BOP_friend(op,vector3,vector3_friend)                       \
 friend	vector3	operator op ( scalar L, const vector3& R ) { \
 	return vector3 ( L op R.x, L op R.y, L op R.z ); } \
 friend	vector3	operator op ( const vector3& L, scalar R ) { \
@@ -161,11 +189,11 @@ friend	scalar	operator % ( const vector3& L, const vector3& R ) {
 	vector3& normalize() { return (*this) /= ~(*this); }
 
 friend	vector3	operator ^ ( const vector3& L, const vector3& R ) {
-		return vector3 (	L.y * R.z - L.z * R.y,
+		return vector3 (L.y * R.z - L.z * R.y,
 				R.x * L.z - R.z * L.x,
 				L.x * R.y - L.y * R.x );
 	}
-	vector3&	operator ^= ( const vector3& R ) { return *this = *this ^ R; }
+  vector3&	operator ^= ( const vector3& R ) { return *this = *this ^ R; }
 
 
   friend	std::ostream&	operator << ( std::ostream& os, const vector3& p ) {
@@ -183,14 +211,23 @@ friend	vector3	operator ^ ( const vector3& L, const vector3& R ) {
 #undef	UOP
 #undef	BOP
 #undef	AOP
+#undef BOP_friend
 
+#if vector4_friend == vector4
+#define BOP_friend(op,T,TF)
+#else
+#define BOP_friend(op,T,TF) \
+friend	T	operator op ( const TF& L, const T& R ) { \
+  return T(L.x op R.x, L.y op R.y, L.w op R.w, L.w op R.w); }
+#endif
 
 //
 // vector4
 //
 #define	BOP(op) \
-friend	vector4	operator op ( const vector4& L, const vector4& R ) { \
+friend	vector4	operator op ( const vector4& L, const vector4_friend& R ) { \
 	return vector4 ( L.x op R.x, L.y op R.y, L.z op R.z, L.w op R.w ); } \
+ BOP_friend(op,vector4,vector4_friend)                       \
 friend	vector4	operator op ( scalar L, const vector4& R ) { \
 	return vector4 ( L op R.x, L op R.y, L op R.z, L op R.w ); } \
 friend	vector4	operator op ( const vector4& L, scalar R ) { \
@@ -266,5 +303,10 @@ friend	scalar	operator % ( const vector4& L, const vector4& R ) {
 #undef	UOP
 #undef	BOP
 #undef	AOP
+#undef BOP_friend
 
+
+#undef vector2_friend
+#undef vector3_friend
+#undef vector4_friend
 
