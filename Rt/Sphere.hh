@@ -18,7 +18,7 @@ class Sphere : public Quadric {
     return phimin + phimax_minus_phimin * v;
   }
   scalar v(angle phi) const {
-    return to_number((phi - phimin) / phimax_minus_phimin);
+    return (phi - phimin) / phimax_minus_phimin;
   }
   angle	phiz(scalar z) const {
     angle phi;

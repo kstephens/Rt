@@ -24,7 +24,7 @@ protected:
       return angle(y, x) + degrees(180.0);
   }
   scalar u(angle theta) const {
-    return to_number(theta) / to_number(thetamax);
+    return theta / thetamax;
   }
   scalar x(angle theta) const {
     return cos(theta);
