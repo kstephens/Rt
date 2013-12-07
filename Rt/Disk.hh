@@ -13,7 +13,6 @@ class Disk : public Quadric {
 	scalar	height;
   Point _Ng;
 
-	Point	random() const;
 public:
   Disk ( scalar HEIGHT, scalar RADIUS, scalar THETAMAX );
 	Point	P(const Param& p);

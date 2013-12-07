@@ -57,9 +57,8 @@ vector Disk::dPdvp(const Param& p)
 RPIList
 Disk::intersect(const Ray &r)
 {
-  if ( r.direction.z == rt_EPSILON )
+  if ( r.direction.z == 0 )
     return RPIList();
-
   scalar t = (height - r.origin.z) / r.direction.z;
   Point	p = r[t];
   p.z = height;
@@ -69,13 +68,11 @@ Disk::intersect(const Ray &r)
     rpi->P(p);
     list.append(rpi);
     return list;
-  } else {
-    return RPIList();
   }
+  return RPIList();
 }
 
-Point
-Disk::random() const
+Point Disk::randomOn()
 {
   scalar sr = 2.0 * radius;
   Point	P;
@@ -85,22 +82,11 @@ Disk::random() const
               (rnd() - 0.5) * sr,
               (rnd() - 0.5) * sr,
               height);
-  } while ( ((Point2&) P) % ((Point2&) P) > radius2 );
+  } while ( P.x * P.x + P.y * P.y > radius2 && isOn(P) );
   
   return P;
 }
 
 Point Disk::randomIn() { return randomOn(); }
-Point Disk::randomOn()
-{
-  Point P;
-  
-  do {
-    P = random();
-  } while ( ! isOn(P) );
-  
-  return P;
-}
-
 
 
