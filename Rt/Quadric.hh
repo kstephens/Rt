@@ -18,7 +18,7 @@ protected:
     return u * thetamax;
   }
   angle theta(scalar x, scalar y) const {
-    if ( x == rt_EPSILON && y == rt_EPSILON )
+    if ( x == 0 && y == 0 )
       return radians(0.0);
     else
       return angle(y, x) + degrees(180.0);
