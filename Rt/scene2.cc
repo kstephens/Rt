@@ -7,6 +7,7 @@
 #include "Sky.hh"
 #include "Whitted.hh"
 #include "CheckerBoard.hh"
+#include "NormalShader.hh"
 #include "Scene.hh"
 #include "Xforms.hh"
 #include "Camera.hh"
@@ -80,6 +81,7 @@ Scene *scene2(Camera *camera)
       }
       break;
     }
+    surface = new NormalShader();
     
     Geometry *p1;
     switch ( i % 5 ) {
