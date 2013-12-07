@@ -8,5 +8,7 @@ int Geometry::intersects(const Ray &ray)
   return i != RPINULL;
 }
 
+int Geometry::in(const point &P) { return 0; }
+int Geometry::on(const point &P) { return 0; }
 Point Geometry::randomOn() { return Point(0); }
 Point Geometry::randomIn() { return Point(0); }

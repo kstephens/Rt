@@ -29,6 +29,9 @@ public:
 
   scalar rnd() const { return RiRand(); }
 
+  virtual int in(const point &P);
+  virtual int on(const point &P);
+
   virtual Point randomOn();
   virtual Point randomIn();
 
