@@ -17,8 +17,9 @@ test: test-anim
 
 test-anim: Rt/t/test-anim.gif
 
+cores=8
 Rt/t/test-*.ppm : Rt/t/rttest.t
-	cd Rt && t/rttest.t
+	cd Rt && t/rttest.t $(cores)
 
 Rt/t/test-anim.gif : Rt/t/test-*.ppm
 	for f in Rt/t/test-*.ppm ;\
