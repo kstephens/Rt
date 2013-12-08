@@ -54,7 +54,7 @@ static	Point	E;	// Position of the eye
 
 virtual	~Shader() {}
 
-virtual	void	shader () { Ci = Cs; }	// The shader!!
+  virtual void shader() { Oi = Os; Ci = Cs; }	// The shader!!
 
   color	ambient();
   color	diffuse(Point& N);

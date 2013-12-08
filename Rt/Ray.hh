@@ -13,8 +13,8 @@ public:
 	Point	origin;
 	vector	direction;
 
-	Ray () {}
-	Ray ( const Point& O, const vector& D ) : origin (O), direction(D) {}
+  Ray() {}
+  Ray( const Point& O, const vector& D ) : origin(O), direction(D) {}
 
 	Ray	operator + ( scalar t ) const {
 		return Ray ( origin + direction * t, direction ); }
