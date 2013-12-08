@@ -7,11 +7,11 @@ else
 CC=clang
 CXX=clang++
 endif
-OPT_FLAGS += -g
+DEBUG_FLAGS += -g
 OPT_FLAGS += -O3
-OPT_FLAGS += -Wall
-CFLAGS += $(OPT_FLAGS)
-CXXFLAGS += $(OPT_FLAGS)
+WARN_FLAGS += -Wall
+CFLAGS += $(DEBUG_FLAGS) $(OPT_FLAGS) $(WARN_FLAGS)
+CXXFLAGS += $(DEBUG_FLAGS) $(OPT_FLAGS) $(WARN_FLAGS)
 CPP_DEP_FLAGS += -MM -MF $@.d
 CPPFLAGS += -I.. -I/opt/local/include
 
