@@ -14,6 +14,7 @@ class Xform {
 protected:
   matrix4_4	mat, invmat;
   unsigned	know_invmat;
+  unsigned int _refCount;
 public:
   const matrix4_4& m() const { return mat; }
   matrix4_4& m1() {
@@ -25,12 +26,12 @@ public:
   }
 
   Xform()
-  : know_invmat(1)
+    : know_invmat(1), _refCount(0)
   {
     mat.identity();
     invmat.identity();
   }
-  Xform(const matrix4_4& m) : mat(m), know_invmat(0) {}
+  Xform(const matrix4_4& m) : mat(m), know_invmat(0), _refCount(0) {}
 
   Xform& operator =(const matrix4_4& m) {
     mat = m;
