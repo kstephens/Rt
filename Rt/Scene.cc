@@ -77,7 +77,7 @@ int Scene::dolist(RPI *rpi, color &Cr, color &Or, int depth) const
 
     // Use the factored opacity value.
     // Ray opacity diminishes by the opacity of the incidence.
-    Cr += S->Ci * S->Oi * Or;
+    Cr += S->Ci * Or;
     Or *= (1.0 - S->Oi);
     // std::cerr << "    depth=" << depth << " rpi=" << *rpi << " Ci=" << S->Ci << " Oi=" << S->Oi << " Cr=" << Cr << " Or=" << Or << "\n";
 
