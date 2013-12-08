@@ -39,7 +39,7 @@ Scene *scene2(Camera *camera)
     ix *= 3;
     iy *= 3;
 
-    switch ( i % 3 ) {
+    switch ( i % 4 ) {
     case 0:
       {
         Whitted *s = new Whitted();
@@ -80,8 +80,10 @@ Scene *scene2(Camera *camera)
         surface = s;
       }
       break;
+    case 3:
+      surface = new NormalShader();
+      break;
     }
-    surface = new NormalShader();
     
     Geometry *p1;
     switch ( i % 5 ) {
