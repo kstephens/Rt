@@ -90,20 +90,6 @@ void RasterPNM::write(Raster *r)
     }
   }
 
-#if 0
-  // PAM uses a separate plane for alpha.
-  if ( format == 7 && hasAlpha ) {
-    for ( rp.y = 0; rp.y < size.y; ++ rp.y ) {
-      for ( rp.x = 0; rp.x < size.x; ++ rp.x ) {
-        RasterColor c = r->color(rp);
-        c.clamp();
-        RGBA cb(c.begin());
-        fwrite(&cb[3], sizeof(cb[3]), 1, fp);
-      }
-    }
-  }
-#endif
-
   close();
 }
 

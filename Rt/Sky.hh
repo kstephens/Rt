@@ -21,7 +21,7 @@ public:
   color sky(const vector &v) {
     vector vn = normalize(v);
     scalar d = azthmuth % vn;
-    if ( d <= 0.0 ) {
+    if ( d <= 0 ) {
       return Cground;
     } else {
       d = sun % vn;
