@@ -73,12 +73,12 @@ void Camera::render(Raster *image)
         color Cr, Or;
         scene->trace(ray, Cr, Or, trace_depth);
         Cp += Cr;
-        Or += Or;
+        Op += Or;
       }
-      Cp *= 1 / samples_per_pixel;
-      Op *= 1 /samples_per_pixel;
+      Cp *= 1.0 / samples_per_pixel;
+      Op *= 1.0 / samples_per_pixel;
 
-      // std::cerr << "  " << s.x << "," << s.y << " " << ray << " = " << C << "\n";
+      // std::cerr << "  " << s.x << "," << s.y << " = " << Cp << "," << Op << "\n";
       image->color(s, RasterColor(Cp.r, Cp.g, Cp.b));
     }
   }
