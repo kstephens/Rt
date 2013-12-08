@@ -11,7 +11,6 @@ class Sky : public Light {
 public:
   color Cground, Csky;
   vector sun, azthmuth;
-
   Sky(const Point &S = Point(0, 1, 0), const Point &A = Point(0, 1, 0))
     : Light(), sun(normalize(S)), azthmuth(normalize(A))
   {

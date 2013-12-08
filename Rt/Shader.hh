@@ -44,8 +44,13 @@ static	Point	E;	// Position of the eye
   Light *_current_light;
 
   Shader() { init(); }
+  virtual Shader *copy() const { return new Shader(*this); }
+  virtual void assign(void *x) { *this = *(const Shader*)x; }
 
-virtual	Shader*	copy() const { return new Shader(*this); }
+#define Shader_declare(N)                          \
+  Shader *copy() const { return new N(*this); }    \
+  void assign(void *x) { *this = *(const N*) x; }  \
+  N() : Shader()
 
 virtual	~Shader() {}
 

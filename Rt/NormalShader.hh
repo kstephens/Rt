@@ -5,8 +5,8 @@
 
 class NormalShader : public Shader {
 public:
-  NormalShader() : Shader() {}
-  Shader *copy() const { return new NormalShader(*this); }
+  Shader_declare(NormalShader) { }
+
   void shader()
   {
     N = normalize(N);

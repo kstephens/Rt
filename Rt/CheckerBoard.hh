@@ -9,8 +9,7 @@
 
 class CheckerBoard : public Shader {
 public:
-  CheckerBoard () : Shader() {}
-  Shader *copy() const { return new CheckerBoard(*this); }
+  Shader_declare(CheckerBoard) { }
 
   Point	scale;
   color	colors[2][2];
