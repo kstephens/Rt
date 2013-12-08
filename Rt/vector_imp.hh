@@ -218,7 +218,7 @@ friend	vector3	operator ^ ( const vector3& L, const vector3& R ) {
 #else
 #define BOP_friend(op,T,TF) \
 friend	T	operator op ( const TF& L, const T& R ) { \
-  return T(L.x op R.x, L.y op R.y, L.w op R.w, L.w op R.w); }
+  return T(L.x op R.x, L.y op R.y, L.z op R.z, L.w op R.w); }
 #endif
 
 //
