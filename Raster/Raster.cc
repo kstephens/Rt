@@ -22,6 +22,8 @@ int		Raster::isATypeOf( RasterType t ) const {
 }
 
 int	Raster::bitsPerPixel() const { NOT_IMPLEMENTED; return 0; }
+int     Raster::channelsPerPixel() const { return bitsPerPixel() / 8; } // FIXME
+int Raster::hasAlpha() const { return channelsPerPixel() > 3; } // FIXME
 
 Raster*	Raster::parent() const { return NULL; }
 void	Raster::parent( Raster* p) { NOT_IMPLEMENTED }

@@ -14,15 +14,15 @@ static void init()
 
 void RasterPNM::init()
 {
-  text = 0;
+  format = 7;
   fp = 0;
 }
-
 
 RasterPNM::RasterPNM(const std::string &name, const std::string &mode)
   : Raster(), _name(name), _mode(mode)
 {
   ::init();
+  init();
 }
 
 void
@@ -41,18 +41,31 @@ RasterPNM::~RasterPNM()
 
 void RasterPNM::write(Raster *r)
 {
+  close();
   fp = fopen(_name.c_str(), _mode.c_str());
   if ( ! fp ) abort();
   RasterSize size = r->size();
+  int bpp = r->bitsPerPixel();
+  int hasAlpha = r->hasAlpha();
 
-  if ( text ) {
-    fprintf(fp, "P3\n");
-  } else {
-    fprintf(fp, "P6\n");
+  switch ( format ) {
+  case 3: case 6: // PPM
+    fprintf(fp, "P%d\n", (int) format);
+    fprintf(fp, "%d %d\n", size.x, size.y);
+    fprintf(fp, "255\n");
+    break;
+  case 7: // PAM
+    fprintf(fp, "P%d\n", (int) format);
+    fprintf(fp, "WIDTH %d\n", (int) size.x);
+    fprintf(fp, "HEIGHT %d\n", (int) size.y);
+    fprintf(fp, "DEPTH %d\n", (int) 3 + hasAlpha); // RGB or RGBA
+    fprintf(fp, "MAXVAL %d\n", (int) 255); // U8
+    fprintf(fp, "TUPLTYPE %s%s\n", "RGB", hasAlpha ? "_ALPHA" : "");
+    fprintf(fp, "ENDHDR\n");
+    break;
+  default:
+    abort();
   }
-
-  fprintf(fp, "%d %d\n", size.x, size.y);
-  fprintf(fp, "255\n");
 
   RasterPosition rp;
   for ( rp.y = 0; rp.y < size.y; ++ rp.y ) {
@@ -60,21 +73,43 @@ void RasterPNM::write(Raster *r)
       RasterColor c = r->color(rp);
       c.clamp();
       RGBA cb(c.begin());
-      if ( text ) {
+      switch ( format ) {
+      case 3:
         fprintf(fp, "%3d %3d %3d   ", cb.r, cb.g, cb.b);
-      } else {
+        break;
+      case 6:
         fwrite(&cb, sizeof(cb[0]) * 3, 1, fp);
+        break;
+      case 7:
+        fwrite(&cb, sizeof(cb[0]) * (bpp / 8), 1, fp);
+        break;
       }
     }
-    if ( text ) {
+    if ( format == 3 ) {
       fprintf(fp, "\n");
     }
   }
+
+#if 0
+  // PAM uses a separate plane for alpha.
+  if ( format == 7 && hasAlpha ) {
+    for ( rp.y = 0; rp.y < size.y; ++ rp.y ) {
+      for ( rp.x = 0; rp.x < size.x; ++ rp.x ) {
+        RasterColor c = r->color(rp);
+        c.clamp();
+        RGBA cb(c.begin());
+        fwrite(&cb[3], sizeof(cb[3]), 1, fp);
+      }
+    }
+  }
+#endif
+
   close();
 }
 
 void RasterPNM::read(Raster *r)
 {
+  close();
   fp = fopen(_name.c_str(), _mode.c_str());
   if ( ! fp ) abort();
   close();

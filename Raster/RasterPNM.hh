@@ -10,10 +10,10 @@ class RasterPNM : public Raster {
   void init();
   FILE *fp;
 public:
-  int text;
+  int format;
   RasterPNM(const std::string &name, const std::string &mode);
   ~RasterPNM();
-  int bitsPerPixel() const { return 24; }
+  int bitsPerPixel() const { return 32; } // RGBA
   void write(Raster *r);
   void read(Raster *r);
   void close();
