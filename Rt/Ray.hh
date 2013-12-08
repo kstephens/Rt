@@ -23,19 +23,26 @@ public:
 	Point	operator [] ( scalar t ) const {
 		return origin + direction * t; }
 
-  // Distance of p as projected on to this ray.
-  scalar distance_to(const Point &p) const {
-    vector vp = p - origin;
-    vp.normalize();
-    return vp % direction;
+  Ray &normalize() {
+    direction.normalize();
+    return *this;
   }
 
-	//
-	// Fix the ray to remove "acne"
-	//
-	Ray&	fix ( const Point& Ng ) {
-		origin += Ng * ((direction % Ng > 0.0) ? 0.0001 : -0.0001);
-		return *this; }
+  // Distance of p as projected on to this ray.
+  scalar distance_to(const point &p) const {
+    vector V = p - origin;
+    scalar Vl = 1.0 / ~V;
+    scalar Dl = 1.0 / ~direction;
+    return ((V * Vl) % (direction * Dl)) * Dl;
+  }
+
+  // Move the ray away from origin along N.
+  Ray& fix(const vector &N)
+  {
+    // vector n = unit(N);
+    origin += N * (N % direction > 0 ? 0.00001 : -0.00001);
+    return *this;
+  }
 };
 
 inline std::ostream & operator << (std::ostream & os, const Ray &r)

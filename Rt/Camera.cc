@@ -29,15 +29,17 @@ void Camera::render(Raster *image)
   Shader::E = VE;
 
   // Unit vector from eye to lookat.
-  Point	VD = (VL - VE).unit();
+  vector VD = unit(VL - VE);
 
   // VP at view distance:
-  Point	VP = VE + VD * Vpd;
-  Point	viewu = (VD ^ VUP).unit();
-  Point	viewv = (viewu ^ VD);
+  point VP = VE + VD * Vpd;
+  // vector of screen X:
+  vector viewu = unit(VD ^ VUP);
+  // vector of screen Y:
+  vector viewv = (viewu ^ VD);
 
-  Point *ux = new Point [size.x + 1];
-  Point *vy = new Point [size.y + 1];
+  vector *ux = new vector [size.x + 1];
+  vector *vy = new vector [size.y + 1];
 
   RasterPosition s;
 
@@ -53,21 +55,25 @@ void Camera::render(Raster *image)
 
   for ( s.y = 0; s.y < size.y; s.y ++ ) {
     for ( s.x = 0; s.x < size.x; s.x ++ ) {
-      Point rect[2][2] = {
+      // pixel corners:
+      vector rect[2][2] = {
         { ux[s.x] + vy[s.y]    , ux[s.x + 1] + vy[s.y] },
         { ux[s.x] + vy[s.y + 1], ux[s.x + 1] + vy[s.y + 1] },
       };
+
+      // Accumulate random samples within pixel:
       color C(0);
       for ( int sample = 0; sample < samples_per_pixel; ++ sample ) {
         scalar su = RiRand(), sv = RiRand();
-        Point P = lerp(sv, 
-                       lerp(su, rect[0][0], rect[0][1]),
-                       lerp(su, rect[1][0], rect[1][1]));
-        Ray   ray(VE, (VP + P - VE).unit());
+        vector P = lerp(sv,
+                        lerp(su, rect[0][0], rect[0][1]),
+                        lerp(su, rect[1][0], rect[1][1]));
+        Ray   ray(VE, unit((VP + P) - VE));
         
         C += scene->trace(ray, trace_depth);
       }
       C /= samples_per_pixel;
+
       // std::cerr << "  " << s.x << "," << s.y << " " << ray << " = " << C << "\n";
       image->color(s, RasterColor(C.r, C.g, C.b));
     }

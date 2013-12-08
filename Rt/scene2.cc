@@ -58,7 +58,7 @@ Scene *scene2(Camera *camera)
     case 1:
       {
         Plastic *s = new Plastic();
-        s->Cs = color(RiRand(), RiRand(), RiRand()).unit();
+        s->Cs = unit(color(RiRand(), RiRand(), RiRand()));
         s->Os = 1.0;
         s->roughness = 1.0/30.0;
         surface = s;
@@ -68,7 +68,7 @@ Scene *scene2(Camera *camera)
       {
         CheckerBoard *s = new CheckerBoard;
         s->colors[0][0] = color(0.2);
-        s->colors[0][1] = color(RiRand(), RiRand(), RiRand()).unit();
+        s->colors[0][1] = unit(color(RiRand(), RiRand(), RiRand()));
         s->colors[1][0] = s->colors[0][1];
         s->colors[1][1] = s->colors[0][0];
         s->scale = 10.0;

@@ -19,21 +19,21 @@ inline
 Point	fraction ( const Point& p ) { return p - floor(p); }
 
 inline
-Point	normalize( const Point& p ) { return p.unit(); }
+Point	normalize( const Point& p ) { return unit(p); }
 
 inline
 Point	faceforward ( const Point& N, const Point& I ) {
-	return (N % I > 0.0) ? - N : N; }
+	return (N % I > 0) ? - N : N; }
 
 inline
 Point	reflect ( const Point& I, const Point& N ) {
-	return I - (2.0 * (I % N) * N);
+	return I - (2 * (I % N) * N);
 }
 
 inline
-Point	refract ( const Point& I, const Point& N, float eta ) {
+Point	refract ( const Point& I, const Point& N, scalar eta ) {
 	scalar	IdotN = I % N;
-	scalar	k = 1.0 - eta * eta * (1.0 - IdotN * IdotN);
+	scalar	k = 1 - eta * eta * (1 - IdotN * IdotN);
 	return k < 0 ? Point(0) : eta * I + (eta * IdotN - sqrt(k)) * N;
 }
 

@@ -186,9 +186,9 @@ Point Box::dPdvp(const Param& p)
 Point Box::dPdvP(const Point& P)
 {
   if ( P.z == l.z ) {
-    return Point(P.x - center.x, P.y - center.y, 0.0).unit();
+    return unit(point(P.x - center.x, P.y - center.y, 0.0));
   } else if ( P.z == h.z )  {
-    return Point(center.x - P.x, center.y - P.y, 0.0).unit();
+    return unit(Point(center.x - P.x, center.y - P.y, 0.0));
   } else {
     return Point(0.0, 0.0, 1.0);
   }

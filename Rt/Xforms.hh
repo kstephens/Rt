@@ -53,7 +53,7 @@ class Rotate : public Xform {
   }
   void rotate(angle ang, const vector &axis) {
     angle ang_2 = ang / 2;
-    vector axis_n = axis.unit() * sin(ang_2);
+    vector axis_n = unit(axis) * sin(ang_2);
     rotate(cos(ang_2), axis_n.x, axis_n.y, axis_n.z);
   }
 

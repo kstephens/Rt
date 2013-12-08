@@ -57,7 +57,7 @@ virtual ~Light() {}
       _position = p;
       _angle = a;
       _cos_angle = cos(a);
-      _axis = axis.unit();
+      _axis = unit(axis);
     }
     return ! _probe;
    }
@@ -75,7 +75,7 @@ virtual ~Light() {}
   int _solar(const Point &axis, angle a) {
     if ( _probe ) {
       _type = SOLAR;
-      _axis = axis.unit();
+      _axis = unit(axis);
       _angle = a;
       _cos_angle = cos(a);
     }

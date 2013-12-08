@@ -55,7 +55,7 @@ virtual	void	shader () { Ci = Cs; }	// The shader!!
   color	diffuse(Point& N);
   color	specular(Point& N, Point& V, scalar roughness);
   color	phong(Point& N, Point& V, scalar size);
-  color	trace(Point& R);
+  color	trace(const vector& R);
 };
 
 #endif

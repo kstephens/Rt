@@ -93,8 +93,8 @@ friend	scalar	operator % ( const vector2& L, const vector2& R ) {
 		return L.x * R.x + L.y * R.y; }
 	scalar	operator ~ () const { return sqrt((*this) % (*this)); }
 
-	vector2	unit() const { return (*this) / ~(*this); }
-	vector2& normalize() { return (*this) /= ~(*this); }
+  friend vector2 unit(const vector2 &x) { return x * (1 / ~x); }
+  vector2& normalize() { return (*this) *= (1 / ~(*this)); }
 
   friend	std::ostream&	operator << ( std::ostream& os, const vector2& p ) {
 		return os << '[' << p.x << ' ' << p.y << ']';
@@ -185,8 +185,8 @@ friend	scalar	operator % ( const vector3& L, const vector3& R ) {
 		return L.x * R.x + L.y * R.y + L.z * R.z; }
 	scalar	operator ~ () const { return sqrt((*this) % (*this)); }
 
-	vector3	unit() const { return (*this) / ~(*this); }
-	vector3& normalize() { return (*this) /= ~(*this); }
+  friend vector3 unit(const vector3 &x) { return x * (1 / ~x); }
+  vector3& normalize() { return (*this) *= (1 / ~(*this)); }
 
 friend	vector3	operator ^ ( const vector3& L, const vector3& R ) {
 		return vector3 (L.y * R.z - L.z * R.y,
@@ -285,8 +285,8 @@ friend	scalar	operator % ( const vector4& L, const vector4& R ) {
 	return L.x * R.x + L.y * R.y + L.z * R.z + L.w * R.w; }
 	scalar  operator ~ () const { return sqrt((*this) % (*this)); }
 
-	vector4	unit() const { return (*this) / ~(*this); }
-	vector4&normalize() { return (*this) /= ~(*this); }
+  friend vector4 unit(const vector4 &x) { return x * (1 / ~x); }
+  vector4& normalize() { return (*this) *= (1 / ~(*this)); }
 
 
   friend	std::ostream&	operator << ( std::ostream& os, const vector4& p ) {
