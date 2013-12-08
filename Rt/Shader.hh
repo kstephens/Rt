@@ -36,6 +36,9 @@ public:
   color	Ci;	// Incident ray color
   color	Oi;	// Incident ray opacity
 
+  color Cr;     // last trace() ray color
+  color Or;     // last trace() ray opacity
+
 static	Point	E;	// Position of the eye
 
   // Internals

@@ -61,8 +61,8 @@ void Camera::render(Raster *image)
         { ux[s.x] + vy[s.y + 1], ux[s.x + 1] + vy[s.y + 1] },
       };
 
-      // Accumulate random samples within pixel:
-      color C(0);
+      // Accumulate random samples color and opacity within pixel:
+      color Cp(0), Op(0);
       for ( int sample = 0; sample < samples_per_pixel; ++ sample ) {
         scalar su = RiRand(), sv = RiRand();
         vector P = lerp(sv,
@@ -70,12 +70,16 @@ void Camera::render(Raster *image)
                         lerp(su, rect[1][0], rect[1][1]));
         Ray   ray(VE, unit((VP + P) - VE));
         
-        C += scene->trace(ray, trace_depth);
+        color Cr, Or;
+        scene->trace(ray, Cr, Or, trace_depth);
+        Cp += Cr;
+        Or += Or;
       }
-      C /= samples_per_pixel;
+      Cp *= 1 / samples_per_pixel;
+      Op *= 1 /samples_per_pixel;
 
       // std::cerr << "  " << s.x << "," << s.y << " " << ray << " = " << C << "\n";
-      image->color(s, RasterColor(C.r, C.g, C.b));
+      image->color(s, RasterColor(Cp.r, Cp.g, Cp.b));
     }
   }
 

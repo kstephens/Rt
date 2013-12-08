@@ -14,19 +14,21 @@ Shader::init()
   Cs = Os = 1.0;
 }
 
-color
-Shader::trace(const vector& R)
+color Shader::trace(const vector& R)
 {
   // Save the shader's state for recursion.
   Shader *temp = copy();
   
-  color	Ct = Scene::current->trace(Ray(P, R).normalize().fix(Ng), trace_depth);
+  color	Cr, Or;
+  Scene::current->trace(Ray(P, R).normalize().fix(Ng), Cr, Or, trace_depth);
 
   // Restore shader state.
   assign(temp);
   delete temp;
   
-  return Ct;
+  // Save trace result.
+  this->Or = Or;
+  return this->Cr = Cr;
 }
 
 color Shader::ambient()
