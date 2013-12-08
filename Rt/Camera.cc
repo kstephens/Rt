@@ -79,7 +79,7 @@ void Camera::render(Raster *image)
       Op *= 1.0 / samples_per_pixel;
 
       // std::cerr << "  " << s.x << "," << s.y << " = " << Cp << "," << Op << "\n";
-      image->color(s, RasterColor(Cp.r, Cp.g, Cp.b));
+      image->color(s, RasterColor(Cp.r, Cp.g, Cp.b, (Op.r + Op.g + Op.b) / 3));
     }
   }
 

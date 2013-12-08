@@ -59,11 +59,11 @@ void RasterPNM::write(Raster *r)
     for ( rp.x = 0; rp.x < size.x; ++ rp.x ) {
       RasterColor c = r->color(rp);
       c.clamp();
-      RGB rgb(c.begin());
+      RGBA cb(c.begin());
       if ( text ) {
-        fprintf(fp, "%3d %3d %3d   ", rgb.r, rgb.g, rgb.b);
+        fprintf(fp, "%3d %3d %3d   ", cb.r, cb.g, cb.b);
       } else {
-        fwrite(&rgb, sizeof(rgb), 1, fp);
+        fwrite(&cb, sizeof(cb[0]) * 3, 1, fp);
       }
     }
     if ( text ) {
