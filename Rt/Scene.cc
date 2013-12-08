@@ -83,7 +83,7 @@ int Scene::dolist(RPI *rpi, color &Cr, color &Or, int depth) const
 
     // If this surface is fully opaque,
     //	don't process the remaining surfaces.
-    if ( Or == 0 )
+    if ( Or <= 0 )
       return 1;
 
     rpi = rpi->next();
