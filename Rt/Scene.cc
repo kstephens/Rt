@@ -126,9 +126,7 @@ int Scene::trace(const Ray& r, color &Cr, color &Or, int depth) const
     Or = S->Oi;
     return 1;
   } else {
-    // some funky grey background
-    Cr = color(0.25, 0.25, 0.25);
-    Or = 0;
+    Cr = Or = 0;
     return 0;
   }
 }

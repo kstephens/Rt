@@ -17,6 +17,7 @@ public:
   scalar time; // Current time.
   int trace_depth;
   int samples_per_pixel; // default 4
+  color Cd, Od; // Default color opacity.
 
   Scene *scene;
 

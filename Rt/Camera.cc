@@ -9,10 +9,11 @@ Camera::Camera()
 {
   trace_depth = 3;
   samples_per_pixel = 4;
+  Cd = Od = 0;
 }
 
 static
-Point lerp(scalar u, const Point &p0, const Point &p1)
+vector lerp(scalar u, const vector &p0, const vector &p1)
 {
   return p0 * (1 - u) + p1 * u;
 }
@@ -71,9 +72,14 @@ void Camera::render(Raster *image)
         Ray   ray(VE, unit((VP + P) - VE));
         
         color Cr, Or;
-        scene->trace(ray, Cr, Or, trace_depth);
-        Cp += Cr;
-        Op += Or;
+        if ( scene->trace(ray, Cr, Or, trace_depth) ) {
+          Cp += Cr;
+          Op += Or;
+        } else {
+          // No hit, use default color/opacity.
+          Cp += Cd;
+          Op += Od;
+        }
       }
       Cp *= 1.0 / samples_per_pixel;
       Op *= 1.0 / samples_per_pixel;
