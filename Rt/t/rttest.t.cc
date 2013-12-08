@@ -1,7 +1,7 @@
 #include "Rt/Scene.hh"
 #include "Rt/Camera.hh"
 
-#include "Raster/RasterMemory24.hh"
+#include "Raster/RasterMemory32.hh"
 #include "Raster/RasterPNM.hh"
 
 #include "Rt/ProcessManager.hh"
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
       char file[256];
       sprintf(file, "t/test-%03d.ppm", frame);
       std::cerr << "pid: " << getpid() << " Frame: " << frame << "  file: " << file << "\n";
-      RasterMemory24 image(RasterSize(640, 480));
+      RasterMemory32 image(RasterSize(640, 480));
       camera->render(&image);
 
       {
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
         RasterPNM f(file, "w+");
         f.write(&image);
 
-        sprintf(pnm_convert, "set -x; pnmtopng %s > %s.png", file, file);
+        sprintf(pnm_convert, "set -x; pamrgbatopng %s > %s.png", file, file);
         system(pnm_convert);
       }
 
