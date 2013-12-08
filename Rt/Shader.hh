@@ -59,6 +59,7 @@ virtual	~Shader() {}
 
   virtual void shader() { Oi = Os; Ci = Cs; }	// The shader!!
 
+  // built-in RSL functions.
   color	ambient();
   color	diffuse(Point& N);
   color	specular(Point& N, Point& V, scalar roughness);

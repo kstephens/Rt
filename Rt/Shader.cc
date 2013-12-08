@@ -42,13 +42,7 @@ color Shader::diffuse(Point &N)
   illuminance(P, N, degrees(90)) {
     L = normalize(L);
     C += Cl * (L % N);
-    if ( 0 ) {
-      E_DEBUG(L);
-      E_DEBUG(N);
-      E_DEBUG(L % N);
-    }
   }
-  if ( 0 && C != 0 ) E_DEBUG(C);
   return C;	
 }
 
