@@ -39,11 +39,11 @@ D_FILES = \
   $(T_FILES:=.d)
 
 .c.o:
-	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -i '' -e 's@:@::@g' $@.d
+	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -e 's@:@::@g' $@.d > $@.d.t; mv $@.d.t $@.d
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 .cc.o:
-	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -i '' -e 's@:@::@g' $@.d
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -e 's@:@::@g' $@.d > $@.d.t; mv $@.d.t $@.d
 	$(COMPILE.cc) $(OUTPUT_OPTION) $<
 
 all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
