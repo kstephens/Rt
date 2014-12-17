@@ -4,7 +4,7 @@
 #ifndef	__Color_hh
 #define	__Color_hh
 
-#define	scalar	float
+#define	scalar	double
 #define	vector2	color2
 #define	vector3	color
 #define	vector4	color4
