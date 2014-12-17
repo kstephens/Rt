@@ -47,7 +47,7 @@ int main(int argc, char** argv)
         RasterPNM f(file, "w+");
         f.write(&image);
 
-        sprintf(pnm_convert, "set -x; pamrgbatopng %s > %s.png", file, file);
+        sprintf(pnm_convert, "set -x; pamrgbatopng %s > %s.png || pnmtopng %s > %s.png", file, file, file, file);
         system(pnm_convert);
       }
 

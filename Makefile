@@ -24,7 +24,7 @@ Rt/t/test-*.ppm : Rt/t/rttest.t
 Rt/t/test-anim.gif : Rt/t/test-*.ppm
 	for f in Rt/t/test-*.ppm ;\
 	do \
-	  pnmquant 256 $$f | pamtogif > $$f.gif ;\
+	  pnmquant 256 $$f | (pamtogif || ppmtogif) > $$f.gif ;\
 	done
 	gifsicle --colors 256 --color-method median-cut --dither --loopcount=forever --delay=25 -O3 Rt/t/test-*.ppm.gif > Rt/t/test-anim.gif
 

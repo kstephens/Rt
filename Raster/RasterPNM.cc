@@ -14,7 +14,7 @@ static void init()
 
 void RasterPNM::init()
 {
-  format = 7;
+  format = 6;
   fp = 0;
 }
 
