@@ -23,7 +23,7 @@ class Cylinder : public Quadric {
   int isOn(const Point &p) const;
   Point	random() const;
 
-  int quadradic(const Ray &r, double *t2);
+  int quadradic(const Ray &r, scalar *t2);
 
 public:
   Cylinder(scalar RADIUS, scalar ZMIN, scalar ZMAX, scalar THETAMAX);

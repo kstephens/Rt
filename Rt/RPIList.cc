@@ -17,7 +17,7 @@ RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... )
 	va_start(arglist,t);
 
 	while ( -- n )
-          append ( new RPI( R, P, (scalar) va_arg(arglist, double)) );
+          append ( new RPI( R, P, va_arg(arglist, double)) );
 
 	va_end(arglist);
 }

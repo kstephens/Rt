@@ -135,7 +135,7 @@ Collect[Expand[f], t, Collect[#, r] &]
 #define h2 height2
 #define P2(x) ((x) * (x))
 int
-Cone::quadradic(const Ray &r, double *t)
+Cone::quadradic(const Ray &r, scalar *t)
 {
   return
   Quadric::quadradic(P2(dx) + P2(dy) - (P2(dz) * r2) / h2, // t^2

@@ -29,7 +29,7 @@ public:
 	vector	dPdup(const Param& p);
 	vector	dPdvp(const Param& p);
 
-  int quadradic(const Ray &r, double *t);
+  int quadradic(const Ray &r, scalar *t);
 
 	Point	randomIn();
 	Point	randomOn();

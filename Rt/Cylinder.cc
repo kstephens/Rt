@@ -72,7 +72,7 @@ vector Cylinder::dPdvp(const Param &p)
 }
 
 int
-Cylinder::quadradic(const Ray &r, double *t)
+Cylinder::quadradic(const Ray &r, scalar *t)
 {
   return
     Quadric::quadradic(r.direction.x * r.direction.x + r.direction.y * r.direction.y,
