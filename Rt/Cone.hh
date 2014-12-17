@@ -8,25 +8,26 @@
 #include "Quadric.hh"
 
 class Cone : public Quadric {
-  RtFloat	height, height2; // height * height
-  RtFloat	radius, radius2;	// radius * radius
+  scalar	height, height2; // height * height
+  scalar	radius, radius2;	// radius * radius
 
 	int	isOn(const Point& p) const;
 
 	Point	random() const;
 public:
-	Cone( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX );
+	Cone( scalar HEIGHT, scalar RADIUS, scalar THETAMAX );
 
 	Point	P(const Param& p);
 	Param	p(const Point& p);
 
+#if 0
 	Point	Ngp(const Param& p);
 	Point	NgP(const Point& p);
 	Point	Ng(RPI* p);
+#endif
 
-	Point	dPdup(const Param& p);
-
-	Point	dPdvp(const Param& p);
+	vector	dPdup(const Param& p);
+	vector	dPdvp(const Param& p);
 
   int quadradic(const Ray &r, double *t);
 

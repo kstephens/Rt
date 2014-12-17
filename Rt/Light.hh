@@ -8,17 +8,13 @@
 #include "angle.hh"
 #include "Shader.hh"
 
-class Light  {
+class Light : public Shader {
   Light *next;
 friend	class Scene;
 friend	class LightIterator;
-  Color	getambient() const;
+  color	getambient() const;
 
 public:
-  Color	Cl;	// these are passed to the shader
-  Color	Ol;
-  Point	L;
-  
   enum {
     UNDEFINED = 0,
     AMBIENT = 1,
@@ -36,10 +32,10 @@ public:
   int _nsamples;	// for solar or area lights
   int _probe;
 
-  Light () : next(0), _type(UNDEFINED), _nsamples(1), _isanarealight(0), _probe(0) {}
+  Shader_declare(Light), next(0), _type(UNDEFINED), _isanarealight(0), _nsamples(1), _probe(0) {}
 virtual ~Light() {}
 
-  Color	ambient(Shader *S);	// get the global ambient value
+  color	ambient(Shader *S);	// get the global ambient value
 
   void _set_probe(int p) {
     _probe = p;
@@ -61,7 +57,7 @@ virtual ~Light() {}
       _position = p;
       _angle = a;
       _cos_angle = cos(a);
-      _axis = axis.unit();
+      _axis = unit(axis);
     }
     return ! _probe;
    }
@@ -79,7 +75,7 @@ virtual ~Light() {}
   int _solar(const Point &axis, angle a) {
     if ( _probe ) {
       _type = SOLAR;
-      _axis = axis.unit();
+      _axis = unit(axis);
       _angle = a;
       _cos_angle = cos(a);
     }

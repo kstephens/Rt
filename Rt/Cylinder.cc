@@ -3,10 +3,10 @@
 // KAS 91/06/25
 //
 #include "Cylinder.hh"
-#include "ri/RiRand.h"
 
-Cylinder::Cylinder(RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX) :
-  radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX), Quadric(THETAMAX)
+Cylinder::Cylinder(scalar RADIUS, scalar ZMIN, scalar ZMAX, scalar THETAMAX)
+  : Quadric(THETAMAX),
+    radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX)
 {
   zmax_minus_zmin = zmax - zmin;
 }
@@ -18,30 +18,27 @@ int Cylinder::isOn(const Point &P) const
 
 Point Cylinder::P(const Param &p)
 {
-  angle	theta = utheta(p[0]);
-
-  return Point(
-               radius * thetax(theta),
-               radius * thetay(theta),
-               vz(p.v));
+  angle	a = theta(p.u);
+  return Point(radius * x(a),
+               radius * y(a),
+               zv(p.v));
 }
 
-Param Cylinder::p(const Point &p)
+Param Cylinder::p(const Point &P)
 {
-  return Param(thetau(xytheta(p.x, p.y)), zv(p.z));
+  return Param(u(theta(P.x, P.y)), vz(P.z));
 }
 
 
-Point Cylinder::Ngp(const Param& p)
+#if 0
+Point Cylinder::Ngp(const Param &p)
 {
-  angle	theta = utheta(p[0]);
+  angle	a = theta(p.u);
   scalar rxy = radius * 2.0;
-  return Point(
-               rxy * thetax(theta),
-               rxy * thetay(theta),
-               0.0 );
+  return Point(rxy * x(a),
+               rxy * y(a),
+               0.0);
 }
-
 
 Point Cylinder::NgP(const Point &p)
 {
@@ -55,25 +52,23 @@ Point Cylinder::Ng(RPI* p)
 {
   return NgP(p->P());
 }
+#endif
 
-
-Point Cylinder::dPdup(const Param &p)
+vector Cylinder::dPdup(const Param &p)
 {
-  angle	theta = utheta(p[0]);
-  scalar rxy = radius * thetamax.radians();
-
+  angle	a = theta(p.u);
+  scalar rxy = radius * to_radians(thetamax);
   return Point(
-               rxy * dxdtheta(theta),
-               rxy * dydtheta(theta),
+               rxy * dx(a),
+               rxy * dy(a),
                0.0 );
 }
 
-Point Cylinder::dPdvp(const Param &p)
+vector Cylinder::dPdvp(const Param &p)
 {
-  return Point (
-                0.0,
-		0.0,
-		zmax_minus_zmin);
+  return Point(0.0,
+               0.0,
+               zmax_minus_zmin);
 }
 
 int
@@ -93,12 +88,10 @@ Cylinder::random() const
   Point	P;
 
   do {
-    P = Point(
-              (RiRand() - 0.5) * sr,
-              (RiRand() - 0.5) * sr,
-              RiRand());
+    P = Point((rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
+              rnd());
   } while ( ((Point2&) P) % ((Point2&) P) > radius2 );
-
   P.z = zmin + P.z * zmax_minus_zmin;
 
   return P;
@@ -117,9 +110,8 @@ Cylinder::randomOn()
 
   do {
     P = random();
-    ((Point2&) P).normalize() *= radius;
-  } while ( ! isOn(P) );
-  
+  } while ( P.x == 0 && P.y == 0 );
+  ((Point2&) P).normalize() *= radius;
   return P;
 }
 

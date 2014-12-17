@@ -4,11 +4,17 @@
 //
 #include "CSG.hh"
 
-RPIList
-CSG::intersect ( const Ray& R ) {
-	RPIList	L1 = l->intersect(R); L1.sort();
+// Transformation system of CSG is ignored.
+RPIList CSG::intersect(const Ray &R)
+{
+  return wintersect(R);
+}
+
+RPIList CSG::wintersect(const Ray &R)
+{
+	RPIList	L1 = l->wintersect(R); L1.sort();
 	RPI*	l1 = L1.begin();
-	RPIList	L2 = r->intersect(R); L2.sort();
+	RPIList	L2 = r->wintersect(R); L2.sort();
 	RPI*	l2 = L2.begin();
 
 	RPIList	L;	// new list
@@ -63,3 +69,7 @@ CSG::intersect ( const Ray& R ) {
 
 	return	L;
 }
+
+// IMPLEMENT!
+Point CSG::randomOn() { return l->randomOn(); }
+Point CSG::randomIn() { return l->randomIn(); }

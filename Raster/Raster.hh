@@ -32,6 +32,8 @@ virtual	int		isATypeOf(RasterType) const;
 // How many bits per pixel?
 //
 virtual	int		bitsPerPixel() const;
+  virtual int             channelsPerPixel() const;
+  virtual int hasAlpha() const;
 
 //
 // Get/Set the immediate parent.

@@ -4,9 +4,9 @@
 //
 #include "Light.hh"
 
-Color
+color
 Light::getambient() const {
-  return (_type == AMBIENT) ? Cl : Color(0);
+  return (_type == AMBIENT) ? Cl : 0;
 }
 
 void

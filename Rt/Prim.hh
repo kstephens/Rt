@@ -5,33 +5,16 @@
 #ifndef	__Prim_hh
 #define	__Prim_hh
 
-#include "Point.hh"
-#include "Param.hh"
-#include "Ray.hh"
-#include "RPIList.hh"
-#include "Xform.hh"
+#include "Geometry.hh"
 
-#define rnd() 0.0 // FIXME
-
-class Shader;
-
-class Prim {
-  Prim *next;
-friend	class Scene;
+class Prim : public Geometry {
 public:
-  Xform  *xform;	// the prim -> world transform
-  Shader *surface;// the surface shader
-  Prim   *shadow;	// the prim that create shadows
+  Prim() : Geometry() { }
+  virtual ~Prim() {}
 
-  Prim() : xform(0), surface(0) {
-    shadow = this;
-  }
-virtual	~Prim() {}
-
-//
-// The following use the primitive's coordinate system
-//
+  // In the primitive's coordinate system:
 virtual	Point	P(const Param& _p) { return Point(0); }
+  virtual Param p(RPI *rpi);
 virtual	Param	p(const Point& _p) { return Param(0); }
 
 virtual	Point	Ngp(const Param& _p) { return dPdup(_p) ^ dPdvp(_p); }
@@ -50,23 +33,10 @@ virtual	Point	dPdwp(const Param& _p) { return Ngp(_p); }
 virtual	Point	dPdwP(const Point& _p) { return NgP(_p); }
 virtual	Point	dPdw(RPI* _p) { return Ng(_p); }
 
-virtual	RPIList	intersect( const Ray& r ) = 0;
-virtual	int	intersects( const Ray& r );
+virtual	RPIList	intersect(const Ray &r) = 0;
 
-virtual	Point	randomOn() { return P(Param(rnd(),rnd())); }
-virtual	Point	randomIn() { return Point(0); }
-
-//
-// The following use the world coord sys
-//
-	RPIList	wintersect ( const Ray& r ) {
-		return intersect ( xform->inverse_transform(r)); }
-	int	wintersects( const Ray& r ) {
-		return intersects ( xform->inverse_transform(r)); }
-	Point	wrandomOn() {
-		return xform->transform(randomOn()); }
-	Point	wrandomIn() {
-		return xform->transform(randomIn()); }
+  virtual Point randomOn() { return P(Param(rnd(),rnd())); } // Might not have regular distribution.
+  virtual Point randomIn() { return Point(0); }
 };
 
 //

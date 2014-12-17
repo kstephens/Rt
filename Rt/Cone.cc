@@ -4,12 +4,11 @@
 //
 #include "Cone.hh"
 #include "EPSINF.hh"
-#include "ri/RiRand.h"
 
-Cone::Cone ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX )
-: height(HEIGHT), height2(HEIGHT * HEIGHT),
-  radius(RADIUS), radius2(RADIUS * RADIUS),
-  Quadric(THETAMAX)
+Cone::Cone ( scalar HEIGHT, scalar RADIUS, scalar THETAMAX )
+  : Quadric(THETAMAX),
+    height(HEIGHT), height2(HEIGHT * HEIGHT),
+    radius(RADIUS), radius2(RADIUS * RADIUS)
 {
 }
 
@@ -20,35 +19,31 @@ int Cone::isOn(const Point&P) const
 
 Point Cone::P(const Param& p)
 {
-  angle theta = utheta(p[0]);
-  scalar rxy = radius * (1.0 - p[1]);
-
-  return Point(
-               rxy * thetax(theta),
-               rxy * thetay(theta),
-               p[1] * height);
+  angle a = theta(p.u);
+  scalar rxy = radius * (1.0 - p.v);
+  return Point(rxy * x(a),
+               rxy * y(a),
+               height * p.v);
 }
 
 Param Cone::p(const Point& p)
 {
-  return Param(thetau(xytheta(p.x, p.y)), p.z / height);
+  return Param(u(theta(p.x, p.y)), p.z / height);
 }
 
-
-Point Cone::Ngp(const Param& p)
+#if 0
+Point Cone::Ngp(const Param &p)
 {
-  angle theta = utheta(p[0]);
-  return Point(
-               radius * thetax(theta),
-               radius * thetay(theta),
+  angle a = theta(p.u);
+  return Point(radius * x(a),
+               radius * y(a),
                height);
 }
-
 
 Point Cone::NgP(const Point& p)
 {
   Point P = p;
-  ((Point2&) P).normalize() * radius;
+  ((Point2&) P).normalize() * radius; // ???
   P.z = radius / height;
   return P;
 }
@@ -57,43 +52,35 @@ Point Cone::Ng(RPI* p)
 {
   return NgP(p->P());
 }
+#endif
 
-
-Point Cone::dPdup(const Param& p)
+vector Cone::dPdup(const Param& p)
 {
-  angle theta = utheta(p.u);
-  RtFloat rxy = radius * thetamax.radians();
-  
-  return Point(
-               rxy * dxdtheta(theta),
-               rxy * dydtheta(theta),
-               0.0 );
+  angle a = theta(p.u);
+  scalar rxy = radius * to_radians(thetamax);
+  return vector(rxy * dx(a),
+                rxy * dy(a),
+                0.0);
 }
 
-Point Cone::dPdvp(const Param& p)
+vector Cone::dPdvp(const Param& p)
 {
-  angle theta = utheta(p.u);
+  angle a = theta(p.u);
   scalar rxy = - radius;
-  return Point (
-                rxy * thetax(theta),
-                rxy * thetay(theta),
-                height );
+  return vector(rxy * x(a),
+                rxy * y(a),
+                height);
 }
 
-inline
-Point
-Cone::random() const
+Point Cone::random() const
 {
   scalar sr = 2.0 * radius;
   Point P;
-  
   do {
-    P = Point (
-               (RiRand() - 0.5) * sr,
-               (RiRand() - 0.5) * sr,
-               RiRand());
-  } while ( ((Point2&)P) % ((Point2&) P) > radius2 * P.z);
-  
+    P = Point((rnd() - 0.5) * sr,
+              (rnd() - 0.5) * sr,
+              rnd());
+  } while ( ((Point2&)P) % ((Point2&) P) > radius2 * P.z ); // ???
   P.z = (1.0 - P.z) * height;
   return P;
 }
@@ -107,16 +94,18 @@ Cone::randomIn()
 Point
 Cone::randomOn()
 {
+  scalar sr = 2.0 * radius, r2;
   Point P;
-
+  // Find point in disk of base.
   do {
-    P = random();
-    ((Point2&) P).normalize() * radius * (1.0 - (P.z / height));
-  } while ( ! isOn(P) );
-  
+    P.x = (rnd() - 0.5) * sr;
+    P.y = (rnd() - 0.5) * sr;
+  } while ( (r2 = ((Point2&) P) % ((Point2&) P)) > radius2 );
+  // Project up from base to height.
+  scalar v = 1.0 - (r2 / radius2);
+  P.z = height * v;
   return P;
 }
-
 
 /*
 

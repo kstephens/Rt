@@ -47,7 +47,6 @@ rgbtxt( const char* name, int* r, int* g, int* b ) {
 
 	while ( ! feof(rgb_txt) ) {
 		char	color[80];
-		int	R, G, B;
 
 		fscanf(rgb_txt, "%s", color);
 

@@ -9,18 +9,19 @@
 #include "Shader.hh"
 #include "Prim.hh"
 
-class	AreaLight : public Light, public Prim, public Shader {
-	Prim*	prim;
-	Light*	_light;
-friend	class Light;
+class AreaLight : public Light, public Prim {
+  Prim *prim;
+  Light *_light;
+  friend class Light;
 public:
-	AreaLight ( Prim* p, Light* l, int NSAMPLES = 8 ) :
-		Light(), Prim(), Shader(), prim(p), _light(l) {
-		prim->surface = (Shader*) this;
-		Light::_isanarealight = 1;
-		Light::_nsamples = NSAMPLES;
-	}
-	~AreaLight() {}
+  AreaLight ( Prim* p, Light* l, int NSAMPLES = 8 )
+    : Light(), Prim(), prim(p), _light(l)
+  {
+    prim->surface = (Shader*) this;
+    Light::_isanarealight = 1;
+    Light::_nsamples = NSAMPLES;
+  }
+  ~AreaLight() {}
 
 	//
 	// Prim stuff deferr it to the prim

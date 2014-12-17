@@ -39,13 +39,13 @@ protected:
 public:
 	RasterColorRGB () { }
 	RasterColorRGB ( const char* name, double i = 1.0, double A = 1.0 );
-	RasterColorRGB ( U8 R, U8 G, U8 B, U8 A = 0xff ) : r(R / 255.99), g(G / 255.99), b(B / 255.99), a(A / 255.99) {}
+	RasterColorRGB ( U8 R, U8 G, U8 B, U8 A = 0xff ) : r(R / 255.9999), g(G / 255.9999), b(B / 255.9999), a(A / 255.9999) {}
 	RasterColorRGB ( double R, double G, double B, double A = 1.0 ) :
 		r(R), g(G), b(B), a(A) {}
-	RasterColorRGB ( U8 i, U8 A = 0xff ) : r(i / 255.99), a(A / 255.99) { g = b = r; }
+	RasterColorRGB ( U8 i, U8 A = 0xff ) : r(i / 255.9999), a(A / 255.9999) { g = b = r; }
   RasterColorRGB ( double i, double A = 1.0 ) : r(i), g(i), b(i), a(A) { }
   RasterColorRGB ( const U8 *rgb )
-  : r(rgb[0] / 255.99), g(rgb[1] / 255.99), b(rgb[2] / 255.99) { }
+  : r(rgb[0] / 255.9999), g(rgb[1] / 255.9999), b(rgb[2] / 255.9999) { }
 
 	OP(+)
 	OP(-)

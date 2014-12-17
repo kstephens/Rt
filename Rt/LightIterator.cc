@@ -100,7 +100,7 @@ int LightIterator::do_ray()
   Prim *ignore = L->_isanarealight ? (Prim*) (AreaLight*) L : 0;
 
   if ( Scene::current->isShadowed(R.fix(S->Ng), lightdist, ignore ) ) {
-    S->Cl = Color(0);
+    S->Cl = 0;
     return 0; // in shadow
   } else {
     // Call the light() shader.

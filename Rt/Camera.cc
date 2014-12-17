@@ -9,19 +9,17 @@ Camera::Camera()
 {
   trace_depth = 3;
   samples_per_pixel = 4;
+  Cd = Od = 0;
 }
 
 static
-Point lerp(scalar u, const Point &p0, const Point &p1)
+vector lerp(scalar u, const vector &p0, const vector &p1)
 {
   return p0 * (1 - u) + p1 * u;
 }
 
 void Camera::render(Raster *image)
 {
-  int	sx;
-  int	sy;
-
   RasterPosition	size = image->size();
 
   scalar pixelAspect = image->pixelAspectRatioXY();
@@ -32,15 +30,17 @@ void Camera::render(Raster *image)
   Shader::E = VE;
 
   // Unit vector from eye to lookat.
-  Point	VD = (VL - VE).unit();
+  vector VD = unit(VL - VE);
 
   // VP at view distance:
-  Point	VP = VE + VD * Vpd;
-  Point	viewu = (VD ^ VUP).unit();
-  Point	viewv = (viewu ^ VD);
+  point VP = VE + VD * Vpd;
+  // vector of screen X:
+  vector viewu = unit(VD ^ VUP);
+  // vector of screen Y:
+  vector viewv = (viewu ^ VD);
 
-  Point *ux = new Point [size.x + 1];
-  Point *vy = new Point [size.y + 1];
+  vector *ux = new vector [size.x + 1];
+  vector *vy = new vector [size.y + 1];
 
   RasterPosition s;
 
@@ -56,23 +56,36 @@ void Camera::render(Raster *image)
 
   for ( s.y = 0; s.y < size.y; s.y ++ ) {
     for ( s.x = 0; s.x < size.x; s.x ++ ) {
-      Point rect[2][2] = {
+      // pixel corners:
+      vector rect[2][2] = {
         { ux[s.x] + vy[s.y]    , ux[s.x + 1] + vy[s.y] },
         { ux[s.x] + vy[s.y + 1], ux[s.x + 1] + vy[s.y + 1] },
       };
-      Color C(0);
+
+      // Accumulate random samples color and opacity within pixel:
+      color Cp(0), Op(0);
       for ( int sample = 0; sample < samples_per_pixel; ++ sample ) {
         scalar su = RiRand(), sv = RiRand();
-        Point P = lerp(sv, 
-                       lerp(su, rect[0][0], rect[0][1]),
-                       lerp(su, rect[1][0], rect[1][1]));
-        Ray   ray(VE, (VP + P - VE).unit());
+        vector P = lerp(sv,
+                        lerp(su, rect[0][0], rect[0][1]),
+                        lerp(su, rect[1][0], rect[1][1]));
+        Ray   ray(VE, unit((VP + P) - VE));
         
-        C += scene->trace(ray, trace_depth);
+        color Cr, Or;
+        if ( scene->trace(ray, Cr, Or, trace_depth) ) {
+          Cp += Cr;
+          Op += Or;
+        } else {
+          // No hit, use default color/opacity.
+          Cp += Cd;
+          Op += Od;
+        }
       }
-      C /= samples_per_pixel;
-      // std::cerr << "  " << s.x << "," << s.y << " " << ray << " = " << C << "\n";
-      image->color(s, RasterColor(C.r, C.g, C.b));
+      Cp *= 1.0 / samples_per_pixel;
+      Op *= 1.0 / samples_per_pixel;
+
+      // std::cerr << "  " << s.x << "," << s.y << " = " << Cp << "," << Op << "\n";
+      image->color(s, RasterColor(Cp.r, Cp.g, Cp.b, (Op.r + Op.g + Op.b) / 3));
     }
   }
 

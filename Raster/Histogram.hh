@@ -7,9 +7,10 @@
 class Histogram : Buffer {
   size_t	_size;
 public:
-  Histogram() : _size(0), Buffer() {}
+  Histogram()
+  : Buffer(), _size(0) {}
   Histogram(size_t size)
-  : _size(size), Buffer(size * sizeof(U32))
+  : Buffer(_size * sizeof(U32)), _size(size)
   {
     clear();
   }

@@ -6,12 +6,12 @@
 
 Scene *Scene::current;
 
-RPIList
-Scene::intersect(const Ray &r) const
+// Collect all primitive intersections along ray.
+RPIList Scene::intersect(const Ray &r) const
 {
   RPIList L;
 
-  for ( Prim *p = prims; p; p = p->next ) {
+  for ( Geometry *p = geos; p; p = p->next ) {
     RPIList l = p->wintersect(r);
     L.append(l);
   }
@@ -24,25 +24,22 @@ Scene::intersect(const Ray &r) const
 //	This should return a color, based on the amount of light
 //	passed by the objects intersected.  Too lazy, ya know!
 //
-int
-Scene::isShadowed(const Ray &ray, scalar dist, Prim *ignore) const
+int Scene::isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const
 {
-  for ( Prim *p = prims; p; p = p->next ) {
+  for ( Geometry *p = geos; p; p = p->next ) {
     // If the shadow ray hits an object that
     // creates shadows, and it's not the area light
     // source object that we want to ignore,
     // and there is an intersection between
     // 0 and the distance to the light point.
     if ( p->shadow != NULL && p->shadow != ignore ) {
-      RPIList	i = p->shadow->wintersect(ray);
-      RPI*	f = i.begin()->findSmallestPositive();
-      
-      if ( f != RPINULL && f->t < dist ) {
-        i.delete_all();
+      RPIList l = p->shadow->wintersect(ray);
+      RPI *f = l.begin()->findSmallestPositive();
+      if ( f != l.end() && f->wt(&l) < dist ) {
+        l.delete_all();
         return 1;
       }
-      
-      i.delete_all();
+      l.delete_all();
     }
   }
   
@@ -51,17 +48,16 @@ Scene::isShadowed(const Ray &ray, scalar dist, Prim *ignore) const
 
 
 // This is it!  The ray tracing routine!
-Color
-Scene::dolist(RPI *rpi, int depth) const
+int Scene::dolist(RPI *rpi, color &Cr, color &Or, int depth) const
 {
   // The ray color and opacity.
-  Color	Cr = 0.0;
-  Color Or = 1.0;
+  Cr = 0.0;
+  Or = 1.0;
 
   // From front to back...
   while ( rpi != RPINULL ) {
     // std::cerr << "  rpi = " << *rpi << "\n";
-    // Initialize the shader varables.
+    // Initialize the surface shader varables.
     Shader *S = rpi->prim->surface;
 
     S->P = rpi->wP();
@@ -71,8 +67,7 @@ Scene::dolist(RPI *rpi, int depth) const
     
     S->uvw = rpi->p();
 
-    // I is directed toward P
-    // from E.
+    // I is directed toward P from E.
     S->I = rpi->r.direction;
 
     S->trace_depth = depth - 1;
@@ -82,47 +77,57 @@ Scene::dolist(RPI *rpi, int depth) const
 
     // Use the factored opacity value.
     // Ray opacity diminishes by the opacity of the incidence.
-    Cr += S->Ci * S->Oi * Or;
-    Or *= (Color(1.0) - S->Oi);
+    Cr += S->Ci * Or;
+    Or *= (1.0 - S->Oi);
     // std::cerr << "    depth=" << depth << " rpi=" << *rpi << " Ci=" << S->Ci << " Oi=" << S->Oi << " Cr=" << Cr << " Or=" << Or << "\n";
 
     // If this surface is fully opaque,
     //	don't process the remaining surfaces.
-    if ( Or == 0.0 )
-      break;
+    if ( Or <= 0 )
+      return 1;
 
     rpi = rpi->next();
   }
 
-  return Cr;
+  return 0; // Partially opaque?
 }
 
-Color
-Scene::trace(const Ray& r, int depth) const
+int Scene::trace(const Ray& r, color &Cr, color &Or, int depth) const
 {
   // std::cerr << " ray = " << r << ", depth = " << depth << "\n";
-  if ( depth <= 0 ) {
+  if ( depth <= 0 )
     return 0;
-  } else {
-    RPIList _rpi = intersect(r);
 
-    if ( ! _rpi.isEmpty() ) {
-      // Sort the ray-primitive list,
-      //  and find the first positive
-      //  so we can handle transparent surfaces.
-      _rpi.sort();
-      RPI *rpi = _rpi.begin()->findSmallestPositive();
+  RPIList _rpi = intersect(r);
 
-      if ( rpi != RPINULL ) {
-        Color Cr = dolist(rpi, depth);
-        _rpi.delete_all();
-        return Cr;
-      }
+  if ( ! _rpi.isEmpty() ) {
+    // Sort the ray-primitive list,
+    //  and find the first positive
+    //  so we can handle transparent surfaces.
+    _rpi.sort();
+    RPI *rpi = _rpi.begin()->findSmallestPositive();
+
+    if ( rpi != RPINULL ) {
+      dolist(rpi, Cr, Or, depth);
+      _rpi.delete_all();
+      Or = 1 - Or;
+      return 1;
     }
-    _rpi.delete_all();
+  }
+  _rpi.delete_all();
 
-// some funky grey background
-    return Color(0.25, 0.25, 0.25);
+  // Nothing was hit, try background?
+  if ( background_shader ) {
+    Shader *S = background_shader;
+    // I is directed toward P from E.
+    S->I = r.direction;
+    S->shader();
+    Cr = S->Ci;
+    Or = S->Oi;
+    return 1;
+  } else {
+    Cr = Or = 0;
+    return 0;
   }
 }
 

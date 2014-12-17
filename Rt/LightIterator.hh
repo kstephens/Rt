@@ -28,7 +28,7 @@ public:
   LightIterator() : L(NULL), S(NULL) {}
   LightIterator(Light *l, Shader *s, const Point &p, const Point &a, const angle &A) :
     L(l), S(s),
-    P(p), axis(a.unit()), _angle(A), angle_cos(cos(A))
+    P(p), axis(unit(a)), _angle(A), angle_cos(cos(A))
   { init(); }
   LightIterator(Light* l, Shader* s, const Point &p) :
     L(l), S(s),

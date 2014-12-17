@@ -14,30 +14,31 @@ class Quadric : public Prim {
 protected:
   angle thetamax;
 
-  angle	utheta(RtFloat u) const {
+  angle	theta(scalar u) const {
     return u * thetamax;
   }
-  RtFloat thetau(angle theta) const {
-    return to_number(theta) / to_number(thetamax);
-  }
-  RtFloat thetax(angle theta) const {
-    return cos(theta);
-  }
-  RtFloat dxdtheta(angle theta) const {
-    return - sin(theta);
-  }
-  RtFloat thetay(angle theta) const {
-    return sin(theta);
-  }
-  RtFloat dydtheta(angle theta) const {
-    return cos(theta);
-  }
-  angle xytheta(RtFloat x, RtFloat y) const {
-    if ( x == rt_EPSILON && y == rt_EPSILON )
+  angle theta(scalar x, scalar y) const {
+    if ( x == 0 && y == 0 )
       return radians(0.0);
     else
       return angle(y, x) + degrees(180.0);
   }
+  scalar u(angle theta) const {
+    return theta / thetamax;
+  }
+  scalar x(angle theta) const {
+    return cos(theta);
+  }
+  scalar dx(angle theta) const {
+    return - sin(theta);
+  }
+  scalar y(angle theta) const {
+    return sin(theta);
+  }
+  scalar dy(angle theta) const {
+    return cos(theta);
+  }
+
   virtual RPI *check(RPI *rpi) const {
     if ( ! isOn( rpi->P() ) ) {
       delete rpi; rpi = RPINULL;
@@ -49,7 +50,7 @@ protected:
     if ( thetamax >= degrees(360.0) )
       return 1;
     else {
-      return xytheta(p.x, p.y) <= thetamax;
+      return theta(p.x, p.y) <= thetamax;
     }
   }
 

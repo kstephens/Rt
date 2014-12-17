@@ -9,6 +9,7 @@
 
 class Constant : public Shader {
 public:
+  Shader_declare(Constant) { }
   void shader () {
     Oi = Os;
     Ci = Os * Cs;
@@ -18,9 +19,7 @@ public:
 class Matte : public Shader {
 public:
   scalar Ka, Kd;
-  Matte () : Ka(1.0), Kd(1.0) {}
-  Shader *copy() const { return new Matte(*this); }
-
+  Shader_declare(Matte), Ka(1.0), Kd(1.0) {}
   void shader () {
     N = faceforward(N,I);
     Oi = Os;
@@ -31,8 +30,7 @@ public:
 class Metal : public Shader {
 public:
   scalar Ka, Ks, roughness;
-  Metal() : Ka(1.0), Ks(1.0), roughness(0.25) {}
-  Shader *copy() const { return new Metal(*this); }
+  Shader_declare(Metal), Ka(1.0), Ks(1.0), roughness(0.25) {}
   
   void shader() {
     N = faceforward(N,I);
@@ -46,11 +44,8 @@ class Plastic : public Shader {
 public:
   scalar Ka, Kd, Ks;
   scalar roughness;
-  Color	specularcolor;
-
-  Plastic() : Ka(1.0), Kd(0.5), Ks(0.5), roughness(0.1), specularcolor(1.0) {}
-  Shader *copy() const { return new Plastic(*this); }
-
+  color	specularcolor;
+  Shader_declare(Plastic), Ka(1.0), Kd(0.5), Ks(0.5), roughness(0.1), specularcolor(1.0) {}
   void shader() {
     N = faceforward(normalize(N), I);
     Point V = normalize(- I);

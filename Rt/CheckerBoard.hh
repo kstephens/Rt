@@ -6,17 +6,27 @@
 #define	__CheckerBoard_hh
 
 #include "Shader.hh"
-#include "Scene.hh"
 
 class CheckerBoard : public Shader {
 public:
-  CheckerBoard () : Shader() {}
-  Shader *copy() const { return new CheckerBoard(*this); }
+  Shader_declare(CheckerBoard) { }
 
   Point	scale;
-  Color	colors[2][2];
+  color	colors[2][2];
   scalar Ka, Kd, Ks, Kss;
-  void	shader();
+void shader()
+{
+  N = faceforward(normalize(N),I);
+  Point V = - normalize(I);
+
+  int cx = (unsigned (uvw.u * scale.x) & 1);
+  int cy = (unsigned (uvw.v * scale.y) & 1);
+  Cs = colors[cy][cx];
+
+  Oi = Os;
+  Ci = Os * Cs * (Ka * ambient() + Kd * diffuse(N))
+    + Ks * specular(N, V, Kss);
+}
 };
 
 #endif

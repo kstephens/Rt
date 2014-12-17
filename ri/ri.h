@@ -130,10 +130,10 @@ extern	void		RiTrimCurve();
 extern	void		RiWorldBegin(/* */);	/* p. 7 */
 extern	void		RiWorldEnd(/* */);	/* p. 7 */
 	
-extern	RtFloat		RiGaussianFilter();	/* p. 18 */
-extern	RtFloat		RiBoxFilter();		/* p. 18 */
-extern	RtFloat		RiTriangleFilter();	/* p. 18 */
-extern	RtFloat		RiCatmullRomFilter();	/* p. 18 */
+extern	RtFloat		RiGaussianFilter(RtFloat x, RtFloat y, RtFloat xwidth, RtFloat ywidth);	/* p. 18 */
+extern	RtFloat		RiBoxFilter(RtFloat x, RtFloat y, RtFloat xwidth, RtFloat ywidth);		/* p. 18 */
+extern	RtFloat		RiTriangleFilter(RtFloat x, RtFloat y, RtFloat xwidth, RtFloat ywidth);	/* p. 18 */
+extern	RtFloat		RiCatmullRomFilter(RtFloat x, RtFloat y, RtFloat xwidth, RtFloat ywidth);	/* p. 18 */
 	
 extern	RtBasis	RiBezierBasis;
 extern	RtBasis	RiBSplineBasis;

@@ -11,8 +11,8 @@
 class RasterMemory : public Raster {
 protected:
   unsigned char*	memory;
-  int	bitsperpixel;
   RasterSize	s;
+  int	bitsperpixel;
 
   U32 xsize() const {
     return ((bitsperpixel * s.x) >> 3) + 1;

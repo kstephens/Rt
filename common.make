@@ -1,17 +1,17 @@
 # *-* makefile *-*
-UNAME:=$(shell uname)#
-
-ifeq "$(UNAME)" "CYGWIN_NT-6.1"
+UNAME_S:=$(shell uname -s)#
+ifeq "$(UNAME_S)" "CYGWIN_NT"
 CC=gcc
 CXX=g++
 else
 CC=clang
 CXX=clang++
 endif
-OPT_FLAGS += -g
+DEBUG_FLAGS += -g
 OPT_FLAGS += -O3
-CFLAGS += $(OPT_FLAGS)
-CXXFLAGS += $(OPT_FLAGS)
+WARN_FLAGS += -Wall
+CFLAGS += $(DEBUG_FLAGS) $(OPT_FLAGS) $(WARN_FLAGS)
+CXXFLAGS += $(DEBUG_FLAGS) $(OPT_FLAGS) $(WARN_FLAGS)
 CPP_DEP_FLAGS += -MM -MF $@.d
 CPPFLAGS += -I.. -I/opt/local/include
 
@@ -39,14 +39,12 @@ D_FILES = \
   $(T_FILES:=.d)
 
 .c.o:
-	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
+	$(COMPILE.c) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -e 's@:@::@g' $@.d > $@.d.t; mv $@.d.t $@.d
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
-	sed -i -e 's@:@::@g' $@.d
 
 .cc.o:
-	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $<
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(CPP_DEP_FLAGS) $< ; sed -e 's@:@::@g' $@.d > $@.d.t; mv $@.d.t $@.d
 	$(COMPILE.cc) $(OUTPUT_OPTION) $<
-	sed -i -e 's@:@::@g' $@.d
 
 all : $(TOOL_FILES) $(LIB_A) $(T_FILES)
 

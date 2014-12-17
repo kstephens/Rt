@@ -8,23 +8,22 @@
 #include "Quadric.hh"
 
 class Disk : public Quadric {
-	RtFloat radius;
-	RtFloat	radius2; // radius * radius
-	RtFloat	height;
+	scalar radius;
+	scalar	radius2; // radius * radius
+	scalar	height;
+  Point _Ng;
 
-	Point	random() const;
 public:
-  Disk ( RtFloat HEIGHT, RtFloat RADIUS, RtFloat THETAMAX );
+  Disk ( scalar HEIGHT, scalar RADIUS, scalar THETAMAX );
 	Point	P(const Param& p);
-	Param	p(const Point& p);
+	Param	p(const Point& P);
 
-	Point	Ngp(const Param& p);
-	Point	NgP(const Point& p);
-	Point	Ng(RPI* p);
+	normal Ngp(const Param& p);
+	normal NgP(const Point& P);
+	normal Ng(RPI* p);
 
-	Point	dPdup(const Param& p);
-
-	Point	dPdvp(const Param& p);
+	vector dPdup(const Param& p);
+	vector dPdvp(const Param& p);
 
 	RPIList	intersect( const Ray& r );
 

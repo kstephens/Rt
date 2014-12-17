@@ -6,8 +6,7 @@
 
 class Whitted : public Shader {
 public:
-  Whitted () : Shader() {}
-  Shader* copy() const { return new Whitted(*this); }
+  Shader_declare(Whitted) { }
 
   scalar Ka; // ambient coefficent
   scalar Kd; // diffuse coefficent

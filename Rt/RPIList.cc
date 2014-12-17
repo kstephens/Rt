@@ -3,11 +3,13 @@
 // KAS 91/05/16
 //
 #include "RPIList.hh"
+#include "Ray.hh"
 #include "stdarg.h"
 #include "EPSINF.hh"
 #include "RPI.hh"
 
-RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... ) {
+RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... )
+{
 	va_list	arglist;
 
 	first = last = (_RPI*) new RPI(R,P,t);
@@ -22,13 +24,15 @@ RPIList::RPIList( int n, const Ray& R, Prim* P, scalar t, ... ) {
 
 
 void
-RPIList::delete_all() { // delete p-all();
-	RPI*	e = begin();
-	while ( e != RPINULL ) {
-		RPI*	t = e->next();
-		delete e;
-		e = t;
-	}
+RPIList::delete_all()
+{
+  RPI*	e = begin();
+  first = last = RPINULL;
+  while ( e != RPINULL ) {
+    RPI*	t = e->next();
+    delete e;
+    e = t;
+  }
 }
 
 //

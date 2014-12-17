@@ -1,5 +1,5 @@
 //
-// RPI.hh - class RPI (Ray-Primative Intersection)
+// RPI.hh - class RPI (Ray-Primitive Intersection)
 // KAS 91/03/10
 //
 #ifndef	__RPI_hh
@@ -12,23 +12,27 @@
 #include "Xform.hh"
 #include "_RPI.hh"
 
+class RPIList;
 class RPI : public _RPI {
 public:
 	RPI*	next() const { return (RPI*) _RPI::next(); }
 	RPI*	next(RPI* n ) { return (RPI*) _RPI::next((RPI*) n); }
 
-	Ray	r;	// the intersecting ray in primative coord sys
-	Prim*	prim;	// the intersected primative
+	Ray	r;	// the intersecting ray in primitive coord sys
+	Prim*	prim;	// the intersected primitive
 
-	float	t;	// position of intersection
+	scalar	t;	// distance of intersection along r.
+
+  int data[2]; // additional data.
 private:
 	//
 	// transform a vector (bound to P) to world coordinates
 	//
-	Point	wxform ( const Point& v ) {
-		return prim->xform->transform(P() + v) - wP();
+	vector	wv ( const vector& v ) {
+          return prim->xform->transform(P() + v) - wP();
 	}
 		
+  scalar _wt; // Distance along world ray to point of intersection.
 	Point	_P;	// the point of intersection
 	Point	_wP;	// " in world coordinates
 	Param	_p;	// the parametric of intersection
@@ -41,9 +45,12 @@ private:
 	Point	_dPdw;	// partial deriv. of P with respect to w
 	Point	_wdPdw;	// " in world coordinates
 	union	{
-		unsigned short 	flags;
+		unsigned flags;
 		struct {
 			unsigned
+                        know_r : 1,
+                        know_t : 1,
+                          know_wt : 1,
 				know_P : 1,
 				know_wP : 1,
 				know_p : 1,
@@ -60,9 +67,9 @@ private:
 	}; // calculated attribute flags
 public:
 	RPI() : flags(0) {}
-	RPI(scalar T) : t(T), flags(0) {}
+  RPI(scalar T) : t(T), flags(0) { f.know_t = 1; }
 	RPI( const Ray& R, Prim* P, scalar T) :
-		r(R), prim(P), t(T), flags(0) {}
+          r(R), prim(P), t(T), flags(0) { f.know_t = f.know_r = 1; }
 
 	//
 	// linked list functions
@@ -81,9 +88,15 @@ public:
 	RPI*	findBiggest();
 	RPI*	findPositive();
 
-	//
-	// intersection parameters
-	//
+  const scalar &wt(RPIList *l) {
+    if ( ! f.know_wt ) {
+      _wt = l->wr().distance_to(wP());
+      f.know_wt = 1;
+    }
+    return _wt;
+  }
+
+	// Parameters at intersections.
 	const Point&	P() {
 		if ( ! f.know_P ) {
 			_P = r[t];
@@ -103,7 +116,7 @@ public:
 
 	const Param&	p() {;
 		if ( ! f.know_p ) {
-			_p = prim->p(P());
+			_p = prim->p(this);
 			f.know_p = 1;
 		}
 		return _p; }
@@ -122,21 +135,20 @@ public:
 	void	Ng(const Point& p) {
 		f.know_Ng = 1; f.invert_Ng = 0; _Ng = p; }
 
-	const Point&	wNg() {
-		if ( ! f.know_wNg ) {
-			_wNg = wxform(Ng());
-			f.know_wNg = 1;
-			if ( f.invert_Ng )
-				_wNg.negate();
-		}
-		return _wNg;
-	}
+  const Point &wNg() {
+    if ( ! f.know_wNg ) {
+      _wNg = wv(Ng());
+      f.know_wNg = 1;
+    }
+    return _wNg;
+  }
+
 	void	invertNg() {
 		f.invert_Ng = ~ f.invert_Ng;
 		if ( f.know_Ng )
-			_Ng = - _Ng;
+                  _Ng.negate();
 		if ( f.know_wNg )
-			_wNg = - _wNg;
+                  _wNg.negate();
 	}
 	int	Nginverted() { return f.invert_Ng; }
 
@@ -145,7 +157,7 @@ public:
 		if ( ! f.know_##X ) { _##X = prim->X(this); f.know_##X = 1; } \
 		return _##X; } \
 	const Point&	w##X () { \
-		if ( ! f.know_w##X ) { _w##X = wxform(X()); f.know_w##X = 1; } \
+		if ( ! f.know_w##X ) { _w##X = wv(X()); f.know_w##X = 1; } \
 		return _w##X; } \
 	void	X ( const Point& x ) { _##X = x; f.know_##X = 1; }
 

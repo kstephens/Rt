@@ -51,19 +51,19 @@ class Rotate : public Xform {
     mat[0][3] = mat[1][3] = mat[2][3] = 0;
     mat[3][0] = mat[3][1] = mat[3][2] = 0; mat[3][3] = 1;
   }
-  void rotate(angle ang, const Vector &axis) {
+  void rotate(angle ang, const vector &axis) {
     angle ang_2 = ang / 2;
-    Vector axis_n = axis.unit() * sin(ang_2);
+    vector axis_n = unit(axis) * sin(ang_2);
     rotate(cos(ang_2), axis_n.x, axis_n.y, axis_n.z);
   }
 
 public:
-  Rotate(angle ang, const Vector &axis) {
+  Rotate(angle ang, const vector &axis) {
     rotate(ang, axis);
     know_invmat = 0;
   }
   Rotate(angle ang, scalar dx, scalar dy, scalar dz) {
-    Vector axis(dx, dy, dz);
+    vector axis(dx, dy, dz);
     rotate(ang, axis);
     know_invmat = 0;
   }

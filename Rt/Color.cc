@@ -1,9 +1,9 @@
 #include "Color.hh"
 #include "Raster/rgbtxt.h"
 
-Color color_named(const char *name)
+color color_named(const char *name)
 {
-  Color c(0);
+  color c(0);
   int r, g, b;
   if ( rgbtxt(name, &r, &g, &b) ) {
     c.r = (float) r / 255.99;

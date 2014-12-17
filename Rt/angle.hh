@@ -63,9 +63,19 @@ friend	angle 	operator op ( const angle& L, const angle& R ) { \
 	angle&  operator op##= ( double s ) { \
 		r op##= s; return *this; }
 
-	OP(/)
 	OP(*)
 
+#undef OP
+
+#define	OP(op) \
+friend	angle	operator op ( const angle& L, double s ) { \
+		return angle ( L.r op s ); } \
+friend	double 	operator op ( const angle& L, const angle& R ) { \
+		return double ( L.r op R.r ); } \
+	angle&  operator op##= ( double s ) { \
+		r op##= s; return *this; }
+
+	OP(/)
 #undef OP
 
 #define	OP(op) \
