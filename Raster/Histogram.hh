@@ -10,7 +10,7 @@ public:
   Histogram()
   : Buffer(), _size(0) {}
   Histogram(size_t size)
-  : Buffer(_size * sizeof(U32)), _size(size)
+  : Buffer(size * sizeof(U32)), _size(size)
   {
     clear();
   }
