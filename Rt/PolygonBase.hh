@@ -15,7 +15,7 @@ protected:
 	Point	N;	// the polygon's plane normal
 	Point*	point;	// point list
 	Bound	bound;	// the bounds of the polygon
-	float	D;
+	scalar	D;
 	int	X, Y, Z;	// virtual coordinate tags 
 
 virtual	int	isIn(const Point& P) = 0;

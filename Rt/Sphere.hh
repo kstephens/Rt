@@ -8,9 +8,9 @@
 #include "Quadric.hh"
 
 class Sphere : public Quadric {
-  RtFloat radius;
-  RtFloat radius2; // radius * radius
-  RtFloat zmin, zmax;
+  scalar radius;
+  scalar radius2; // radius * radius
+  scalar zmin, zmax;
   angle	phimin, phimax;	// zmin, zmax
   angle phimax_minus_phimin;	// phimax - phimin
 
@@ -33,7 +33,7 @@ class Sphere : public Quadric {
   Point	random() const;
 
 public:
-  Sphere ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX ) ;
+  Sphere ( scalar RADIUS, scalar ZMIN, scalar ZMAX, scalar THETAMAX ) ;
   Point	P(const Param& p);
   Param	p(const Point& p);
 

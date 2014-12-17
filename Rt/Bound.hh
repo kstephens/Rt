@@ -4,8 +4,7 @@
 #include "Point.hh"
 #include "EPSINF.hh"
 
-#define	SWAP(a,b) { float t = (a); (a) = (b); (b) = t; }
-//inline void SWAP( float& a, float& b ) { float t = a; a = b; b = t; }
+#define	SWAP(a,b) { __typeof(a) t = (a); (a) = (b); (b) = t; }
 
 class Bound	{
 public:

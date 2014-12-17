@@ -119,8 +119,8 @@ RPIList	PolygonBase::intersect(const Ray& ray) {
 //	6 multiplies
 //	1 divide
 //
-	float	N_dot_Rd = N % ray.direction;
-	float	N_dot_P0_minus_Ro = N % (point[0] - ray.origin);
+	scalar	N_dot_Rd = N % ray.direction;
+	scalar	N_dot_P0_minus_Ro = N % (point[0] - ray.origin);
 
 	//
 	// Ray is parallel to plane
@@ -128,7 +128,7 @@ RPIList	PolygonBase::intersect(const Ray& ray) {
 	if ( N_dot_P0_minus_Ro == rt_EPSILON )
 		return RPIList();
 
-	float	t = N_dot_P0_minus_Ro / N_dot_Rd;
+	scalar	t = N_dot_P0_minus_Ro / N_dot_Rd;
 
 	return RPIList(1, ray, this, t);
 }

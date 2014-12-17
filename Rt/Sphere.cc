@@ -5,7 +5,7 @@
 #include "Sphere.hh"
 #include "angle.hh"
 
-Sphere::Sphere ( RtFloat RADIUS, RtFloat ZMIN, RtFloat ZMAX, RtFloat THETAMAX )
+Sphere::Sphere ( scalar RADIUS, scalar ZMIN, scalar ZMAX, scalar THETAMAX )
   : Quadric(THETAMAX),
     radius(RADIUS), radius2(RADIUS * RADIUS), zmin(ZMIN), zmax(ZMAX)
 {

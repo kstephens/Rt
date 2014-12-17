@@ -94,7 +94,7 @@ protected:
   }
 
 public:
-  Quadric (RtFloat x) : thetamax(degrees(x)) {}
+  Quadric (scalar x) : thetamax(degrees(x)) {}
 };
 
 #endif

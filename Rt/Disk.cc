@@ -18,7 +18,7 @@ Disk::Disk ( scalar h, scalar r, scalar t )
 Point Disk::P(const Param& p)
 {
   angle	a = theta(p.u);
-  float	rxy = radius * (1.0 - p.v);
+  scalar	rxy = radius * (1.0 - p.v);
   return Point(
                rxy * x(a),
                rxy * y(a),

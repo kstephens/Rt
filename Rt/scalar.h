@@ -7,6 +7,6 @@
 #ifdef scalar
 #undef scalar
 #endif
-typedef	float scalar;
+typedef	double scalar;
 
 #endif
