@@ -1,7 +1,3 @@
-//
-// Histogram.hh - class Histogram
-//
-//
 #ifndef	__Histogram_hh
 #define	__Histogram_hh
 
@@ -13,7 +9,7 @@ class Histogram : Buffer {
 public:
   Histogram() : _size(0), Buffer() {}
   Histogram(size_t size)
-  : _size(size), Buffer(_size * sizeof(U32))
+  : _size(size), Buffer(size * sizeof(U32))
   {
     clear();
   }
