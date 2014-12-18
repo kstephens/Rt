@@ -103,10 +103,9 @@ void
 RtMatrix_Concat(RtMatrix* DST, RtMatrix* M) {
 	RtMatrix	temp;
 	RtMatrix_Mult(&temp, DST, M);
-	ASSIGN((*DST),temp);
+	ASSIGN((*DST), temp);
 }
 
-static	RtMatrix	temp;
 static	RtMatrix	identity = {
 { 1.0, 0.0, 0.0, 0.0 },
 { 0.0, 1.0, 0.0, 0.0 },
@@ -115,23 +114,19 @@ static	RtMatrix	identity = {
 };
 
 void
-RtMatrix_SetIdentity(RtMatrix* m) {
-	ASSIGN((*m),identity);
-}
-
-RtMatrix*
-RtMatrix_Identity() {
-	return &identity;
+RtMatrix_Identity(RtMatrix m)
+{
+  memcpy(m, identity, sizeof(identity));
 }
 
 #define	DEGREES(x) ((x) * (M_PI / 180.0))
 #define	RADIANS(x) ((x) * (180.0 / M_PI))
 
-RtMatrix*
-RtMatrix_Perspective(RtFloat fov ) {
+void
+RtMatrix_Perspective(RtMatrix temp, RtFloat fov ) {
 	RtFloat	s, c;
 
-	RtMatrix_SetIdentity(&temp);	
+	RtMatrix_Identity(temp);	
 
 	fov = RADIANS(fov) * 0.5;
 	s = sin(fov);
@@ -141,41 +136,34 @@ RtMatrix_Perspective(RtFloat fov ) {
 			temp[1][1] = c;
 					temp[2][2] = s; temp[2][3] = s;
 							  temp[3][3] = 0;
-	return &temp;
 }
 
-RtMatrix*
-RtMatrix_Scale(RtFloat sx, RtFloat sy, RtFloat sz) {
-	RtMatrix_SetIdentity(&temp);
+void
+RtMatrix_Scale(RtMatrix temp, RtFloat sx, RtFloat sy, RtFloat sz) {
+	RtMatrix_Identity(temp);
 	temp[0][0] = sx;
 	temp[1][1] = sy;
 	temp[2][2] = sz;
-
-	return &temp;
 }
 
-RtMatrix*
-RtMatrix_Translate(RtFloat dx, RtFloat dy, RtFloat dz) {
-	RtMatrix_SetIdentity(&temp);
+void
+RtMatrix_Translate(RtMatrix temp, RtFloat dx, RtFloat dy, RtFloat dz) {
+	RtMatrix_Identity(temp);
 	temp[0][3] = dx;
 	temp[1][3] = dy;
 	temp[2][3] = dz;
-
-	return &temp;
 }
 
-RtMatrix*
-RtMatrix_Rotate(RtFloat angle, RtInt axis ) {
+void
+RtMatrix_Rotate(RtMatrix temp, RtFloat angle, RtInt axis ) {
 	int	i, j;
 	angle = RADIANS(angle);
 
 	i = (axis + 1) % 3;
 	j = (axis + 2) % 3;
 
-	RtMatrix_SetIdentity(&temp);
+	RtMatrix_Identity(temp);
 
 	temp[i][i] = temp[j][j] = cos(angle);
 	temp[j][i] = -(temp[i][j] = sin(angle));
-
-	return &temp;
 }
