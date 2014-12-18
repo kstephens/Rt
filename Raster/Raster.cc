@@ -5,11 +5,8 @@
 #include "Raster.hh"
 #include "error.h"
 
-#ifndef	NULL
-#define	NULL	((Raster*) 0L)
-#endif
 
-Raster* 	Raster::read(const char* filename ) { NOT_IMPLEMENTED; return NULL; }
+Raster* 	Raster::read(const char* filename ) { NOT_IMPLEMENTED; return 0; }
 int		Raster::write(const char* filename, const char* type ) { NOT_IMPLEMENTED; return 0; }
 
 Raster::~Raster() {}
@@ -25,13 +22,13 @@ int	Raster::bitsPerPixel() const { NOT_IMPLEMENTED; return 0; }
 int     Raster::channelsPerPixel() const { return bitsPerPixel() / 8; } // FIXME
 int Raster::hasAlpha() const { return channelsPerPixel() > 3; } // FIXME
 
-Raster*	Raster::parent() const { return NULL; }
+Raster*	Raster::parent() const { return 0; }
 void	Raster::parent( Raster* p) { NOT_IMPLEMENTED }
 
 Raster*	Raster::parentRoot() const {
 	Raster*	p = parent();
 
-	while ( p != NULL )
+	while ( p )
 		p = p->parent();
 
 	return p;
@@ -46,7 +43,7 @@ RasterPosition	Raster::offsetRoot() const {
 	Raster* p = parent();
 	RasterPosition	pos = offset();
 
-	while ( p != NULL ) {
+	while ( p ) {
 		pos += p->offset();
 		p = p->parent();
 	}
@@ -62,13 +59,13 @@ void		Raster::resize( const RasterSize& s) { size(s); }
 
 float		Raster::pixelAspectRatioXY() const { return 1.0; }
 
-RasterValue	Raster::value( const RasterPosition& p ) const { NOT_IMPLEMENTED; return 0.0; }
+RasterValue	Raster::value( const RasterPosition& p ) const { NOT_IMPLEMENTED; return 0; }
 void		Raster::value( const RasterPosition& p, const RasterValue& v ) { NOT_IMPLEMENTED }
 
 RasterColor	Raster::color( const RasterPosition& p ) const { NOT_IMPLEMENTED; return 0.0; }
 void		Raster::color( const RasterPosition& p, const RasterColor& v ) { NOT_IMPLEMENTED }
 
-RasterLUT*	Raster::LUT() const { return (RasterLUT*) NULL; }
+RasterLUT*	Raster::LUT() const { return 0; }
 void		Raster::LUT(RasterLUT* LUT) { NOT_IMPLEMENTED }
 
 void		Raster::horizontal ( const RasterPosition& P, int l, const RasterValue& v ) {
@@ -149,7 +146,7 @@ void  lineDDA ( RasterPosition p0, RasterPosition p1, lineDDAFunc func, void* da
 		p1 = temp;
 		delta.negate();
 	}
-	register	int	count = absdelta[majoraxis];
+	int	count = absdelta[majoraxis];
 
 	(*func)(p0, data);
 	if ( absdelta[minoraxis] == 0 ) {
@@ -159,7 +156,7 @@ void  lineDDA ( RasterPosition p0, RasterPosition p1, lineDDAFunc func, void* da
 			(*func)(p0, data);
 		} while ( -- count ) ;
 	} else {
-		register	int 	signdeltaminoraxis = signdelta[minoraxis];
+		int 	signdeltaminoraxis = signdelta[minoraxis];
 		if ( absdelta[minoraxis] == absdelta[majoraxis] ) {
 			do {
 				p0[minoraxis] += signdeltaminoraxis;
