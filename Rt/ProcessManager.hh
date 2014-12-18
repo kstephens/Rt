@@ -2,6 +2,7 @@
 #define __Rt_PROCESSMANAGER_HH
 
 #include <ostream>
+#include <vector>
 
 #include <stdlib.h> // exit()
 #include <unistd.h> // fork()
@@ -11,27 +12,17 @@
 class ProcessManager 
 {
   int n_pids, n_live;
-  pid_t *pids;
+  std::vector<pid_t> pids;
 
 public:
-  pid_t child_pid;
+  int in_child;
   int verbose;
 
   ProcessManager(int _n_pids)
-  : n_pids(_n_pids), n_live(0), verbose(0)
-  {
-    pids = new pid_t[n_pids];
-    child_pid = 0;
-  }
-  ~ProcessManager()
-  {
-    delete [] pids;
-  }
+    : n_pids(_n_pids), n_live(0), in_child(0), verbose(0) { }
 
-  const pid_t *begin() const { return pids; }
-  const pid_t *end() const { return pids + n_pids; }
-
-  int busy() { return n_live >= n_pids; }
+  // Return true if all processes are live.
+  int busy() const { return n_live >= n_pids; }
 
   // Return true in child process.
   int fork()
@@ -39,13 +30,14 @@ public:
     pid_t pid;
 
     if ( n_pids <= 1 ) {
-      // run fork() inline and disable exit().
+      // run "fork" inline and disable exit().
       if ( verbose ) { std::cerr << "0"; std::cerr.flush(); }
-      child_pid = 0;
+      in_child = 0;
       return 1;
     }
 
     do {
+      // If busy, wait for one process to complete.
       if ( busy() ) wait();
       pid = ::fork();
       if ( pid < 0 ) {
@@ -56,48 +48,40 @@ public:
 
     if ( pid > 0 ) {
       n_live ++;
-      for ( int i = 0; i < n_pids; ++ i ) {
-        if ( ! pids[i] ) {
-          // std::cerr << "  pid forked " << pid << "\n";
-          if ( verbose ) { std::cerr << "+"; std::cerr.flush(); }
-          pids[i] = pid;
-          break;
-        }
-      }
-      child_pid = pid;
+      pids.push_back(pid);
+      in_child = 0;
     } else {
-      child_pid = getpid();
+      in_child = 1;
     }
 
     return ! pid;
   }
 
-  int exit(int code)
+  int exit(int code = 0)
   {
-    if ( child_pid ) ::exit(code);
+    if ( in_child ) ::exit(code);
     return 0;
   }
 
+  // Check if any process has completed.
   int check()
   {
-    pid_t pid;
-
-    for ( int i = 0; i < n_pids; ++ i ) {
-      if ( (pid = pids[i]) ) {
-        // std::cerr << "  checking pid " << pid << "\n";
-        int status = 0;
-        if ( waitpid(pid, &status, WNOHANG) > 0 ) { 
-          // std::cerr << "  pid stopped " << pid << " status " << status << "\n";
-          if ( verbose ) { std::cerr << "-"; std::cerr.flush(); }
-          pids[i] = 0;
-          n_live --;
-          break;
-        }
+    for ( auto p = pids.begin(); p != pids.end(); ++ p ) {
+      pid_t pid = *p;
+      // std::cerr << "  checking pid " << pid << "\n";
+      int status = 0;
+      if ( waitpid(pid, &status, WNOHANG) > 0 ) {
+        // std::cerr << "  pid stopped " << pid << " status " << status << "\n";
+        if ( verbose ) { std::cerr << "-"; std::cerr.flush(); }
+        pids.erase(p);
+        n_live --;
+        break;
       }
     }
     return busy();
   }
 
+  // Wait until at least one process completed.
   int wait()
   {
     do {
@@ -109,28 +93,33 @@ public:
     return busy();
   }
 
+  // Wait for all processes to complete.
   int join()
   {
-    pid_t pid;
-
-    for ( int i = 0; i < n_pids; ++ i ) {
-      if ( (pid = pids[i]) ) {
-        // std::cerr << "  pid wait " << pid << "\n";
-        if ( verbose ) { std::cerr << "w"; std::cerr.flush(); }
-        waitpid(pid, 0, 0);
-        pids[i] = 0;
-        -- n_live;
-      }
+    for ( auto p = pids.begin(); p != pids.end(); ++ p ) {
+      pid_t pid = *p;
+      // std::cerr << "  pid wait " << pid << "\n";
+      if ( verbose ) { std::cerr << "w"; std::cerr.flush(); }
+      waitpid(pid, 0, 0);
+      pids.erase(p);
+      -- n_live;
+      p = pids.begin();
     }
     return busy();
   }
 
-  friend std::ostream& operator <<(std::ostream &os, const ProcessManager &pm) {
-    os << "ProcessManager(" << pm.n_pids;
-    for ( int i = 0; i < pm.n_pids; ++ i ) {
-      os << ", " << pm.pids[i];
+  void write(std::ostream &os) const
+  {
+    os << "ProcessManager(" << n_pids;
+    for ( auto p = pids.begin(); p != pids.end(); ++ p ) {
+      os << ", " << *p;
     }
-    return os << "])";
+    os << ")";
+  }
+
+  friend std::ostream& operator <<(std::ostream &os, const ProcessManager &pm) {
+    pm.write(os);
+    return os;
   }
 };
 
