@@ -32,7 +32,7 @@ int main(int argc, char** argv)
   for ( int frame = 0; frame < nframes; frame ++ ) {
     angle a = degrees((scalar) frame / nframes * 360.0 + 8.0);
     scalar r = 20.0;
-    camera->VE = Point(r * cos(a), 10.0, r * sin(a));
+    camera->VE = Point(r * cos(a), 10.0 * ((sin(a) + 1) / 2), r * sin(a));
 
     if ( pm.fork() ) {
       char file[256];
