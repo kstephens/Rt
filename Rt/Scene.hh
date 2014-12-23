@@ -14,7 +14,7 @@ class Scene {
   Light *_lights;
   color	ambientlight;
 
-  int dolist(RPI* rpi, color &Cr, color &Or, int depth) const;
+  int doList(RPIList *rpil, RPI* rpi, color &Cr, color &Or, int depth) const;
 public:
   static Scene *current;
   Shader *background_shader;

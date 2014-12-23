@@ -88,7 +88,7 @@ public:
 	RPI*	findBiggest();
 	RPI*	findPositive();
 
-  const scalar &wt(RPIList *l) {
+  scalar wt(RPIList *l) {
     if ( ! f.know_wt ) {
       _wt = l->wr().distance_to(wP());
       f.know_wt = 1;
@@ -104,7 +104,7 @@ public:
 		}
 		return _P; }
 
-	void	P(const Point& p) { _P = p; f.know_P = 1; }
+  void	P(const Point& p) { _P = p; f.know_P = 1; f.know_wP = 0; }
 
 	const Point&	wP() {
 		if ( ! f.know_wP ) {
@@ -133,7 +133,7 @@ public:
 		return _Ng;
 	}
 	void	Ng(const Point& p) {
-		f.know_Ng = 1; f.invert_Ng = 0; _Ng = p; }
+          f.know_Ng = 1; f.invert_Ng = 0; f.know_wNg = 0; _Ng = p; }
 
   const Point &wNg() {
     if ( ! f.know_wNg ) {
@@ -154,12 +154,12 @@ public:
 
 #define	INTERFACE(X) \
 	const Point&	X () { \
-		if ( ! f.know_##X ) { _##X = prim->X(this); f.know_##X = 1; } \
+          if ( ! f.know_##X ) { _##X = prim->X(this); f.know_##X = 1; f.know_w##X = 0; } \
 		return _##X; } \
 	const Point&	w##X () { \
 		if ( ! f.know_w##X ) { _w##X = wv(X()); f.know_w##X = 1; } \
 		return _w##X; } \
-	void	X ( const Point& x ) { _##X = x; f.know_##X = 1; }
+	void	X ( const Point& x ) { _##X = x; f.know_##X = 1; f.know_w##X = 0; }
 
 	INTERFACE(dPdu);
 	INTERFACE(dPdv);

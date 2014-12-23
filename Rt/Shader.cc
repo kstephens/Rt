@@ -20,7 +20,8 @@ color Shader::trace(const vector& R)
   Shader *temp = copy();
   
   color	Cr, Or;
-  Scene::current->trace(Ray(P, R).normalize().fix(Ng), Cr, Or, trace_depth);
+  Ray r = Ray(P, R).normalize().fix(Ng);
+  Scene::current->trace(r, Cr, Or, trace_depth);
 
   // Restore shader state.
   assign(temp);

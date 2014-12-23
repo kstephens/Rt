@@ -106,7 +106,7 @@ Scene *scene2(Camera *camera)
     p1->surface = surface;
 
     Xform *x = new Translate(ix, 1 + RiRand() * 2, iy);
-    x->concat(Rotate(degrees(360 * RiRand()), RiRand(), RiRand(), RiRand()));
+    // x->concat(Rotate(degrees(360 * RiRand()), RiRand(), RiRand(), RiRand()));
     p1->xform = x;
 
     scene->add(p1);

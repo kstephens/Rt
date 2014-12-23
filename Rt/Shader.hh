@@ -10,6 +10,7 @@
 #include "vector.hh"
 #include "normal.hh"
 #include "Param.hh"
+#include "XForm.hh"
 #include "LightIterator.hh"
 
 class Shader {
@@ -45,6 +46,7 @@ static	Point	E;	// Position of the eye
   int	trace_depth;	// set by Object::Trace()
   LightIterator	_LI;	// for illuminate() stmt
   Light *_current_light;
+  Xform *xform; // to world.
 
   Shader() { init(); }
   virtual Shader *copy() const { return new Shader(*this); }

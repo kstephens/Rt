@@ -6,7 +6,7 @@
 
 Scene *Scene::current;
 
-// Collect all primitive intersections along ray.
+// Collect all primitive intersections along world-space ray.
 RPIList Scene::intersect(const Ray &r) const
 {
   RPIList L;
@@ -48,7 +48,7 @@ int Scene::isShadowed(const Ray &ray, scalar dist, Geometry *ignore) const
 
 
 // This is it!  The ray tracing routine!
-int Scene::dolist(RPI *rpi, color &Cr, color &Or, int depth) const
+int Scene::doList(RPIList *rpil, RPI *rpi, color &Cr, color &Or, int depth) const
 {
   // The ray color and opacity.
   Cr = 0.0;
@@ -60,10 +60,17 @@ int Scene::dolist(RPI *rpi, color &Cr, color &Or, int depth) const
     // Initialize the surface shader varables.
     Shader *S = rpi->prim->surface;
 
-    S->P = rpi->wP();
-    S->dPdu = rpi->wdPdu();
-    S->dPdv = rpi->wdPdv();
-    S->N = S->Ng = rpi->wNg();
+    if ( 1 ) {
+      S->P = rpi->wP();
+      S->dPdu = rpi->wdPdu();
+      S->dPdv = rpi->wdPdv();
+      S->N = S->Ng = rpi->wNg();
+    } else {
+      S->P = rpi->P();
+      S->dPdu = rpi->dPdu();
+      S->dPdv = rpi->dPdv();
+      S->N = S->Ng = rpi->Ng();
+    }
     
     S->uvw = rpi->p();
 
@@ -73,6 +80,7 @@ int Scene::dolist(RPI *rpi, color &Cr, color &Or, int depth) const
     S->trace_depth = depth - 1;
 
     // Call the shader.
+    S->xform = rpi->prim->xform;
     S->shader();
 
     // Use the factored opacity value.
@@ -98,29 +106,30 @@ int Scene::trace(const Ray& r, color &Cr, color &Or, int depth) const
   if ( depth <= 0 )
     return 0;
 
-  RPIList _rpi = intersect(r);
+  RPIList rpil = intersect(r);
 
-  if ( ! _rpi.isEmpty() ) {
+  if ( ! rpil.isEmpty() ) {
     // Sort the ray-primitive list,
     //  and find the first positive
     //  so we can handle transparent surfaces.
-    _rpi.sort();
-    RPI *rpi = _rpi.begin()->findSmallestPositive();
+    rpil.sort();
+    RPI *rpi = rpil.begin()->findSmallestPositive();
 
     if ( rpi != RPINULL ) {
-      dolist(rpi, Cr, Or, depth);
-      _rpi.delete_all();
+      doList(&rpil, rpi, Cr, Or, depth);
+      rpil.delete_all();
       Or = 1 - Or;
       return 1;
     }
   }
-  _rpi.delete_all();
+  rpil.delete_all();
 
   // Nothing was hit, try background?
   if ( background_shader ) {
     Shader *S = background_shader;
     // I is directed toward P from E.
     S->I = r.direction;
+    S->xform = 0;
     S->shader();
     Cr = S->Ci;
     Or = S->Oi;
